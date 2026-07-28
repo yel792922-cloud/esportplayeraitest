@@ -320,7 +320,12 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data) {
   const { players, config } = data;
   const profile = buildProfile(birthDate, birthTime, gender);
 
-  const pool = players.filter(p => selectedGames.includes(p.game));
+  // Only rank players whose birth date is a valid YYYY-MM-DD. Anchor records
+  // (e.g. Worlds winners) whose birth date could not be reliably verified may
+  // live in the dataset with birthDate: null — they stay in the DB but are
+  // skipped from scoring rather than producing a bogus result.
+  const pool = players.filter(p =>
+    selectedGames.includes(p.game) && /^\d{4}-\d{2}-\d{2}$/.test(p.birthDate || ''));
 
   const scored = pool.map(p => {
     const { score, reasons } = scorePlayer(profile, p, config, selectedGames);
@@ -561,7 +566,7 @@ function renderResult(narrative, result) {
           ${gameBadge(p.game)}
           <span class="pl-role">${p.role}</span>
         </div>
-        <div class="pl-meta">${flag(p.nationality)} ${p.nationality} · ${formatDate(p.birthDate)}</div>
+        <div class="pl-meta">${regionLabel(p)}${formatDate(p.birthDate)}</div>
         <div class="pl-reason">${r.reasonText}</div>
       </div>
       <div class="pl-score">
@@ -594,14 +599,15 @@ function formatDate(iso) {
   return `${months[+m - 1]} ${+d}, ${y}`;
 }
 
-// Tiny flag emoji lookup (best-effort, cosmetic only)
-const FLAGS = {
-  'South Korea': '🇰🇷', 'China': '🇨🇳', 'Denmark': '🇩🇰', 'Sweden': '🇸🇪', 'Canada': '🇨🇦',
-  'United States': '🇺🇸', 'Brazil': '🇧🇷', 'Finland': '🇫🇮', 'Belgium': '🇧🇪', 'United Kingdom': '🇬🇧',
-  'Russia': '🇷🇺', 'Turkey': '🇹🇷', 'Ukraine': '🇺🇦', 'France': '🇫🇷', 'Bosnia and Herzegovina': '🇧🇦',
-  'Estonia': '🇪🇪', 'Jordan': '🇯🇴', 'Pakistan': '🇵🇰', 'Australia': '🇦🇺'
-};
-const flag = (n) => FLAGS[n] || '🌍';
+// Geopolitical neutrality: the UI never renders flags, demonyms, or country
+// names. The only optional location-style label is a neutral competition-region
+// tag (e.g. LPL, LCK, LCS, LEC) — a competition grouping, not a nationality.
+// Nationality is never used as a scoring factor anywhere in this app.
+function regionLabel(p) {
+  const r = p.competition_region;
+  if (!r) return '';
+  return `<span class="pl-region">${r}</span> · `;
+}
 
 /* ---------------------------------------------------------------------
  * 9. Form submit flow
