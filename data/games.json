@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "id": "lol",
+      "name": "League of Legends",
+      "short": "LoL",
+      "color": "#3aa0ff",
+      "icon": "🌀",
+      "enabled": true
+    },
+    {
+      "id": "valorant",
+      "name": "VALORANT",
+      "short": "VAL",
+      "color": "#ff4655",
+      "icon": "🎯",
+      "enabled": true
+    },
+    {
+      "id": "cs2",
+      "name": "CS2",
+      "short": "CS2",
+      "color": "#f5b642",
+      "icon": "💥",
+      "enabled": true
+    },
+    {
+      "id": "dota2",
+      "name": "Dota 2",
+      "short": "Dota",
+      "color": "#c23c2a",
+      "icon": "⚔️",
+      "enabled": true
+    },
+    {
+      "id": "hok",
+      "name": "Honor of Kings",
+      "short": "HoK",
+      "color": "#e0b64a",
+      "icon": "👑",
+      "enabled": true
+    }
+  ]
+}

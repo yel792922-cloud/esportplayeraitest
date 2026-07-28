@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "meta": {
+    "name": "Esports Destiny Match scoring configuration",
+    "note": "All weights below are transparent and editable. The local engine computes the ranking and percentages from these values. Nothing here is random. Edit and reload to tune the vibe.",
+    "calibration": "Day-pillar and lunar-mansion anchors are calibrated for a symbolic, entertainment-first experience — not for precise astronomical BaZi calculation."
+  },
+  "scoreRange": {
+    "min": 60,
+    "max": 99
+  },
+  "base": 46,
+  "weights": {
+    "elementSame": 12,
+    "elementOutput": 16,
+    "elementResource": 20,
+    "elementWealth": 11,
+    "elementAuthority": 7,
+    "branchSame": 9,
+    "branchSixHarmony": 16,
+    "branchTrine": 13,
+    "branchClash": -9,
+    "branchHarm": -4,
+    "mansionExact": 22,
+    "mansionSamePalace": 10,
+    "yinYangComplement": 6,
+    "yinYangSame": 3,
+    "genderAlign": 5,
+    "tagAffinityPerMatch": 4,
+    "tagAffinityCap": 12
+  },
+  "tenGodTags": {
+    "companion": ["leader", "stable"],
+    "output": ["creative", "explosive", "aggressive"],
+    "resource": ["calm", "stable"],
+    "wealth": ["clutch", "explosive"],
+    "authority": ["leader", "aggressive", "clutch"]
+  },
+  "gameAffinity": {
+    "note": "Optional gentle bias linking a user element to game styles. Small numbers only.",
+    "byElement": {
+      "wood": { "lol": 3, "dota2": 3, "valorant": 1, "cs2": 1, "hok": 2 },
+      "fire": { "valorant": 3, "cs2": 2, "lol": 1, "dota2": 1, "hok": 2 },
+      "earth": { "cs2": 3, "dota2": 2, "lol": 2, "valorant": 1, "hok": 1 },
+      "metal": { "cs2": 3, "valorant": 2, "lol": 1, "dota2": 1, "hok": 1 },
+      "water": { "lol": 2, "dota2": 3, "hok": 3, "valorant": 1, "cs2": 1 }
+    }
+  }
+}
