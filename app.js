@@ -446,7 +446,12 @@ async function polishWithOpenAI(narrative, ranked, profile) {
 function validatePlayers(players) {
   const issues = [];
   const seen = new Set();
-  const allowedTags = new Set(['calm', 'aggressive', 'clutch', 'leader', 'creative', 'stable', 'explosive']);
+  // Approved, broadly-recognized tag vocabulary. 'explosive' is retained only for
+  // the not-yet-migrated games (CS2/Dota2/HoK) and will be dropped once those are cleaned up.
+  const allowedTags = new Set([
+    'clutch', 'leader', 'aggressive', 'disciplined', 'stable', 'calm',
+    'creative', 'veteran', 'rookie', 'mechanical', 'strategic', 'explosive'
+  ]);
   players.forEach((p, i) => {
     const at = `players[${i}] ${p.name || p.id || '?'}`;
     if (!p.id) issues.push(`${at}: missing id`);
