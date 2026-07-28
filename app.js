@@ -454,10 +454,14 @@ function validatePlayers(players) {
     if (p.id) seen.add(p.id);
     if (!p.name) issues.push(`${at}: missing name`);
     if (!p.game) issues.push(`${at}: missing game`);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(p.birthDate || '')) issues.push(`${at}: birthDate must be YYYY-MM-DD`);
-    else {
-      const d = new Date(p.birthDate + 'T00:00:00');
-      if (Number.isNaN(d.getTime())) issues.push(`${at}: invalid birthDate "${p.birthDate}"`);
+    // birthDate may be intentionally null when a date is unverifiable/conflicting
+    // (see the record's notes). Only a non-null, malformed date is a problem.
+    if (p.birthDate !== null && p.birthDate !== undefined) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(p.birthDate)) issues.push(`${at}: birthDate must be YYYY-MM-DD or null`);
+      else {
+        const d = new Date(p.birthDate + 'T00:00:00');
+        if (Number.isNaN(d.getTime())) issues.push(`${at}: invalid birthDate "${p.birthDate}"`);
+      }
     }
     if (p.birthTime && !/^\d{1,2}:\d{2}$/.test(p.birthTime)) issues.push(`${at}: birthTime must be HH:MM`);
     if (!Array.isArray(p.tags) || p.tags.length === 0) issues.push(`${at}: needs at least one tag`);
