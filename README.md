@@ -87,9 +87,12 @@ info, then ranks players against it across four independent layers
    (生克 generation/control), five-element balance, and 天干五合.
 2. **Chinese Zodiac — 20%.** Year branch with **Li Chun** as the year boundary;
    六合 · 三合 · 六冲 · 相刑 · 相害 · 相破.
-3. **Twenty-Eight Mansions — 15%.** Moon-position based: the **Moon's ecliptic
-   longitude at your birth moment** (abridged Meeus lunar theory) mapped to the
-   28 mansions by their traditional 距度 widths, anchored at Spica (角宿一).
+3. **Twenty-Eight Mansions — 15%.** A traditional **二十八宿 (月宿) almanac** layer —
+   the mansion the **Moon lodges in** at your birth moment, found with a classical
+   mean-motion + 迟疾 (equation-of-centre) lunar rule, divided by the traditional
+   距度 widths and anchored to a reference almanac (calibrated so 2005-06-01 19:30
+   → 娄宿 and 2005-08-01 06:30 → 井宿). Not a modern observatory reduction and not a
+   calendar-day bucket.
 4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
    hour; otherwise its weight is redistributed across the first three layers
    (never a penalty).

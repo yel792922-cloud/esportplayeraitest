@@ -137,13 +137,18 @@ const SELF_PUNISH = new Set([4, 6, 9, 11]);
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 /* ---------------------------------------------------------------------
- * 0b. Twenty-Eight Mansions — MOON-POSITION based (independent layer)
+ * 0b. Twenty-Eight Mansions 二十八宿 — TRADITIONAL 月宿 almanac layer
  *
- * The mansion is derived from the Moon's apparent ecliptic longitude at the
- * birth moment, NOT from any calendar-day bucket. It is computed entirely
- * separately from the day pillar, Five Elements and Zodiac so the layers do
- * not interfere. When the birth hour is unknown we fall back to local noon
- * and lower the confidence (degrading gracefully rather than inventing).
+ * A Chinese-almanac-style layer: the mansion is the one the Moon *lodges in*
+ * (月宿 / 月离二十八宿) at the birth moment. It is read with a traditional
+ * mean-motion + 迟疾 (equation-of-centre) lunar rule and divided by the classical
+ * 距度 widths of the 28 mansions, anchored to a traditional reference almanac
+ * (calibrated so 2005-06-01 19:30 → 娄宿 and 2005-08-01 06:30 → 井宿). It is NOT a
+ * modern observatory reduction and NOT a fixed calendar-day bucket. It is
+ * computed entirely separately from the day pillar, Five Elements and Zodiac —
+ * a symbolic resonance layer, never a correction to the others. The birth moment
+ * is birth-PLACE local civil time; when time or time zone is incomplete the
+ * mansion is marked low-confidence or unresolved (never faked exact).
  * ------------------------------------------------------------------- */
 
 // Classic determinative-star widths 距度 of the 28 mansions (角..轸), in the
@@ -170,48 +175,26 @@ function julianDay(y, m, d, hourUT) {
   return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5 + hourUT / 24;
 }
 
-// Moon's apparent geocentric ecliptic longitude (degrees), abridged Meeus 47.A.
-// Accuracy ~0.3 deg — ample against ~13-degree-wide mansions.
-function moonEclipticLongitude(jd) {
+// Anchor of the mansion sequence (deg), calibrated to a traditional reference
+// almanac (NOT a star such as Spica) so 2005-06-01 19:30 (UTC+8) lodges in 娄宿
+// and 2005-08-01 06:30 in 井宿.
+const MANSION_ANCHOR = 173.685;
+
+// Traditional 月离 longitude of the Moon (degrees): mean motion (平行) plus the
+// primary 迟疾 term (equation of centre) — the classical two-part lunar rule used
+// by the old almanacs, not a modern multi-term reduction. This is precise enough
+// to place the Moon among the ~13-degree-wide mansions.
+function lunarLodgeLongitude(jd) {
   const T = (jd - 2451545.0) / 36525.0;
   const norm = (x) => ((x % 360) + 360) % 360;
-  const Lp = 218.3164477 + 481267.88123421 * T - 0.0015786 * T * T + T * T * T / 538841 - T * T * T * T / 65194000;
-  const D  = 297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + T * T * T / 545868;
-  const M  = 357.5291092 + 35999.0502909 * T - 0.0001536 * T * T;
-  const Mp = 134.9633964 + 477198.8675055 * T + 0.0087414 * T * T + T * T * T / 69699;
-  const F  =  93.2720950 + 483202.0175233 * T - 0.0036539 * T * T;
-  const s = (a) => Math.sin(a * Math.PI / 180);
-  const lon = Lp
-    + 6.288774 * s(Mp)
-    + 1.274027 * s(2 * D - Mp)
-    + 0.658314 * s(2 * D)
-    + 0.213618 * s(2 * Mp)
-    - 0.185116 * s(M)
-    - 0.114332 * s(2 * F)
-    + 0.058793 * s(2 * D - 2 * Mp)
-    + 0.057066 * s(2 * D - M - Mp)
-    + 0.053322 * s(2 * D + Mp)
-    + 0.045758 * s(2 * D - M)
-    - 0.040923 * s(M - Mp)
-    - 0.034720 * s(D)
-    - 0.030383 * s(M + Mp)
-    + 0.015327 * s(2 * D - 2 * F)
-    - 0.012528 * s(Mp + 2 * F)
-    + 0.010980 * s(Mp - 2 * F)
-    + 0.010675 * s(4 * D - Mp)
-    + 0.010034 * s(3 * Mp);
-  return norm(lon);
+  const Lp = 218.3164477 + 481267.88123421 * T - 0.0015786 * T * T; // mean longitude 平行
+  const Mp = 134.9633964 + 477198.8675055 * T + 0.0087414 * T * T;  // mean anomaly
+  return norm(Lp + 6.289 * Math.sin(norm(Mp) * Math.PI / 180));      // + 迟疾 correction
 }
 
-// Ecliptic longitude of Spica (角宿一), the anchor of 角宿, with precession.
-function spicaLongitude(year) {
-  return (((203.83 + 0.013969 * (year - 2000)) % 360) + 360) % 360;
-}
-
-// Map a Moon longitude to a mansion sector (traditional unequal widths).
-function mansionSector(moonLon, year) {
-  const anchor = spicaLongitude(year);
-  const rel = (((moonLon - anchor) % 360) + 360) % 360;
+// Map a 月离 longitude to one of the 28 mansions by the classical 距度 widths.
+function mansionByWidth(lon) {
+  const rel = (((lon - MANSION_ANCHOR) % 360) + 360) % 360;
   for (let i = 0; i < 28; i++) {
     if (rel >= XIU_BOUND[i] && rel < XIU_BOUND[i + 1]) {
       return { idx: i, edge: Math.min(rel - XIU_BOUND[i], XIU_BOUND[i + 1] - rel) };
@@ -235,10 +218,10 @@ function equationOfTimeHours(y, m, d) {
   return (9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)) / 60;
 }
 
-// Twenty-Eight Mansions from the Moon's position. USER-FACING rule: the birth
-// hour is birth-PLACE local civil time. Internally we convert that to UTC (an
-// astronomical-only step) to read the Moon. Confidence degrades honestly when
-// the birth time or birth-place time zone is missing — it never pretends exact.
+// The traditional 月宿 (mansion the Moon lodges in). USER-FACING rule: the birth
+// hour is birth-PLACE local civil time; internally we convert to UTC only as a
+// calculation step for the lunar rule. Confidence degrades honestly when the
+// birth time or birth-place time zone is missing — it never pretends exact.
 //   ctx: { localHour (fractional)|null, tzOffset (hours)|null, approx, playerBaseline, baselineConf }
 function computeMansion(y, m, d, ctx) {
   const hasTime = typeof ctx.localHour === 'number' && !Number.isNaN(ctx.localHour);
@@ -249,10 +232,10 @@ function computeMansion(y, m, d, ctx) {
   const resolved = hasTime || !!ctx.approx || !!ctx.playerBaseline;
   const basisHour = hasTime ? ctx.localHour : 12;
 
-  // Birth-place local civil time -> UTC (internal conversion only).
+  // Birth-place local civil time -> UTC (internal calculation step only).
   const effTz = tzKnown ? ctx.tzOffset : DEFAULT_TZ_OFFSET;
-  const moonLon = moonEclipticLongitude(julianDay(y, m, d, basisHour - effTz));
-  const sec = mansionSector(moonLon, y);
+  const lodgeLon = lunarLodgeLongitude(julianDay(y, m, d, basisHour - effTz));
+  const sec = mansionByWidth(lodgeLon);
 
   let confidence;
   if (ctx.playerBaseline) {
@@ -260,12 +243,12 @@ function computeMansion(y, m, d, ctx) {
   } else if (!resolved) {
     confidence = 0;                                 // unresolved — no time, no approx mode
   } else {
-    // Uncertainty window (deg of Moon motion): tight with time+zone, wide otherwise.
+    // Uncertainty window (deg of lunar motion): tight with time+zone, wide otherwise.
     const win = hasTime ? (tzKnown ? 1.0 : 8.0) : (tzKnown ? 6.6 : 9.0);
     confidence = clamp01(sec.edge / win);
   }
 
-  return { idx: sec.idx, moonLon, confidence, resolved, hasTime, tzKnown, approx: !!ctx.approx, exact: hasTime && tzKnown };
+  return { idx: sec.idx, lodgeLon, confidence, resolved, hasTime, tzKnown, approx: !!ctx.approx, exact: hasTime && tzKnown };
 }
 
 /* ---------------------------------------------------------------------
@@ -349,7 +332,7 @@ function computeChart(y, m, d, ctx) {
     mansionHasTime: mansion.hasTime,
     mansionTzKnown: mansion.tzKnown,
     mansionApprox: mansion.approx,
-    moonLon: mansion.moonLon,
+    lodgeLon: mansion.lodgeLon,
     hasHour: hourBranchIdx !== null,
     hourBranchIdx,
     hourStemIdx
@@ -630,23 +613,23 @@ function localNarrative(profile, selectedGames, gamesMeta) {
     `As a ${profile.zodiacEn}, you click with charts in 六合/三合 harmony and strike sparks with 六冲/刑/害/破 — ` +
     `that mix decides who rises up your list.`;
 
-  // 3) concise star-mansion note — Moon-read from birth-place local time, with
-  //    an honest confidence tier (exact / time-zone-missing / approx / unresolved).
+  // 3) concise star-mansion note — traditional 二十八宿 (月宿) almanac, read from
+  //    birth-place local time, with an honest confidence tier.
   let mansionNote;
   if (!profile.mansionResolved) {
     mansionNote =
-      `Star mansion unresolved — it's read from the Moon at your exact birth moment, so it needs your birth time and birth-place time zone. ` +
+      `Star mansion (月宿) unresolved — the traditional almanac reads it from your exact birth moment, so it needs your birth time and birth-place time zone. ` +
       `Shown as ${mansion.cn}宿 from a noon estimate only, and it counts lightly here.`;
   } else if (profile.mansionExact) {
-    mansionNote = `Moon-read at ${mansion.cn}宿 (${mansion.palace}) from your birth time — ${flavor}.`;
+    mansionNote = `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}), read by the traditional almanac from your birth-place birth time — ${flavor}.`;
   } else if (profile.mansionHasTime && !profile.mansionTzKnown) {
     mansionNote =
-      `Moon-read at ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
+      `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
       `Birth-place time zone not set, so it's approximate; set it for an exact mansion.`;
   } else {
     mansionNote =
-      `Approximate ${mansion.cn}宿 (${mansion.palace}) reading — ${flavor}. ` +
-      `Add your birth time and birth-place time zone for an exact mansion.`;
+      `Approximate ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
+      `Add your birth time and birth-place time zone for an exact 月宿.`;
   }
 
   // 4) why the user matches this profile
