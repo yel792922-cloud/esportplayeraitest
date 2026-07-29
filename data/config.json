@@ -1,49 +1,58 @@
 {
-  "version": 1,
+  "version": 2,
   "meta": {
     "name": "Esports Destiny Match scoring configuration",
-    "note": "All weights below are transparent and editable. The local engine computes the ranking and percentages from these values. Nothing here is random. Edit and reload to tune the vibe.",
-    "calibration": "Day-pillar and lunar-mansion anchors are calibrated for a symbolic, entertainment-first experience — not for precise astronomical BaZi calculation."
+    "note": "Transparent, editable weights for the layered BaZi compatibility model. The local engine computes the ranking and percentages from these values. Nothing here is random.",
+    "calibration": "Day/month/year pillars, Li Chun zodiac boundary and lunar-mansion anchors are calibrated for a lightweight, entertainment-first experience — not for ephemeris-accurate BaZi.",
+    "model_note": "Each layer returns a 0..1 score; layer weights below sum to 1.0. If either side lacks a reliable birth hour, the birthHour weight is redistributed proportionally across the first three layers (never deducted)."
   },
   "scoreRange": {
     "min": 60,
     "max": 99
   },
-  "base": 46,
-  "weights": {
-    "elementSame": 12,
-    "elementOutput": 16,
-    "elementResource": 20,
-    "elementWealth": 11,
-    "elementAuthority": 7,
-    "branchSame": 9,
-    "branchSixHarmony": 16,
-    "branchTrine": 13,
-    "branchClash": -9,
-    "branchHarm": -4,
-    "mansionExact": 22,
-    "mansionSamePalace": 10,
-    "yinYangComplement": 6,
-    "yinYangSame": 3,
-    "genderAlign": 5,
-    "tagAffinityPerMatch": 4,
-    "tagAffinityCap": 12
-  },
-  "tenGodTags": {
-    "companion": ["leader", "stable"],
-    "output": ["creative", "mechanical", "aggressive"],
-    "resource": ["calm", "stable"],
-    "wealth": ["clutch", "mechanical"],
-    "authority": ["leader", "aggressive", "clutch"]
-  },
-  "gameAffinity": {
-    "note": "Optional gentle bias linking a user element to game styles. Small numbers only.",
-    "byElement": {
-      "wood": { "lol": 3, "dota2": 3, "valorant": 1, "cs2": 1, "hok": 2 },
-      "fire": { "valorant": 3, "cs2": 2, "lol": 1, "dota2": 1, "hok": 2 },
-      "earth": { "cs2": 3, "dota2": 2, "lol": 2, "valorant": 1, "hok": 1 },
-      "metal": { "cs2": 3, "valorant": 2, "lol": 1, "dota2": 1, "hok": 1 },
-      "water": { "lol": 2, "dota2": 3, "hok": 3, "valorant": 1, "cs2": 1 }
+  "model": {
+    "layers": {
+      "coreBazi": 0.55,
+      "zodiac": 0.20,
+      "starMansion": 0.15,
+      "birthHour": 0.10
+    },
+    "coreBazi": {
+      "sub": {
+        "dayMaster": 0.55,
+        "balance": 0.30,
+        "combine": 0.15
+      },
+      "dayMaster": {
+        "resource": 1.0,
+        "output": 0.9,
+        "companion": 0.75,
+        "wealth": 0.65,
+        "authority": 0.6
+      }
+    },
+    "zodiac": {
+      "sixHarmony": 1.0,
+      "trine": 0.9,
+      "same": 0.7,
+      "neutral": 0.6,
+      "destroy": 0.5,
+      "harm": 0.42,
+      "punish": 0.36,
+      "clash": 0.3
+    },
+    "starMansion": {
+      "same": 1.0,
+      "samePalace": 0.75,
+      "adjacent": 0.58,
+      "opposite": 0.48
+    },
+    "birthHour": {
+      "sixHarmony": 1.0,
+      "trine": 0.9,
+      "same": 0.7,
+      "neutral": 0.6,
+      "clash": 0.35
     }
   }
 }

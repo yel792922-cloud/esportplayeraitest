@@ -110,14 +110,31 @@ const TEN_GOD_DESC = {
   authority: 'commanding forces that sharpen your edge'
 };
 
-// Element cycles
-const generates = (e) => (e + 1) % 5; // e生X : Wood->Fire->Earth->Metal->Water
-const controls  = (e) => (e + 2) % 5; // e克X : Wood->Earth->Water->Fire->Metal
+// Element cycles 五行生克
+const generates = (e) => (e + 1) % 5; // 生 : Wood->Fire->Earth->Metal->Water
+const controls  = (e) => (e + 2) % 5; // 克 : Wood->Earth->Water->Fire->Metal
 
-// Branch relationship sets (by index into BRANCHES)
-const SIX_HARMONY = { 0: 1, 1: 0, 2: 11, 11: 2, 3: 10, 10: 3, 4: 9, 9: 4, 5: 8, 8: 5, 6: 7, 7: 6 };
-const TRINE_GROUPS = [[8, 0, 4], [11, 3, 7], [2, 6, 10], [5, 9, 1]]; // water/wood/fire/metal frames
-const SIX_HARM = { 0: 7, 7: 0, 1: 6, 6: 1, 2: 5, 5: 2, 3: 4, 4: 3, 8: 11, 11: 8, 9: 10, 10: 9 };
+// Element carried by each Earthly Branch 地支五行 (子水 丑土 寅木 卯木 辰土 巳火 …)
+const BRANCH_ELEMENT = [4, 2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4];
+
+// Chinese zodiac animals indexed by Earthly Branch (子=Rat …)
+const ZODIAC = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+const ZODIAC_EN = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'];
+
+// Heavenly-Stem five combinations 天干五合 (甲己 乙庚 丙辛 丁壬 戊癸)
+const STEM_COMBINE = { 0: 5, 5: 0, 1: 6, 6: 1, 2: 7, 7: 2, 3: 8, 8: 3, 4: 9, 9: 4 };
+
+// Earthly-Branch relationship sets (index into BRANCHES)
+const SIX_HARMONY = { 0: 1, 1: 0, 2: 11, 11: 2, 3: 10, 10: 3, 4: 9, 9: 4, 5: 8, 8: 5, 6: 7, 7: 6 }; // 六合
+const TRINE_GROUPS = [[8, 0, 4], [11, 3, 7], [2, 6, 10], [5, 9, 1]];                                  // 三合
+const SIX_HARM = { 0: 7, 7: 0, 1: 6, 6: 1, 2: 5, 5: 2, 3: 4, 4: 3, 8: 11, 11: 8, 9: 10, 10: 9 };       // 相害
+const SIX_DESTROY = { 0: 9, 9: 0, 6: 3, 3: 6, 5: 8, 8: 5, 2: 11, 11: 2, 4: 1, 1: 4, 10: 7, 7: 10 };    // 相破
+// 相刑 punishments: 无恩(寅巳申) 恃势(丑戌未) 无礼(子卯) 自刑(辰午酉亥)
+const PUNISH_GROUPS = [[2, 5, 8], [1, 10, 7]];
+const PUNISH_PAIRS = { 0: 3, 3: 0 };
+const SELF_PUNISH = new Set([4, 6, 9, 11]);
+
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 /* ---------------------------------------------------------------------
  * 1. Calendar math -> day pillar & mansion (deterministic)
@@ -132,53 +149,98 @@ function julianDayNumber(year, month, day) {
   return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + day + b - 1524;
 }
 
-// Compute the compact archetype numbers from a date (+ optional hour).
-// Calibrated for a stable, symbolic experience — not precise astronomy.
-function pillarsFromDate(year, month, day, hour) {
-  const jdn = julianDayNumber(year, month, day);
-
-  // Sexagenary day index (0..59), 0 == 甲子. Anchor chosen so the cycle is stable.
-  const sexagenary = ((jdn + 49) % 60 + 60) % 60;
-  let stemIdx = sexagenary % 10;
-  let branchIdx = sexagenary % 12;
-
-  // Optional birth hour nudges the branch toward its two-hour 时辰 slot,
-  // giving birth time a small but real influence without extra UI.
-  if (typeof hour === 'number' && !Number.isNaN(hour)) {
-    const hourBranch = Math.floor(((hour + 1) % 24) / 2); // 23:00-01:00 -> 子(0)
-    // blend: keep day branch but let the hour branch break ties in scoring
-    branchIdx = branchIdx; // day branch stays the identity anchor
-    return { stemIdx, branchIdx, hourBranchIdx: hourBranch, mansionIdx: ((jdn + 3) % 28 + 28) % 28 };
-  }
-
-  const mansionIdx = ((jdn + 3) % 28 + 28) % 28;
-  return { stemIdx, branchIdx, hourBranchIdx: null, mansionIdx };
+// Sexagenary day index (0..59), 0 == 甲子. Anchor chosen so the cycle is stable.
+function daySexagenary(y, m, d) {
+  const jdn = julianDayNumber(y, m, d);
+  return { sx: ((jdn + 49) % 60 + 60) % 60, jdn };
 }
 
-// Build a full archetype profile object from raw birth inputs.
+// Approximate solar-month branch from (month, day) using fixed 节气 cut-offs.
+// Lightweight and entertainment-grade — not ephemeris-accurate.
+function solarMonthBranch(m, d) {
+  const B = [[1, 6, 1], [2, 4, 2], [3, 6, 3], [4, 5, 4], [5, 6, 5], [6, 6, 6],
+             [7, 7, 7], [8, 8, 8], [9, 8, 9], [10, 8, 10], [11, 7, 11], [12, 7, 0]];
+  let bi = 0; // before Jan 6 -> 子 month (which began the previous Dec 7)
+  for (const [bm, bd, idx] of B) if (m > bm || (m === bm && d >= bd)) bi = idx;
+  return bi;
+}
+
+// Full six-character BaZi chart (Year + Month + Day pillars) plus zodiac,
+// lunar mansion, and an optional hour pillar. Li Chun (~Feb 4) is the year
+// boundary; the month stem follows 五虎遁, the hour stem 五鼠遁.
+function computeChart(y, m, d, hour) {
+  const { sx, jdn } = daySexagenary(y, m, d);
+  const dStem = sx % 10, dBranch = sx % 12;
+
+  // Year pillar with Li Chun boundary.
+  const yBazi = (m < 2 || (m === 2 && d < 4)) ? y - 1 : y;
+  const yStem = ((yBazi - 4) % 10 + 10) % 10;
+  const yBranch = ((yBazi - 4) % 12 + 12) % 12;
+
+  // Month pillar: branch from the solar term, stem from 五虎遁 (Five Tigers).
+  const mBranch = solarMonthBranch(m, d);
+  const tigerStart = [2, 4, 6, 8, 0][yStem % 5];        // 寅月 stem for this year stem
+  const mStem = (tigerStart + ((mBranch - 2) % 12 + 12) % 12) % 10;
+
+  // Five-element distribution across the six visible characters.
+  const dist = [0, 0, 0, 0, 0];
+  [yStem, mStem, dStem].forEach(s => dist[STEM_ELEMENT[s]]++);
+  [yBranch, mBranch, dBranch].forEach(b => dist[BRANCH_ELEMENT[b]]++);
+
+  const mansionIdx = ((jdn + 3) % 28 + 28) % 28;
+
+  let hourBranchIdx = null, hourStemIdx = null;
+  if (typeof hour === 'number' && !Number.isNaN(hour)) {
+    hourBranchIdx = Math.floor(((hour + 1) % 24) / 2);  // 23:00-01:00 -> 子
+    const ratStart = [0, 2, 4, 6, 8][dStem % 5];        // 五鼠遁: 子时 stem for the day stem
+    hourStemIdx = (ratStart + hourBranchIdx) % 10;
+  }
+
+  return {
+    year: { stem: yStem, branch: yBranch },
+    month: { stem: mStem, branch: mBranch },
+    day: { stem: dStem, branch: dBranch },
+    dayMasterIdx: dStem,
+    dayMasterElementIdx: STEM_ELEMENT[dStem],
+    elementDist: dist,
+    zodiacIdx: yBranch,
+    mansionIdx,
+    hasHour: hourBranchIdx !== null,
+    hourBranchIdx,
+    hourStemIdx
+  };
+}
+
+function parseHour(birthTime) {
+  if (birthTime && /^\d{1,2}:\d{2}$/.test(birthTime)) return Number(birthTime.split(':')[0]);
+  return null;
+}
+
+// Build the display + scoring profile from raw birth inputs.
 function buildProfile(birthDate, birthTime, gender) {
   const [y, m, d] = birthDate.split('-').map(Number);
-  let hour = null;
-  if (birthTime && /^\d{1,2}:\d{2}$/.test(birthTime)) hour = Number(birthTime.split(':')[0]);
-
-  const p = pillarsFromDate(y, m, d, hour);
-  const elementIdx = STEM_ELEMENT[p.stemIdx];
-
+  const chart = computeChart(y, m, d, parseHour(birthTime));
+  const elementIdx = chart.dayMasterElementIdx;
   return {
     birthDate,
     birthTime: birthTime || null,
     gender: gender || 'unspecified',
-    stemIdx: p.stemIdx,
-    stemChar: STEMS[p.stemIdx],
-    stemArchetype: STEM_ARCHETYPE[p.stemIdx],
-    yin: STEM_YIN[p.stemIdx] === 1,
+    chart,
+    stemIdx: chart.dayMasterIdx,
+    stemChar: STEMS[chart.dayMasterIdx],
+    stemArchetype: STEM_ARCHETYPE[chart.dayMasterIdx],
+    yin: STEM_YIN[chart.dayMasterIdx] === 1,
     elementIdx,
     element: ELEMENTS[elementIdx],
-    branchIdx: p.branchIdx,
-    branchChar: BRANCHES[p.branchIdx],
-    hourBranchIdx: p.hourBranchIdx,
-    mansionIdx: p.mansionIdx,
-    mansion: MANSIONS[p.mansionIdx]
+    branchIdx: chart.day.branch,
+    branchChar: BRANCHES[chart.day.branch],
+    zodiacIdx: chart.zodiacIdx,
+    zodiacChar: ZODIAC[chart.zodiacIdx],
+    zodiacEn: ZODIAC_EN[chart.zodiacIdx],
+    mansionIdx: chart.mansionIdx,
+    mansion: MANSIONS[chart.mansionIdx],
+    hasHour: chart.hasHour,
+    hourBranchIdx: chart.hourBranchIdx
   };
 }
 
@@ -206,93 +268,113 @@ function branchClash(a, b) {
  * 3. The deterministic scoring engine
  * ------------------------------------------------------------------- */
 
-function scorePlayer(profile, player, config, selectedGames) {
-  const w = config.weights;
-  let score = config.base;
-  const reasons = []; // structured contributors, strongest first
+// ---- Layer 1 · Core BaZi (Year + Month + Day), 55% ----
+// Day-master Ten-God relation + five-element distribution balance + 天干五合.
+function coreBaziScore(u, p, cfg) {
+  const uE = u.chart.dayMasterElementIdx, pE = p.chart.dayMasterElementIdx;
+  const god = tenGod(uE, pE);
+  const relScore = cfg.dayMaster[god];
 
-  // --- Element / Ten-God relationship (the heart of the match) ---
-  const pPillars = pillarsFromDate(...player.birthDate.split('-').map(Number), null);
-  const pElementIdx = STEM_ELEMENT[pPillars.stemIdx];
-  const god = tenGod(profile.elementIdx, pElementIdx);
+  const comb = u.chart.elementDist.map((v, i) => v + p.chart.elementDist[i]);
+  const total = comb.reduce((a, b) => a + b, 0);            // 12 visible chars
+  const mean = total / 5;
+  const variance = comb.reduce((a, b) => a + (b - mean) ** 2, 0) / 5;
+  const maxVar = ((total - mean) ** 2 + 4 * mean ** 2) / 5; // all-in-one-element worst case
+  const balance = maxVar > 0 ? clamp01(1 - variance / maxVar) : 1;
 
-  const elementWeightKey = {
-    companion: 'elementSame',
-    output: 'elementOutput',
-    resource: 'elementResource',
-    wealth: 'elementWealth',
-    authority: 'elementAuthority'
-  }[god];
-  const elemPts = w[elementWeightKey] || 0;
-  score += elemPts;
-  reasons.push({
-    pts: elemPts,
-    kind: 'element',
-    god,
-    text: `${TEN_GOD_DESC[god]} (${ELEMENTS[pElementIdx].cn}·${TEN_GOD_CN[god]})`
-  });
+  const combine = STEM_COMBINE[u.chart.dayMasterIdx] === p.chart.dayMasterIdx ? 1 : 0;
 
-  // --- Earthly Branch relationship ---
-  const uBranch = profile.branchIdx;
-  const pBranch = pPillars.branchIdx;
-  if (uBranch === pBranch) {
-    score += w.branchSame;
-    reasons.push({ pts: w.branchSame, kind: 'branch', text: `a shared ${BRANCHES[uBranch]} branch — parallel instincts` });
-  } else if (SIX_HARMONY[uBranch] === pBranch) {
-    score += w.branchSixHarmony;
-    reasons.push({ pts: w.branchSixHarmony, kind: 'branch', text: `a ${BRANCHES[uBranch]}·${BRANCHES[pBranch]} six-harmony bond` });
-  } else if (branchesInSameTrine(uBranch, pBranch)) {
-    score += w.branchTrine;
-    reasons.push({ pts: w.branchTrine, kind: 'branch', text: `a three-harmony (三合) alignment of timing` });
-  } else if (branchClash(uBranch, pBranch)) {
-    score += w.branchClash;
-    reasons.push({ pts: w.branchClash, kind: 'branch', text: `a spark of ${BRANCHES[uBranch]}·${BRANCHES[pBranch]} clash — thrilling but volatile` });
-  } else if (SIX_HARM[uBranch] === pBranch) {
-    score += w.branchHarm;
+  const s = cfg.sub;
+  const score = clamp01(s.dayMaster * relScore + s.balance * balance + s.combine * combine);
+  return { score, god, balance, combine: !!combine };
+}
+
+function isPunish(a, b) {
+  if (PUNISH_PAIRS[a] === b) return true;
+  return PUNISH_GROUPS.some(g => g.includes(a) && g.includes(b) && a !== b);
+}
+
+// ---- Layer 2 · Chinese Zodiac (year branch), 20% ----
+// 六合 三合 六冲 相刑 相害 相破, with Li Chun as the year boundary (in computeChart).
+function zodiacScore(u, p, cfg) {
+  const a = u.zodiacIdx, b = p.zodiacIdx;
+  if (a === b) return { score: cfg.same, rel: 'same' };
+  if (SIX_HARMONY[a] === b) return { score: cfg.sixHarmony, rel: '六合' };
+  if (branchesInSameTrine(a, b)) return { score: cfg.trine, rel: '三合' };
+  if (((a + 6) % 12) === b) return { score: cfg.clash, rel: '六冲' };
+  if (isPunish(a, b)) return { score: cfg.punish, rel: '相刑' };
+  if (SIX_HARM[a] === b) return { score: cfg.harm, rel: '相害' };
+  if (SIX_DESTROY[a] === b) return { score: cfg.destroy, rel: '相破' };
+  return { score: cfg.neutral, rel: 'neutral' };
+}
+
+// ---- Layer 3 · Star Mansion (28 lunar mansions), 15% ----
+function mansionScore(u, p, cfg) {
+  if (u.mansionIdx === p.mansionIdx) return { score: cfg.same, rel: 'same' };
+  const up = Math.floor(u.mansionIdx / 7), pp = Math.floor(p.mansionIdx / 7);
+  if (up === pp) return { score: cfg.samePalace, rel: 'palace' };
+  if ((up + 2) % 4 === pp) return { score: cfg.opposite, rel: 'opposite' };
+  return { score: cfg.adjacent, rel: 'adjacent' };
+}
+
+// ---- Layer 4 · Birth Hour refinement, 10% (only when BOTH have a birth hour) ----
+function hourScore(u, p, cfg) {
+  const a = u.hourBranchIdx, b = p.hourBranchIdx;
+  if (a === b) return { score: cfg.same };
+  if (SIX_HARMONY[a] === b) return { score: cfg.sixHarmony };
+  if (branchesInSameTrine(a, b)) return { score: cfg.trine };
+  if (((a + 6) % 12) === b) return { score: cfg.clash };
+  return { score: cfg.neutral };
+}
+
+// One-line reason fragments per layer.
+function elementReason(p, core) {
+  const pe = ELEMENTS[p.chart.dayMasterElementIdx];
+  return `${TEN_GOD_DESC[core.god]} — their ${pe.cn}${pe.en} day-master ${TEN_GOD_CN[core.god]} yours`;
+}
+function zodiacReason(u, p, z) {
+  const map = {
+    '六合': 'a 六合 six-harmony', '三合': 'a 三合 trine', '六冲': 'a 六冲 clash-spark',
+    '相刑': 'a 相刑 tension', '相害': 'a 相害 friction', '相破': 'a 相破 edge',
+    same: 'a shared', neutral: 'an easy'
+  };
+  return `${map[z.rel] || 'an easy'} ${ZODIAC_EN[u.zodiacIdx]}–${ZODIAC_EN[p.zodiacIdx]} zodiac tie`;
+}
+function mansionReason(u, p, man) {
+  if (man.rel === 'same') return `the same ${MANSIONS[u.mansionIdx].cn}宿 lunar mansion`;
+  if (man.rel === 'palace') return `a shared ${MANSIONS[u.mansionIdx].palace} star-palace`;
+  return `${MANSIONS[u.mansionIdx].cn}宿 and ${MANSIONS[p.mansionIdx].cn}宿 in dialogue`;
+}
+
+// Weighted four-layer compatibility. Returns a 0..1 score.
+// If either side lacks a reliable birth hour, the 10% hour weight is
+// redistributed proportionally across the first three layers (never deducted).
+function scorePlayer(u, p, config) {
+  const M = config.model;
+  const core = coreBaziScore(u, p, M.coreBazi);
+  const zod = zodiacScore(u, p, M.zodiac);
+  const man = mansionScore(u, p, M.starMansion);
+
+  let wCore = M.layers.coreBazi, wZod = M.layers.zodiac, wMan = M.layers.starMansion, wHour = M.layers.birthHour;
+  let hour = null;
+  if (u.hasHour && p.hasHour) {
+    hour = hourScore(u, p, M.birthHour);
+  } else {
+    const base = wCore + wZod + wMan;
+    const k = (base + wHour) / base; // spread the hour weight proportionally
+    wCore *= k; wZod *= k; wMan *= k; wHour = 0;
   }
 
-  // Optional birth-hour tie-breaker: hour branch harmony gives a tiny nudge.
-  if (profile.hourBranchIdx !== null) {
-    if (SIX_HARMONY[profile.hourBranchIdx] === pBranch || profile.hourBranchIdx === pBranch) {
-      score += 3;
-    }
-  }
+  const score = wCore * core.score + wZod * zod.score + wMan * man.score + (hour ? wHour * hour.score : 0);
 
-  // --- Lunar mansion resonance ---
-  if (profile.mansionIdx === pPillars.mansionIdx) {
-    score += w.mansionExact;
-    reasons.push({ pts: w.mansionExact, kind: 'mansion', text: `the same ${MANSIONS[profile.mansionIdx].cn}宿 star mansion` });
-  } else if (MANSIONS[profile.mansionIdx].palace === MANSIONS[pPillars.mansionIdx].palace) {
-    score += w.mansionSamePalace;
-    reasons.push({ pts: w.mansionSamePalace, kind: 'mansion', text: `a shared ${MANSIONS[profile.mansionIdx].palace} palace of stars` });
-  }
+  const reasons = [
+    { pts: wCore * core.score, kind: 'element', god: core.god, text: elementReason(p, core) },
+    { pts: wZod * zod.score, kind: 'zodiac', rel: zod.rel, text: zodiacReason(u, p, zod) },
+    { pts: wMan * man.score, kind: 'mansion', rel: man.rel, text: mansionReason(u, p, man) }
+  ];
+  if (hour) reasons.push({ pts: wHour * hour.score, kind: 'hour', text: `a resonant birth-hour (时辰) pairing` });
 
-  // --- Yin/Yang + gender flavor (small, symbolic) ---
-  const pYin = STEM_YIN[pPillars.stemIdx] === 1;
-  if (pYin !== profile.yin) score += w.yinYangComplement;
-  else score += w.yinYangSame;
-  if ((profile.gender === 'female' && !profile.yin) || (profile.gender === 'male' && profile.yin)) {
-    score += w.genderAlign; // gentle complementary nudge
-  }
-
-  // --- Tag affinity from the Ten-God flavor ---
-  const preferred = (config.tenGodTags && config.tenGodTags[god]) || [];
-  let tagPts = 0;
-  const matchedTags = [];
-  (player.tags || []).forEach(t => {
-    if (preferred.includes(t)) { tagPts += w.tagAffinityPerMatch; matchedTags.push(t); }
-  });
-  tagPts = Math.min(tagPts, w.tagAffinityCap);
-  score += tagPts;
-  if (matchedTags.length) {
-    reasons.push({ pts: tagPts, kind: 'tag', text: `${matchedTags.slice(0, 2).join(' & ')} energy that matches your ${TEN_GOD_CN[god]} nature` });
-  }
-
-  // --- Optional game affinity bias ---
-  const ga = config.gameAffinity && config.gameAffinity.byElement && config.gameAffinity.byElement[profile.element.key];
-  if (ga && typeof ga[player.game] === 'number') score += ga[player.game];
-
-  return { score, reasons };
+  return { score, reasons, layers: { core: core.score, zodiac: zod.score, mansion: man.score, hour: hour ? hour.score : null } };
 }
 
 // Map a raw score onto the configured display percentage band.
@@ -328,8 +410,9 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data) {
     selectedGames.includes(p.game) && /^\d{4}-\d{2}-\d{2}$/.test(p.birthDate || ''));
 
   const scored = pool.map(p => {
-    const { score, reasons } = scorePlayer(profile, p, config, selectedGames);
-    return { player: p, rawScore: score, reasons };
+    const pProfile = buildProfile(p.birthDate, p.birthTime || null, 'unspecified');
+    const { score, reasons, layers } = scorePlayer(profile, pProfile, config);
+    return { player: p, rawScore: score, reasons, layers };
   });
 
   if (scored.length === 0) return { profile, ranked: [] };
@@ -360,17 +443,19 @@ function localNarrative(profile, selectedGames, gamesMeta) {
   const flavor = MANSION_FLAVOR[mansion.cn] || 'a rare and singular star-signature';
 
   const summary =
-    `You are a ${profile.stemArchetype} with the mark of ${mansion.cn}宿 — ${flavor}.`;
+    `You are a ${profile.stemArchetype} (${el.cn}${el.emoji} day-master), born in the year of the ${profile.zodiacChar} ${profile.zodiacEn}, marked by ${mansion.cn}宿 — ${flavor}.`;
 
   const watch =
-    `Your ${el.cn}${el.emoji} nature draws you to ${gameNames.length ? gameNames.join(' / ') : 'the arena'}. ` +
-    `You're happiest watching ${styleForElement(profile.elementIdx)} — the kind of series where ${profile.mansion.palace} energy decides the game.`;
+    `Your ${el.cn} nature draws you to ${gameNames.length ? gameNames.join(' / ') : 'the arena'}. ` +
+    `You're happiest watching ${styleForElement(profile.elementIdx)} — series where ${mansion.palace} energy decides the game.`;
 
   const why =
-    `Your day-master reads as ${profile.stemChar}${el.cn} (${el.en}), sitting on the ${profile.branchChar} branch, under the ${mansion.cn} mansion of the ${mansion.palace}. ` +
-    `In this symbolic system, that pairing pulls you toward players whose charts ${relationHint(profile.elementIdx)} yours — which is exactly how the ranking below was drawn.`;
+    `Compatibility is read as a lightweight BaZi chart. The ranking weighs your ${profile.stemChar}${el.cn} day-master and six-character elements most (55%), ` +
+    `then your ${profile.zodiacEn} zodiac ties — 六合/三合 lift, 六冲/刑/害/破 add spark (20%) — ` +
+    `then ${mansion.cn}宿 lunar-mansion resonance (15%); a birth-hour layer (10%) refines only when both hours are known. ` +
+    `The players below rank highest because their charts ${relationHint(profile.elementIdx)} yours across those layers.`;
 
-  return { archetypeTitle: profile.stemArchetype, mansionTitle: `${mansion.cn}宿型`, summary, watch, why };
+  return { archetypeTitle: profile.stemArchetype, mansionTitle: `${mansion.cn}宿型`, zodiacTitle: `${profile.zodiacChar}${profile.zodiacEn}`, summary, watch, why };
 }
 
 function styleForElement(e) {
