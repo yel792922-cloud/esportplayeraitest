@@ -220,16 +220,52 @@ function mansionSector(moonLon, year) {
   return { idx: 27, edge: 0 };
 }
 
-// Compute mansion + a 0..1 confidence. Exact time -> tighter window; noon
-// fallback -> half-a-day of Moon motion (~6.6 deg) of uncertainty.
-function computeMansion(y, m, d, hour) {
-  const exact = typeof hour === 'number' && !Number.isNaN(hour);
-  const jd = julianDay(y, m, d, exact ? hour : 12);
-  const moonLon = moonEclipticLongitude(jd);
+// Default metaphysical time zone when the birth place is not given: UTC+8
+// (Beijing Time), the standard baseline for Mainland-China BaZi practice.
+const DEFAULT_TZ_OFFSET = 8;
+
+function dayOfYear(y, m, d) {
+  return Math.floor((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / 86400000) + 1;
+}
+
+// Equation of Time (minutes -> hours) — the mean-vs-apparent-solar offset used
+// by the optional true-solar-time refinement of the birth hour (时辰).
+function equationOfTimeHours(y, m, d) {
+  const B = 2 * Math.PI * (dayOfYear(y, m, d) - 81) / 364;
+  return (9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)) / 60;
+}
+
+// Twenty-Eight Mansions from the Moon's position. USER-FACING rule: the birth
+// hour is birth-PLACE local civil time. Internally we convert that to UTC (an
+// astronomical-only step) to read the Moon. Confidence degrades honestly when
+// the birth time or birth-place time zone is missing — it never pretends exact.
+//   ctx: { localHour (fractional)|null, tzOffset (hours)|null, approx, playerBaseline, baselineConf }
+function computeMansion(y, m, d, ctx) {
+  const hasTime = typeof ctx.localHour === 'number' && !Number.isNaN(ctx.localHour);
+  const tzKnown = typeof ctx.tzOffset === 'number' && !Number.isNaN(ctx.tzOffset);
+
+  // Local basis hour: real birth time; else noon (only for approximate mode or
+  // the date-only player baseline); otherwise it is left unresolved.
+  const resolved = hasTime || !!ctx.approx || !!ctx.playerBaseline;
+  const basisHour = hasTime ? ctx.localHour : 12;
+
+  // Birth-place local civil time -> UTC (internal conversion only).
+  const effTz = tzKnown ? ctx.tzOffset : DEFAULT_TZ_OFFSET;
+  const moonLon = moonEclipticLongitude(julianDay(y, m, d, basisHour - effTz));
   const sec = mansionSector(moonLon, y);
-  const window = exact ? 3.0 : 6.6;              // deg of unknown-time uncertainty
-  const confidence = clamp01(sec.edge / window); // near a boundary -> low confidence
-  return { idx: sec.idx, moonLon, confidence, exact };
+
+  let confidence;
+  if (ctx.playerBaseline) {
+    confidence = clamp01(ctx.baselineConf ?? 0.7); // date-only reference baseline
+  } else if (!resolved) {
+    confidence = 0;                                 // unresolved — no time, no approx mode
+  } else {
+    // Uncertainty window (deg of Moon motion): tight with time+zone, wide otherwise.
+    const win = hasTime ? (tzKnown ? 1.0 : 8.0) : (tzKnown ? 6.6 : 9.0);
+    confidence = clamp01(sec.edge / win);
+  }
+
+  return { idx: sec.idx, moonLon, confidence, resolved, hasTime, tzKnown, approx: !!ctx.approx, exact: hasTime && tzKnown };
 }
 
 /* ---------------------------------------------------------------------
@@ -264,7 +300,7 @@ function solarMonthBranch(m, d) {
 // Full six-character BaZi chart (Year + Month + Day pillars) plus zodiac,
 // lunar mansion, and an optional hour pillar. Li Chun (~Feb 4) is the year
 // boundary; the month stem follows 五虎遁, the hour stem 五鼠遁.
-function computeChart(y, m, d, hour) {
+function computeChart(y, m, d, ctx) {
   const { sx, jdn } = daySexagenary(y, m, d);
   const dStem = sx % 10, dBranch = sx % 12;
 
@@ -284,12 +320,17 @@ function computeChart(y, m, d, hour) {
   [yBranch, mBranch, dBranch].forEach(b => dist[BRANCH_ELEMENT[b]]++);
 
   // Twenty-Eight Mansions — from the Moon's position, a fully separate layer.
-  const mansion = computeMansion(y, m, d, hour);
+  const mansion = computeMansion(y, m, d, ctx);
 
+  // Hour pillar (时辰) from birth-PLACE local civil time. When the optional
+  // true-solar-time mode is on, refine that local clock by the Equation of Time.
   let hourBranchIdx = null, hourStemIdx = null;
-  if (typeof hour === 'number' && !Number.isNaN(hour)) {
-    hourBranchIdx = Math.floor(((hour + 1) % 24) / 2);  // 23:00-01:00 -> 子
-    const ratStart = [0, 2, 4, 6, 8][dStem % 5];        // 五鼠遁: 子时 stem for the day stem
+  const hasTime = typeof ctx.localHour === 'number' && !Number.isNaN(ctx.localHour);
+  if (hasTime) {
+    let solarHour = ctx.localHour + (ctx.trueSolar ? equationOfTimeHours(y, m, d) : 0);
+    solarHour = ((solarHour % 24) + 24) % 24;
+    hourBranchIdx = Math.floor(((solarHour + 1) % 24) / 2);  // 23:00-01:00 -> 子
+    const ratStart = [0, 2, 4, 6, 8][dStem % 5];             // 五鼠遁: 子时 stem for the day stem
     hourStemIdx = (ratStart + hourBranchIdx) % 10;
   }
 
@@ -303,7 +344,11 @@ function computeChart(y, m, d, hour) {
     zodiacIdx: yBranch,
     mansionIdx: mansion.idx,
     mansionConf: mansion.confidence,
+    mansionResolved: mansion.resolved,
     mansionExact: mansion.exact,
+    mansionHasTime: mansion.hasTime,
+    mansionTzKnown: mansion.tzKnown,
+    mansionApprox: mansion.approx,
     moonLon: mansion.moonLon,
     hasHour: hourBranchIdx !== null,
     hourBranchIdx,
@@ -311,20 +356,36 @@ function computeChart(y, m, d, hour) {
   };
 }
 
-function parseHour(birthTime) {
-  if (birthTime && /^\d{1,2}:\d{2}$/.test(birthTime)) return Number(birthTime.split(':')[0]);
+// Parse "HH:MM" into a fractional local hour, or null.
+function parseLocalHour(birthTime) {
+  if (birthTime && /^\d{1,2}:\d{2}$/.test(birthTime)) {
+    const [h, mi] = birthTime.split(':').map(Number);
+    return h + mi / 60;
+  }
   return null;
 }
 
 // Build the display + scoring profile from raw birth inputs.
-function buildProfile(birthDate, birthTime, gender) {
+//   opts: { tzOffset (hours)|null, approx, trueSolar, playerBaseline, baselineConf }
+function buildProfile(birthDate, birthTime, gender, opts) {
+  opts = opts || {};
   const [y, m, d] = birthDate.split('-').map(Number);
-  const chart = computeChart(y, m, d, parseHour(birthTime));
+  const ctx = {
+    localHour: parseLocalHour(birthTime),
+    tzOffset: (typeof opts.tzOffset === 'number' && !Number.isNaN(opts.tzOffset)) ? opts.tzOffset : null,
+    approx: !!opts.approx,
+    trueSolar: !!opts.trueSolar,
+    playerBaseline: !!opts.playerBaseline,
+    baselineConf: opts.baselineConf
+  };
+  const chart = computeChart(y, m, d, ctx);
   const elementIdx = chart.dayMasterElementIdx;
   return {
     birthDate,
     birthTime: birthTime || null,
     gender: gender || 'unspecified',
+    tzOffset: ctx.tzOffset,
+    trueSolar: ctx.trueSolar,
     chart,
     stemIdx: chart.dayMasterIdx,
     stemChar: STEMS[chart.dayMasterIdx],
@@ -340,7 +401,11 @@ function buildProfile(birthDate, birthTime, gender) {
     mansionIdx: chart.mansionIdx,
     mansion: MANSIONS[chart.mansionIdx],
     mansionConf: chart.mansionConf,
+    mansionResolved: chart.mansionResolved,
     mansionExact: chart.mansionExact,
+    mansionHasTime: chart.mansionHasTime,
+    mansionTzKnown: chart.mansionTzKnown,
+    mansionApprox: chart.mansionApprox,
     hasHour: chart.hasHour,
     hourBranchIdx: chart.hourBranchIdx
   };
@@ -505,9 +570,11 @@ function buildReason(player, contributors) {
  * 4. Top-level: profile + ranked players
  * ------------------------------------------------------------------- */
 
-function runMatch(birthDate, birthTime, gender, selectedGames, data) {
+function runMatch(birthDate, birthTime, gender, selectedGames, data, opts) {
   const { players, config } = data;
-  const profile = buildProfile(birthDate, birthTime, gender);
+  // The user's chart honors the time-handling options (birth-place time zone,
+  // approximate mode, true solar time).
+  const profile = buildProfile(birthDate, birthTime, gender, opts || {});
 
   // Only rank players whose birth date is a valid YYYY-MM-DD. Anchor records
   // (e.g. Worlds winners) whose birth date could not be reliably verified may
@@ -516,8 +583,13 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data) {
   const pool = players.filter(p =>
     selectedGames.includes(p.game) && /^\d{4}-\d{2}-\d{2}$/.test(p.birthDate || ''));
 
+  // Players only ever have a birth date, so their mansion uses a consistent
+  // date-only baseline (noon at the default zone) with a fixed baseline
+  // confidence. The pair's mansion strength is then driven by the USER's data
+  // quality (via the min-confidence blend in scorePlayer).
+  const baselineConf = (config.model.starMansion && config.model.starMansion.playerBaselineConfidence) ?? 0.7;
   const scored = pool.map(p => {
-    const pProfile = buildProfile(p.birthDate, p.birthTime || null, 'unspecified');
+    const pProfile = buildProfile(p.birthDate, p.birthTime || null, 'unspecified', { playerBaseline: true, baselineConf });
     const { score, reasons, layers } = scorePlayer(profile, pProfile, config);
     return { player: p, rawScore: score, reasons, layers };
   });
@@ -547,7 +619,6 @@ function localNarrative(profile, selectedGames, gamesMeta) {
   const el = profile.element;
   const mansion = profile.mansion;
   const flavor = MANSION_FLAVOR[mansion.cn] || 'a rare and singular star-signature';
-  const lowConf = (profile.mansionConf ?? 1) < 0.34;
 
   // 1) short metaphysical identity + personality style
   const summary =
@@ -559,10 +630,24 @@ function localNarrative(profile, selectedGames, gamesMeta) {
     `As a ${profile.zodiacEn}, you click with charts in 六合/三合 harmony and strike sparks with 六冲/刑/害/破 — ` +
     `that mix decides who rises up your list.`;
 
-  // 3) concise star-mansion note (Moon-based; flags low confidence honestly)
-  const mansionNote =
-    `Moon-read at ${mansion.cn}宿 (${mansion.palace}) — ${flavor}.` +
-    (lowConf ? ' Birth time unknown, so this is an approximate reading and counts lightly.' : '');
+  // 3) concise star-mansion note — Moon-read from birth-place local time, with
+  //    an honest confidence tier (exact / time-zone-missing / approx / unresolved).
+  let mansionNote;
+  if (!profile.mansionResolved) {
+    mansionNote =
+      `Star mansion unresolved — it's read from the Moon at your exact birth moment, so it needs your birth time and birth-place time zone. ` +
+      `Shown as ${mansion.cn}宿 from a noon estimate only, and it counts lightly here.`;
+  } else if (profile.mansionExact) {
+    mansionNote = `Moon-read at ${mansion.cn}宿 (${mansion.palace}) from your birth time — ${flavor}.`;
+  } else if (profile.mansionHasTime && !profile.mansionTzKnown) {
+    mansionNote =
+      `Moon-read at ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
+      `Birth-place time zone not set, so it's approximate; set it for an exact mansion.`;
+  } else {
+    mansionNote =
+      `Approximate ${mansion.cn}宿 (${mansion.palace}) reading — ${flavor}. ` +
+      `Add your birth time and birth-place time zone for an exact mansion.`;
+  }
 
   // 4) why the user matches this profile
   const why =
@@ -835,6 +920,14 @@ async function onSubmit(e) {
   const gender = ($('input[name="gender"]:checked') || {}).value || 'unspecified';
   const selectedGames = $$('input[name="game"]:checked').map(i => i.value);
 
+  // Time-handling options: birth-place time zone (metaphysical basis), an
+  // explicit approximate mode, and an optional true-solar-time refinement.
+  const tzRaw = ($('#birthTz') || {}).value;
+  const tzOffset = (tzRaw === '' || tzRaw == null) ? null : Number(tzRaw);
+  const approx = !!($('#approxTime') || {}).checked;
+  const trueSolar = !!($('#trueSolar') || {}).checked;
+  const opts = { tzOffset, approx, trueSolar };
+
   const err = $('#formError');
   err.textContent = '';
   if (!birthDate) { err.textContent = 'Please enter your birth date.'; return; }
@@ -845,7 +938,7 @@ async function onSubmit(e) {
   btn.classList.add('is-loading');
 
   try {
-    const result = runMatch(birthDate, birthTime, gender, selectedGames, DATA);
+    const result = runMatch(birthDate, birthTime, gender, selectedGames, DATA, opts);
     if (result.ranked.length === 0) {
       err.textContent = 'No players found for the selected games.';
       return;
@@ -856,7 +949,7 @@ async function onSubmit(e) {
 
     // Save last result
     try {
-      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames }));
+      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar }));
     } catch (_) {}
 
     // Fire-and-refresh optional polish
@@ -920,6 +1013,9 @@ function restoreLast() {
     if (saved.birthDate) $('#birthDate').value = saved.birthDate;
     if (saved.birthTime) $('#birthTime').value = saved.birthTime;
     if (saved.gender) { const g = $(`input[name="gender"][value="${saved.gender}"]`); if (g) g.checked = true; }
+    if (saved.tz != null && $('#birthTz')) $('#birthTz').value = saved.tz;
+    if (saved.approx && $('#approxTime')) $('#approxTime').checked = true;
+    if (saved.trueSolar && $('#trueSolar')) $('#trueSolar').checked = true;
     (saved.selectedGames || []).forEach(id => {
       const box = $(`input[name="game"][value="${id}"]`);
       if (box) { box.checked = true; box.closest('.game-chip').classList.add('is-checked'); }

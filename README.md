@@ -79,25 +79,36 @@ No configuration or build step is required — it's plain static files.
 
 ## 🧠 How the matching works
 
-The engine maps you into a **compact archetype profile**, then ranks players
-from your selected games against it.
+The engine builds a lightweight **six-character BaZi chart** from your birth
+info, then ranks players against it across four independent layers
+(all weights in `data/config.json`):
 
-1. **Birth date → day pillar.** A Julian-Day computation yields a stable
-   sexagenary day index, giving a **Heavenly Stem** (→ Five Element + Yin/Yang)
-   and an **Earthly Branch**. The same date also maps to one of the **28 Lunar
-   Mansions**. An optional **birth time** nudges an hour-branch tie-breaker.
-2. **Scoring** (see `data/config.json`) combines, for each player:
-   - **Element / Ten-God relationship** (生克 generation & control cycles) — the core signal
-   - **Earthly-Branch relationships** — 六合 (six harmony), 三合 (trine), 六冲 (clash), 六害 (harm)
-   - **Lunar-mansion resonance** — exact mansion match or same palace (青龙/玄武/白虎/朱雀)
-   - **Yin/Yang + gender** flavor
-   - **Tag affinity** — the Ten-God flavor prefers certain player tags (calm, aggressive, clutch, …)
-   - **Optional game affinity** bias per element
-3. Raw scores are mapped onto the configured percentage band (default **60–99%**)
-   and sorted (with a stable tie-break), and the **top 10** are shown.
+1. **Core BaZi (Year + Month + Day) — 55%.** Day-master Ten-God relationship
+   (生克 generation/control), five-element balance, and 天干五合.
+2. **Chinese Zodiac — 20%.** Year branch with **Li Chun** as the year boundary;
+   六合 · 三合 · 六冲 · 相刑 · 相害 · 相破.
+3. **Twenty-Eight Mansions — 15%.** Moon-position based: the **Moon's ecliptic
+   longitude at your birth moment** (abridged Meeus lunar theory) mapped to the
+   28 mansions by their traditional 距度 widths, anchored at Spica (角宿一).
+4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
+   hour; otherwise its weight is redistributed across the first three layers
+   (never a penalty).
 
-> Calibration note: the day-pillar and mansion anchors are tuned for a stable,
-> symbolic, entertainment experience — not for precise astronomical BaZi.
+The layers are computed separately and do not interfere with each other.
+
+**Time handling.** The metaphysical time basis is your **birth place's local
+civil time** — never your device's time zone, and never UTC (UTC is used only
+as an internal step to place the Moon). Pick your birth-place time zone in the
+form; for Mainland-China births the default is **UTC+8 (Beijing Time)**. Birth
+time is strongly recommended and a birth-place time zone is required for a
+high-confidence star mansion — if either is missing the mansion is marked
+low-confidence or **unresolved** rather than pretending to be exact (an explicit
+“approximate (noon)” mode and an optional **true-solar-time** correction are
+available). Scores map onto the configured band (default **60–99%**); the
+**top 10** are shown.
+
+> Note: nationality/gender are never scoring factors; the astronomy and anchors
+> are tuned for a stable, entertainment-first experience, not observatory BaZi.
 
 ### Tuning it
 

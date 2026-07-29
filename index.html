@@ -46,10 +46,43 @@
             </label>
 
             <label class="field">
-              <span class="field__label">Birth time <em>(optional)</em></span>
+              <span class="field__label">Birth time <em>(strongly recommended)</em></span>
               <input type="time" id="birthTime" name="birthTime">
             </label>
           </div>
+
+          <label class="field">
+            <span class="field__label">Birth-place time zone <em>(for an accurate star mansion)</em></span>
+            <select id="birthTz" name="birthTz">
+              <option value="">— Select your birth-place time zone —</option>
+              <option value="8">UTC+8 · Beijing / China Standard Time (default for Mainland China)</option>
+              <option value="9">UTC+9 · Seoul / Tokyo</option>
+              <option value="9.5">UTC+9:30 · Adelaide</option>
+              <option value="10">UTC+10 · Sydney</option>
+              <option value="12">UTC+12 · Auckland</option>
+              <option value="7">UTC+7 · Bangkok / Jakarta / Hanoi</option>
+              <option value="6">UTC+6 · Almaty / Dhaka</option>
+              <option value="5.5">UTC+5:30 · Mumbai / Delhi</option>
+              <option value="5">UTC+5 · Tashkent</option>
+              <option value="4">UTC+4 · Dubai</option>
+              <option value="3">UTC+3 · Moscow / Istanbul</option>
+              <option value="2">UTC+2 · Athens / Kyiv</option>
+              <option value="1">UTC+1 · Berlin / Paris</option>
+              <option value="0">UTC±0 · London / Lisbon</option>
+              <option value="-3">UTC−3 · São Paulo / Buenos Aires</option>
+              <option value="-4">UTC−4 · Santiago / New York (DST)</option>
+              <option value="-5">UTC−5 · New York / Toronto</option>
+              <option value="-6">UTC−6 · Mexico City / Chicago</option>
+              <option value="-7">UTC−7 · Denver</option>
+              <option value="-8">UTC−8 · Los Angeles / Vancouver</option>
+            </select>
+            <span class="field__hint">The star mansion is read from the Moon's position at your exact birth moment, so it depends on your <strong>birth place's local time</strong> — not your device's time zone. If you leave this blank we can't resolve it exactly, so the mansion is marked low-confidence.</span>
+          </label>
+
+          <fieldset class="field field--checks">
+            <label class="check"><input type="checkbox" id="approxTime"><span>No birth time? Use an approximate (noon) reading</span></label>
+            <label class="check"><input type="checkbox" id="trueSolar"><span>Advanced: apply true solar time correction (equation of time)</span></label>
+          </fieldset>
 
           <fieldset class="field field--radios">
             <legend class="field__label">Gender</legend>
