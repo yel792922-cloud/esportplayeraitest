@@ -31,9 +31,9 @@
   },
   "tenGodTags": {
     "companion": ["leader", "stable"],
-    "output": ["creative", "explosive", "aggressive"],
+    "output": ["creative", "mechanical", "aggressive"],
     "resource": ["calm", "stable"],
-    "wealth": ["clutch", "explosive"],
+    "wealth": ["clutch", "mechanical"],
     "authority": ["leader", "aggressive", "clutch"]
   },
   "gameAffinity": {
