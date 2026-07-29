@@ -137,6 +137,102 @@ const SELF_PUNISH = new Set([4, 6, 9, 11]);
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 /* ---------------------------------------------------------------------
+ * 0b. Twenty-Eight Mansions — MOON-POSITION based (independent layer)
+ *
+ * The mansion is derived from the Moon's apparent ecliptic longitude at the
+ * birth moment, NOT from any calendar-day bucket. It is computed entirely
+ * separately from the day pillar, Five Elements and Zodiac so the layers do
+ * not interfere. When the birth hour is unknown we fall back to local noon
+ * and lower the confidence (degrading gracefully rather than inventing).
+ * ------------------------------------------------------------------- */
+
+// Classic determinative-star widths 距度 of the 28 mansions (角..轸), in the
+// 365.25-degree system; normalized below to a 360 ecliptic. Order matches MANSIONS.
+const XIU_WIDTHS = [
+  12, 9, 15, 5, 5, 18, 11.25,      // 角亢氐房心尾箕 (East)
+  26.25, 8, 12, 10, 17, 16, 9,     // 斗牛女虚危室壁 (North)
+  16, 12, 14, 11, 16, 2, 9,        // 奎娄胃昴毕觜参 (West)
+  33, 4, 15, 7, 18, 18, 17         // 井鬼柳星张翼轸 (South)
+];
+const XIU_BOUND = (() => {
+  const total = XIU_WIDTHS.reduce((a, b) => a + b, 0);
+  let acc = 0; const b = [0];
+  for (const w of XIU_WIDTHS) { acc += w; b.push(acc * 360 / total); }
+  return b; // length 29, b[28] === 360
+})();
+
+// True Julian Day for a moment (UT hours). Independent of the day-pillar math.
+function julianDay(y, m, d, hourUT) {
+  let Y = y, M = m;
+  if (M <= 2) { Y -= 1; M += 12; }
+  const A = Math.floor(Y / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5 + hourUT / 24;
+}
+
+// Moon's apparent geocentric ecliptic longitude (degrees), abridged Meeus 47.A.
+// Accuracy ~0.3 deg — ample against ~13-degree-wide mansions.
+function moonEclipticLongitude(jd) {
+  const T = (jd - 2451545.0) / 36525.0;
+  const norm = (x) => ((x % 360) + 360) % 360;
+  const Lp = 218.3164477 + 481267.88123421 * T - 0.0015786 * T * T + T * T * T / 538841 - T * T * T * T / 65194000;
+  const D  = 297.8501921 + 445267.1114034 * T - 0.0018819 * T * T + T * T * T / 545868;
+  const M  = 357.5291092 + 35999.0502909 * T - 0.0001536 * T * T;
+  const Mp = 134.9633964 + 477198.8675055 * T + 0.0087414 * T * T + T * T * T / 69699;
+  const F  =  93.2720950 + 483202.0175233 * T - 0.0036539 * T * T;
+  const s = (a) => Math.sin(a * Math.PI / 180);
+  const lon = Lp
+    + 6.288774 * s(Mp)
+    + 1.274027 * s(2 * D - Mp)
+    + 0.658314 * s(2 * D)
+    + 0.213618 * s(2 * Mp)
+    - 0.185116 * s(M)
+    - 0.114332 * s(2 * F)
+    + 0.058793 * s(2 * D - 2 * Mp)
+    + 0.057066 * s(2 * D - M - Mp)
+    + 0.053322 * s(2 * D + Mp)
+    + 0.045758 * s(2 * D - M)
+    - 0.040923 * s(M - Mp)
+    - 0.034720 * s(D)
+    - 0.030383 * s(M + Mp)
+    + 0.015327 * s(2 * D - 2 * F)
+    - 0.012528 * s(Mp + 2 * F)
+    + 0.010980 * s(Mp - 2 * F)
+    + 0.010675 * s(4 * D - Mp)
+    + 0.010034 * s(3 * Mp);
+  return norm(lon);
+}
+
+// Ecliptic longitude of Spica (角宿一), the anchor of 角宿, with precession.
+function spicaLongitude(year) {
+  return (((203.83 + 0.013969 * (year - 2000)) % 360) + 360) % 360;
+}
+
+// Map a Moon longitude to a mansion sector (traditional unequal widths).
+function mansionSector(moonLon, year) {
+  const anchor = spicaLongitude(year);
+  const rel = (((moonLon - anchor) % 360) + 360) % 360;
+  for (let i = 0; i < 28; i++) {
+    if (rel >= XIU_BOUND[i] && rel < XIU_BOUND[i + 1]) {
+      return { idx: i, edge: Math.min(rel - XIU_BOUND[i], XIU_BOUND[i + 1] - rel) };
+    }
+  }
+  return { idx: 27, edge: 0 };
+}
+
+// Compute mansion + a 0..1 confidence. Exact time -> tighter window; noon
+// fallback -> half-a-day of Moon motion (~6.6 deg) of uncertainty.
+function computeMansion(y, m, d, hour) {
+  const exact = typeof hour === 'number' && !Number.isNaN(hour);
+  const jd = julianDay(y, m, d, exact ? hour : 12);
+  const moonLon = moonEclipticLongitude(jd);
+  const sec = mansionSector(moonLon, y);
+  const window = exact ? 3.0 : 6.6;              // deg of unknown-time uncertainty
+  const confidence = clamp01(sec.edge / window); // near a boundary -> low confidence
+  return { idx: sec.idx, moonLon, confidence, exact };
+}
+
+/* ---------------------------------------------------------------------
  * 1. Calendar math -> day pillar & mansion (deterministic)
  * ------------------------------------------------------------------- */
 
@@ -187,7 +283,8 @@ function computeChart(y, m, d, hour) {
   [yStem, mStem, dStem].forEach(s => dist[STEM_ELEMENT[s]]++);
   [yBranch, mBranch, dBranch].forEach(b => dist[BRANCH_ELEMENT[b]]++);
 
-  const mansionIdx = ((jdn + 3) % 28 + 28) % 28;
+  // Twenty-Eight Mansions — from the Moon's position, a fully separate layer.
+  const mansion = computeMansion(y, m, d, hour);
 
   let hourBranchIdx = null, hourStemIdx = null;
   if (typeof hour === 'number' && !Number.isNaN(hour)) {
@@ -204,7 +301,10 @@ function computeChart(y, m, d, hour) {
     dayMasterElementIdx: STEM_ELEMENT[dStem],
     elementDist: dist,
     zodiacIdx: yBranch,
-    mansionIdx,
+    mansionIdx: mansion.idx,
+    mansionConf: mansion.confidence,
+    mansionExact: mansion.exact,
+    moonLon: mansion.moonLon,
     hasHour: hourBranchIdx !== null,
     hourBranchIdx,
     hourStemIdx
@@ -239,6 +339,8 @@ function buildProfile(birthDate, birthTime, gender) {
     zodiacEn: ZODIAC_EN[chart.zodiacIdx],
     mansionIdx: chart.mansionIdx,
     mansion: MANSIONS[chart.mansionIdx],
+    mansionConf: chart.mansionConf,
+    mansionExact: chart.mansionExact,
     hasHour: chart.hasHour,
     hourBranchIdx: chart.hourBranchIdx
   };
@@ -353,7 +455,12 @@ function scorePlayer(u, p, config) {
   const M = config.model;
   const core = coreBaziScore(u, p, M.coreBazi);
   const zod = zodiacScore(u, p, M.zodiac);
-  const man = mansionScore(u, p, M.starMansion);
+  const manRaw = mansionScore(u, p, M.starMansion);
+  // Mansion is a resonance/texture layer. When either side's mansion is
+  // uncertain (birth time unknown, Moon near a boundary), blend its score
+  // toward neutral by the combined confidence — never fabricate a strong signal.
+  const mConf = Math.min(u.mansionConf ?? 1, p.mansionConf ?? 1);
+  const man = { score: 0.5 + mConf * (manRaw.score - 0.5), rel: manRaw.rel, conf: mConf };
 
   let wCore = M.layers.coreBazi, wZod = M.layers.zodiac, wMan = M.layers.starMansion, wHour = M.layers.birthHour;
   let hour = null;
@@ -438,33 +545,46 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data) {
 
 function localNarrative(profile, selectedGames, gamesMeta) {
   const el = profile.element;
-  const gameNames = selectedGames.map(id => (gamesMeta.find(g => g.id === id) || {}).name).filter(Boolean);
   const mansion = profile.mansion;
   const flavor = MANSION_FLAVOR[mansion.cn] || 'a rare and singular star-signature';
+  const lowConf = (profile.mansionConf ?? 1) < 0.34;
 
+  // 1) short metaphysical identity + personality style
   const summary =
-    `You are a ${profile.stemArchetype} (${el.cn}${el.emoji} day-master), born in the year of the ${profile.zodiacChar} ${profile.zodiacEn}, marked by ${mansion.cn}宿 — ${flavor}.`;
+    `You're a ${profile.stemArchetype} — ${personalityStyle(profile.elementIdx)}. ` +
+    `Year of the ${profile.zodiacChar} ${profile.zodiacEn}, under the ${mansion.cn}宿 mansion.`;
 
-  const watch =
-    `Your ${el.cn} nature draws you to ${gameNames.length ? gameNames.join(' / ') : 'the arena'}. ` +
-    `You're happiest watching ${styleForElement(profile.elementIdx)} — series where ${mansion.palace} energy decides the game.`;
+  // 2) concise zodiac compatibility note
+  const zodiacNote =
+    `As a ${profile.zodiacEn}, you click with charts in 六合/三合 harmony and strike sparks with 六冲/刑/害/破 — ` +
+    `that mix decides who rises up your list.`;
 
+  // 3) concise star-mansion note (Moon-based; flags low confidence honestly)
+  const mansionNote =
+    `Moon-read at ${mansion.cn}宿 (${mansion.palace}) — ${flavor}.` +
+    (lowConf ? ' Birth time unknown, so this is an approximate reading and counts lightly.' : '');
+
+  // 4) why the user matches this profile
   const why =
-    `Compatibility is read as a lightweight BaZi chart. The ranking weighs your ${profile.stemChar}${el.cn} day-master and six-character elements most (55%), ` +
-    `then your ${profile.zodiacEn} zodiac ties — 六合/三合 lift, 六冲/刑/害/破 add spark (20%) — ` +
-    `then ${mansion.cn}宿 lunar-mansion resonance (15%); a birth-hour layer (10%) refines only when both hours are known. ` +
-    `The players below rank highest because their charts ${relationHint(profile.elementIdx)} yours across those layers.`;
+    `Ranking is a light BaZi read: your ${profile.stemChar}${el.cn} day-master & elements (55%), zodiac ties (20%), ` +
+    `star-mansion resonance (15%) and birth-hour (10%, shared out when unknown). ` +
+    `The players below ${relationHint(profile.elementIdx)} your ${el.en} temperament most.`;
 
-  return { archetypeTitle: profile.stemArchetype, mansionTitle: `${mansion.cn}宿型`, zodiacTitle: `${profile.zodiacChar}${profile.zodiacEn}`, summary, watch, why };
+  return {
+    archetypeTitle: profile.stemArchetype,
+    mansionTitle: `${mansion.cn}宿型`,
+    zodiacTitle: `${profile.zodiacChar}${profile.zodiacEn}`,
+    summary, zodiacNote, mansionNote, why
+  };
 }
 
-function styleForElement(e) {
+function personalityStyle(e) {
   return [
-    'patient macro games that snowball from a single opening',   // wood
-    'explosive, high-tempo firefights and aggressive dives',      // fire
-    'grinding, attrition-heavy series won on discipline',         // earth
-    'clean, mechanical, pixel-perfect duels',                     // metal
-    'fluid, unpredictable games full of flanks and comebacks'     // water
+    'a patient, growth-minded strategist who compounds small edges',  // wood
+    'an explosive, expressive playmaker who lives for the highlight',  // fire
+    'a grounded, unshakeable anchor who wins on discipline',           // earth
+    'a sharp, precise perfectionist who punishes every mistake',       // metal
+    'a fluid, adaptive reader who flows around any problem'            // water
   ][e];
 }
 function relationHint(e) {
@@ -487,9 +607,9 @@ async function polishWithOpenAI(narrative, ranked, profile) {
   const prompt =
     `You are a playful, mystical esports fortune writer. Do NOT change any numbers, names, or rankings.\n` +
     `Rewrite ONLY the wording to be elegant, mystical and shareable. Return strict JSON with keys ` +
-    `archetypeTitle, mansionTitle, summary, watch, why.\n\n` +
+    `archetypeTitle, mansionTitle, summary, zodiacNote, mansionNote, why.\n\n` +
     `Archetype: ${narrative.archetypeTitle}\nMansion: ${narrative.mansionTitle}\n` +
-    `summary: ${narrative.summary}\nwatch: ${narrative.watch}\nwhy: ${narrative.why}\n\n` +
+    `summary: ${narrative.summary}\nzodiacNote: ${narrative.zodiacNote}\nmansionNote: ${narrative.mansionNote}\nwhy: ${narrative.why}\n\n` +
     `Top matches for tone reference (do not alter):\n${topReasons}`;
 
   try {
@@ -515,7 +635,8 @@ async function polishWithOpenAI(narrative, ranked, profile) {
       archetypeTitle: parsed.archetypeTitle || narrative.archetypeTitle,
       mansionTitle: parsed.mansionTitle || narrative.mansionTitle,
       summary: parsed.summary || narrative.summary,
-      watch: parsed.watch || narrative.watch,
+      zodiacNote: parsed.zodiacNote || narrative.zodiacNote,
+      mansionNote: parsed.mansionNote || narrative.mansionNote,
       why: parsed.why || narrative.why
     };
   } catch (err) {
@@ -639,7 +760,8 @@ function renderResult(narrative, result) {
   $('#mansionSub').textContent = `${profile.mansion.palace} · ${profile.mansion.dir}`;
 
   $('#summaryText').textContent = narrative.summary;
-  $('#watchText').textContent = narrative.watch;
+  $('#zodiacText').textContent = narrative.zodiacNote;
+  $('#mansionNoteText').textContent = narrative.mansionNote;
   $('#whyText').textContent = narrative.why;
 
   // Ranked players
