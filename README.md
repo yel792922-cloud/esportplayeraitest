@@ -89,31 +89,36 @@ info, then ranks players against it across four independent layers
    (生克 generation/control), five-element balance, and 天干五合.
 2. **Chinese Zodiac — 20%.** Year branch with **Li Chun** as the year boundary;
    六合 · 三合 · 六冲 · 相刑 · 相害 · 相破.
-3. **Twenty-Eight Mansions — 15%.** A traditional **二十八宿 (月宿) almanac** layer —
-   the mansion the **Moon lodges in** at your birth moment, found with a classical
-   mean-motion + 迟疾 (equation-of-centre) lunar rule, divided by the traditional
-   距度 widths and anchored to a reference almanac (calibrated so 2005-06-01 19:30
-   → 娄宿 and 2005-08-01 06:30 → 井宿). Not a modern observatory reduction and not a
-   calendar-day bucket.
+3. **Twenty-Eight Mansions — 15%.** The traditional **二十八宿值日 (day-on-duty)**
+   almanac layer — the mansion *on duty* for your **birth-place local date**. It is
+   a single, consistent Chinese calendrical method: the 28 mansions cycle one per
+   day in the classical order (角亢氐房心尾箕 · 斗牛女虚危室壁 · 奎娄胃昴毕觜参 ·
+   井鬼柳星张翼轸), read as `mansionIdx = (JDN + 1) mod 28` and calibrated to a
+   verified sample — **2000-03-01 → 虚宿**. It is a **pure day count**: no Moon
+   longitude, no observatory reduction, no fitted astronomy. The Chinese day turns
+   at **子時 (23:00)**, so a known birth time in 23:00–24:00 rolls onto the next
+   day's mansion. See `tests/mansion.test.mjs` for the regression cases.
 4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
    hour; otherwise its weight is redistributed across the first three layers
    (never a penalty).
 
-The layers are computed separately and do not interfere with each other.
+The layers are computed separately and do not interfere with each other — the
+mansion layer is a pure date→mansion table, independent of the Five Elements,
+Day Pillar and Zodiac.
 
 **Time handling.** The metaphysical time basis is your **birth place's local
-civil time** — never your device's time zone, and never UTC (UTC is used only
-as an internal step to place the Moon). Pick your birth-place time zone in the
-form; for Mainland-China births the default is **UTC+8 (Beijing Time)**. Birth
-time is strongly recommended and a birth-place time zone is required for a
-high-confidence star mansion — if either is missing the mansion is marked
-low-confidence or **unresolved** rather than pretending to be exact (an explicit
-“approximate (noon)” mode and an optional **true-solar-time** correction are
-available). Scores map onto the configured band (default **60–99%**); the
+civil time** — never your device's time zone. Enter your **birth place** (city /
+region) and pick your birth-place **time zone**; for Mainland-China births the
+default is **UTC+8 (Beijing Time)** — a *default*, not a hidden assumption. Birth
+time and time zone pin the exact 值日 day (they resolve the 子時 boundary); if
+either is missing the mansion is marked **low-confidence** rather than pretending
+to be exact — but it is never a fabricated noon guess, since it follows the real
+birth **date**. An optional **true-solar-time** correction refines the birth-hour
+pillar only. Scores map onto the configured band (default **60–99%**); the
 **top 10** are shown.
 
-> Note: nationality/gender are never scoring factors; the astronomy and anchors
-> are tuned for a stable, entertainment-first experience, not observatory BaZi.
+> Note: nationality/gender are never scoring factors; the anchors are tuned for a
+> stable, entertainment-first experience, not observatory BaZi.
 
 ### Tuning it
 
@@ -171,6 +176,33 @@ any missing/inconsistent fields to the browser console.
 > public birth data is sparse) should be double-checked and corrected. Because
 > the tool is entertainment-only, approximate dates still produce a fun,
 > deterministic result — but PRs correcting them are welcome.
+
+### Suggest a player (contribution flow)
+
+The app has a **“＋ Suggest a player”** button (on the result card and in the
+footer). It opens a compact, bilingual form — name, game, role, birth date/time,
+competition region, source link, note. On submit the entry is **sanitized**
+(angle brackets stripped, single-lined, length-capped) and **validated** (name,
+game and a source are required; any birth date must be `YYYY-MM-DD`), then:
+
+1. saved to a **local pending queue** (`localStorage['edm_submissions']`), and
+2. routed for review — either by opening a **prefilled GitHub Issue** (label
+   `player-submission`, see `.github/ISSUE_TEMPLATE/player_submission.yml`) or
+   **copied as JSON** for a manual PR.
+
+**Unverified submissions never touch `data/players.json`.** They land in the
+review queue (`data/submissions.json` documents the schema and holds accepted-
+but-not-yet-merged entries during triage). A maintainer verifies the birth date
+against a public source, enforces the neutral schema (competition region only —
+no nationality/flags, approved tags, `birthTime: null` unless known), and only
+then hand-merges the record. The form is structured so it can later POST to an
+API endpoint unchanged if a backend is added.
+
+### Tests
+
+`node tests/mansion.test.mjs` runs the Twenty-Eight Mansions regression suite
+(including **2000-03-01 13:30 UTC+8 → 虚宿**, the 子時 day-roll, and the
+one-mansion-per-day rotation).
 
 To add a game, add an entry to `data/games.json` and give its players
 `"game": "<id>"`.

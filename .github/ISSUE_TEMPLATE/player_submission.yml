@@ -1,0 +1,70 @@
+name: Player submission
+description: Suggest a missing player or a correction for the Esports Destiny Match database.
+title: "[player-submission] <player name>"
+labels: ["player-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing! Submissions are **reviewed manually** before any change to
+        `data/players.json`. Please cite a public source (official / Liquipedia / local-language).
+        **Neutral policy:** no flags or nationalities — use a competition region only.
+  - type: input
+    id: name
+    attributes:
+      label: Player name / handle
+      placeholder: e.g. Faker
+    validations:
+      required: true
+  - type: dropdown
+    id: game
+    attributes:
+      label: Game
+      options:
+        - League of Legends (lol)
+        - VALORANT (valorant)
+        - Counter-Strike 2 (cs2)
+        - Dota 2 (dota2)
+        - Honor of Kings (hok)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: role
+    attributes:
+      label: Role / position
+      placeholder: e.g. Mid, Duelist, AWPer
+  - type: input
+    id: birth_date
+    attributes:
+      label: Birth date (YYYY-MM-DD)
+      placeholder: e.g. 1996-05-07
+  - type: input
+    id: birth_time
+    attributes:
+      label: Birth time (HH:MM, if known)
+      placeholder: leave blank if unknown
+  - type: input
+    id: region
+    attributes:
+      label: Competition region
+      placeholder: e.g. LCK, VCT Pacific, Europe
+  - type: input
+    id: source
+    attributes:
+      label: Source link or reference
+      placeholder: https://liquipedia.net/...
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: Note
+      placeholder: Anything else a reviewer should know.
+  - type: checkboxes
+    id: policy
+    attributes:
+      label: Confirmation
+      options:
+        - label: This is from a public source and contains no nationality/flag data.
+          required: true

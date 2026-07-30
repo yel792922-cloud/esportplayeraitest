@@ -59,6 +59,11 @@
           </div>
 
           <label class="field">
+            <span class="field__label" data-i18n-html="form.birthPlace">Birth place <em>(city / region — for time-zone context)</em></span>
+            <input type="text" id="birthPlace" name="birthPlace" autocomplete="off" data-i18n-ph="form.birthPlacePh" placeholder="e.g. Shanghai, Seoul, Berlin">
+          </label>
+
+          <label class="field">
             <span class="field__label" data-i18n-html="form.tz">Birth-place time zone <em>(for an accurate star mansion)</em></span>
             <select id="birthTz" name="birthTz">
               <option value="" data-i18n="tz.sel">— Select your birth-place time zone —</option>
@@ -186,6 +191,7 @@
         <div class="share-actions">
           <button id="copyBtn" class="btn btn--primary" data-i18n="share.copy">📋 Copy result</button>
           <button id="againBtn" class="btn btn--ghost" data-i18n="share.again">↺ Try again</button>
+          <button id="suggestBtn" type="button" class="btn btn--ghost" data-i18n="submit.open">＋ Suggest a player</button>
         </div>
         <p class="share-hint" data-i18n="share.hint">Tip: screenshot the card above for a clean share image.</p>
       </div>
@@ -194,7 +200,74 @@
 
   <footer class="site-footer">
     <p data-i18n="footer.text">Esports Destiny Match — a static, front-end fortune toy. Symbolic East Asian metaphysics used purely for entertainment.</p>
+    <button id="suggestBtnFoot" type="button" class="btn btn--ghost btn--sm" data-i18n="submit.open">＋ Suggest a player</button>
   </footer>
+
+  <!-- ============ SUBMIT-A-PLAYER MODAL ============ -->
+  <dialog id="submitDialog" class="submit-dialog">
+    <form id="submitForm" class="submit-form" method="dialog" novalidate>
+      <div class="submit-form__head">
+        <h2 class="submit-form__title" data-i18n="submit.title">Suggest a missing player</h2>
+        <button type="button" id="submitClose" class="submit-form__close" aria-label="Close">✕</button>
+      </div>
+      <p class="submit-form__intro" data-i18n="submit.intro">Spotted a pro we're missing? Send it to our review queue.</p>
+
+      <label class="field">
+        <span class="field__label" data-i18n="submit.name">Player name *</span>
+        <input type="text" id="sfName" maxlength="60" autocomplete="off" required>
+      </label>
+
+      <div class="field-grid">
+        <label class="field">
+          <span class="field__label" data-i18n="submit.game">Game *</span>
+          <select id="sfGame" required>
+            <option value="" data-i18n="submit.gamePick">— Select a game —</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label" data-i18n="submit.role">Role / position</span>
+          <input type="text" id="sfRole" maxlength="40" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="field-grid">
+        <label class="field">
+          <span class="field__label" data-i18n="submit.birthDate">Birth date</span>
+          <input type="date" id="sfDate">
+        </label>
+        <label class="field">
+          <span class="field__label" data-i18n="submit.birthTime">Birth time (if known)</span>
+          <input type="time" id="sfTime">
+        </label>
+      </div>
+
+      <label class="field">
+        <span class="field__label" data-i18n="submit.region">Competition region</span>
+        <input type="text" id="sfRegion" maxlength="40" autocomplete="off">
+      </label>
+
+      <label class="field">
+        <span class="field__label" data-i18n="submit.source">Source link or reference *</span>
+        <input type="text" id="sfSource" maxlength="300" autocomplete="off" required>
+      </label>
+
+      <label class="field">
+        <span class="field__label" data-i18n="submit.note">Short note</span>
+        <textarea id="sfNote" rows="2" maxlength="500"></textarea>
+      </label>
+
+      <p id="sfError" class="form-error" role="alert"></p>
+      <p id="sfDone" class="submit-form__done" hidden></p>
+
+      <div class="submit-form__actions">
+        <button type="submit" id="sfSend" class="btn btn--primary" data-i18n="submit.send">Send to review queue</button>
+        <a id="sfGh" class="btn btn--ghost" target="_blank" rel="noopener" hidden data-i18n="submit.gh">Open a GitHub issue ↗</a>
+        <button type="button" id="sfCopy" class="btn btn--ghost" hidden data-i18n="submit.copy">📋 Copy as JSON</button>
+        <button type="button" id="sfCancel" class="btn btn--ghost" data-i18n="submit.cancel">Cancel</button>
+      </div>
+      <p class="submit-form__note" data-i18n="submit.disclaimer">Reviewed manually before any database change.</p>
+    </form>
+  </dialog>
 
   <script src="i18n.js"></script>
   <script src="app.js"></script>

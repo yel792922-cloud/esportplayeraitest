@@ -1,0 +1,16 @@
+{
+  "note": "Review queue for user-suggested players. Entries here are PENDING and are NOT loaded by the app. A maintainer validates each one (verify birth date via a public/Liquipedia source, enforce the neutral schema — competition_region only, no nationality/flags, approved tags, birthTime null unless known) and then hand-merges accepted records into data/players.json. In-app submissions arrive as GitHub issues labelled 'player-submission' (or as copied JSON); paste accepted ones below during triage.",
+  "schema": {
+    "name": "string (required)",
+    "game": "lol | valorant | cs2 | dota2 | hok",
+    "role": "string",
+    "birthDate": "YYYY-MM-DD | null",
+    "birthTime": "HH:MM | null",
+    "competition_region": "string (no nationality/flags)",
+    "source": "string (required)",
+    "note": "string",
+    "submittedAt": "ISO-8601",
+    "status": "pending | accepted | rejected"
+  },
+  "submissions": []
+}

@@ -143,71 +143,28 @@ const SELF_PUNISH = new Set([4, 6, 9, 11]);
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 /* ---------------------------------------------------------------------
- * 0b. Twenty-Eight Mansions 二十八宿 — TRADITIONAL 月宿 almanac layer
+ * 0b. Twenty-Eight Mansions 二十八宿 — TRADITIONAL 值日 (day-on-duty) almanac
  *
- * A Chinese-almanac-style layer: the mansion is the one the Moon *lodges in*
- * (月宿 / 月离二十八宿) at the birth moment. It is read with a traditional
- * mean-motion + 迟疾 (equation-of-centre) lunar rule and divided by the classical
- * 距度 widths of the 28 mansions, anchored to a traditional reference almanac
- * (calibrated so 2005-06-01 19:30 → 娄宿 and 2005-08-01 06:30 → 井宿). It is NOT a
- * modern observatory reduction and NOT a fixed calendar-day bucket. It is
- * computed entirely separately from the day pillar, Five Elements and Zodiac —
- * a symbolic resonance layer, never a correction to the others. The birth moment
- * is birth-PLACE local civil time; when time or time zone is incomplete the
- * mansion is marked low-confidence or unresolved (never faked exact).
+ * ONE traditional Chinese calendrical school only: the 二十八宿值日 (值宿) daily
+ * rotation used by the almanac (通書/黃曆). Each civil day is assigned the next of
+ * the 28 mansions in the fixed classical order (角亢氐房心尾箕 · 斗牛女虚危室壁 ·
+ * 奎娄胃昴毕觜参 · 井鬼柳星张翼轸), cycling every 28 days. It is a pure day count —
+ * NOT the Moon's ecliptic longitude, NOT a modern observatory reduction, and NOT a
+ * fitted astronomy model. All moon-longitude / 距度-width logic has been removed.
+ *
+ * The mansion depends only on the birth-PLACE LOCAL civil date. The Chinese day
+ * begins at 子時 (23:00), so a birth in 23:00–24:00 (when the time is known) rolls
+ * onto the next day's mansion. Time and time zone therefore matter only to pin the
+ * correct local day and the 子時 boundary — never the Five Elements, Day Pillar or
+ * Zodiac, which are computed entirely separately.
+ *
+ * Anchor: calibrated to a verified almanac sample — 2000-03-01 → 虚宿 — via
+ * mansionIdx = (JDN + MANSION_DAY_OFFSET) mod 28 over the standard MANSIONS order.
  * ------------------------------------------------------------------- */
 
-// Classic determinative-star widths 距度 of the 28 mansions (角..轸), in the
-// 365.25-degree system; normalized below to a 360 ecliptic. Order matches MANSIONS.
-const XIU_WIDTHS = [
-  12, 9, 15, 5, 5, 18, 11.25,      // 角亢氐房心尾箕 (East)
-  26.25, 8, 12, 10, 17, 16, 9,     // 斗牛女虚危室壁 (North)
-  16, 12, 14, 11, 16, 2, 9,        // 奎娄胃昴毕觜参 (West)
-  33, 4, 15, 7, 18, 18, 17         // 井鬼柳星张翼轸 (South)
-];
-const XIU_BOUND = (() => {
-  const total = XIU_WIDTHS.reduce((a, b) => a + b, 0);
-  let acc = 0; const b = [0];
-  for (const w of XIU_WIDTHS) { acc += w; b.push(acc * 360 / total); }
-  return b; // length 29, b[28] === 360
-})();
-
-// True Julian Day for a moment (UT hours). Independent of the day-pillar math.
-function julianDay(y, m, d, hourUT) {
-  let Y = y, M = m;
-  if (M <= 2) { Y -= 1; M += 12; }
-  const A = Math.floor(Y / 100);
-  const B = 2 - A + Math.floor(A / 4);
-  return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + B - 1524.5 + hourUT / 24;
-}
-
-// Anchor of the mansion sequence (deg), calibrated to a traditional reference
-// almanac (NOT a star such as Spica) so 2005-06-01 19:30 (UTC+8) lodges in 娄宿
-// and 2005-08-01 06:30 in 井宿.
-const MANSION_ANCHOR = 173.685;
-
-// Traditional 月离 longitude of the Moon (degrees): mean motion (平行) plus the
-// primary 迟疾 term (equation of centre) — the classical two-part lunar rule used
-// by the old almanacs, not a modern multi-term reduction. This is precise enough
-// to place the Moon among the ~13-degree-wide mansions.
-function lunarLodgeLongitude(jd) {
-  const T = (jd - 2451545.0) / 36525.0;
-  const norm = (x) => ((x % 360) + 360) % 360;
-  const Lp = 218.3164477 + 481267.88123421 * T - 0.0015786 * T * T; // mean longitude 平行
-  const Mp = 134.9633964 + 477198.8675055 * T + 0.0087414 * T * T;  // mean anomaly
-  return norm(Lp + 6.289 * Math.sin(norm(Mp) * Math.PI / 180));      // + 迟疾 correction
-}
-
-// Map a 月离 longitude to one of the 28 mansions by the classical 距度 widths.
-function mansionByWidth(lon) {
-  const rel = (((lon - MANSION_ANCHOR) % 360) + 360) % 360;
-  for (let i = 0; i < 28; i++) {
-    if (rel >= XIU_BOUND[i] && rel < XIU_BOUND[i + 1]) {
-      return { idx: i, edge: Math.min(rel - XIU_BOUND[i], XIU_BOUND[i + 1] - rel) };
-    }
-  }
-  return { idx: 27, edge: 0 };
-}
+// Day-count offset so the 值日 rotation matches the verified sample
+// 2000-03-01 (JDN 2451605) → 虚宿 (index 10 in MANSIONS). See the regression test.
+const MANSION_DAY_OFFSET = 1;
 
 // Default metaphysical time zone when the birth place is not given: UTC+8
 // (Beijing Time), the standard baseline for Mainland-China BaZi practice.
@@ -224,37 +181,47 @@ function equationOfTimeHours(y, m, d) {
   return (9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)) / 60;
 }
 
-// The traditional 月宿 (mansion the Moon lodges in). USER-FACING rule: the birth
-// hour is birth-PLACE local civil time; internally we convert to UTC only as a
-// calculation step for the lunar rule. Confidence degrades honestly when the
-// birth time or birth-place time zone is missing — it never pretends exact.
+// Traditional 值日 mansion (二十八宿逐日值宿). The mansion is fixed by the
+// birth-PLACE LOCAL civil DATE; the Chinese day starts at 子時 (23:00), so a known
+// birth time in 23:00–24:00 rolls to the next day's mansion. This is a pure day
+// count — no Moon longitude, no astronomy. Confidence degrades honestly when the
+// birth time / birth-place time zone is missing (the exact day near the 子時
+// boundary then can't be pinned), but it never fabricates a value: the date is
+// real input, so the layer is always at least low-confidence, never a noon guess.
 //   ctx: { localHour (fractional)|null, tzOffset (hours)|null, approx, playerBaseline, baselineConf }
 function computeMansion(y, m, d, ctx) {
   const hasTime = typeof ctx.localHour === 'number' && !Number.isNaN(ctx.localHour);
   const tzKnown = typeof ctx.tzOffset === 'number' && !Number.isNaN(ctx.tzOffset);
 
-  // Local basis hour: real birth time; else noon (only for approximate mode or
-  // the date-only player baseline); otherwise it is left unresolved.
-  const resolved = hasTime || !!ctx.approx || !!ctx.playerBaseline;
-  const basisHour = hasTime ? ctx.localHour : 12;
+  // Day-on-duty over the local civil date, with the 子時 (23:00) day boundary.
+  let jdn = julianDayNumber(y, m, d);
+  const rolled = hasTime && ctx.localHour >= 23;      // late 子時 belongs to the next day
+  if (rolled) jdn += 1;
+  const idx = ((jdn + MANSION_DAY_OFFSET) % 28 + 28) % 28;
 
-  // Birth-place local civil time -> UTC (internal calculation step only).
-  const effTz = tzKnown ? ctx.tzOffset : DEFAULT_TZ_OFFSET;
-  const lodgeLon = lunarLodgeLongitude(julianDay(y, m, d, basisHour - effTz));
-  const sec = mansionByWidth(lodgeLon);
-
+  // The date always yields a mansion, so the layer is never "unresolved"; but the
+  // 子時 boundary + the local date itself depend on birth time and birth-place time
+  // zone, so confidence is honest about how firmly the day is pinned.
   let confidence;
   if (ctx.playerBaseline) {
-    confidence = clamp01(ctx.baselineConf ?? 0.7); // date-only reference baseline
-  } else if (!resolved) {
-    confidence = 0;                                 // unresolved — no time, no approx mode
+    confidence = clamp01(ctx.baselineConf ?? 0.7);    // date-only reference baseline
+  } else if (hasTime && tzKnown) {
+    confidence = 1.0;                                 // exact local day + 子時 boundary
+  } else if (hasTime && !tzKnown) {
+    confidence = 0.75;                                // boundary applied, local date unconfirmed
+  } else if (tzKnown) {
+    confidence = 0.55;                                // day known, but 子時 boundary can't be checked
+  } else if (ctx.approx) {
+    confidence = 0.4;                                 // explicit approximate mode
   } else {
-    // Uncertainty window (deg of lunar motion): tight with time+zone, wide otherwise.
-    const win = hasTime ? (tzKnown ? 1.0 : 8.0) : (tzKnown ? 6.6 : 9.0);
-    confidence = clamp01(sec.edge / win);
+    confidence = 0.45;                                // date only
   }
 
-  return { idx: sec.idx, lodgeLon, confidence, resolved, hasTime, tzKnown, approx: !!ctx.approx, exact: hasTime && tzKnown };
+  return {
+    idx, confidence,
+    resolved: true, hasTime, tzKnown, approx: !!ctx.approx,
+    exact: hasTime && tzKnown, rolled
+  };
 }
 
 /* ---------------------------------------------------------------------
@@ -338,7 +305,7 @@ function computeChart(y, m, d, ctx) {
     mansionHasTime: mansion.hasTime,
     mansionTzKnown: mansion.tzKnown,
     mansionApprox: mansion.approx,
-    lodgeLon: mansion.lodgeLon,
+    mansionRolled: mansion.rolled,
     hasHour: hourBranchIdx !== null,
     hourBranchIdx,
     hourStemIdx
@@ -708,18 +675,14 @@ function viewerLensGod(profile) {
   return tenGod(self, dom);
 }
 
-// Confidence-aware, bilingual star-mansion clause.
+// Confidence-aware, bilingual star-mansion clause. The 值日 mansion is fixed by
+// the local civil date; the caveat is only about pinning that date and the 子時
+// boundary when birth time / time zone are missing — never a fabricated value.
 function mansionClause(profile) {
-  const cn = profile.mansion.cn;
-  if (!profile.mansionResolved) {
-    return CURRENT_LANG === 'zh'
-      ? `（月宿未定：传统历法需要你的出生时间与出生地时区。此处的 ${cn}宿 仅按正午估算，权重从轻。）`
-      : `(Mansion unresolved — the almanac needs your birth time and birth-place time zone; ${cn}宿 is a noon estimate here and weighs lightly.)`;
-  }
   if (profile.mansionExact) return '';
   return CURRENT_LANG === 'zh'
-    ? `（近似——补全出生时间与时区可得到精确月宿。）`
-    : `(Approximate — add your birth time and time zone for an exact mansion.)`;
+    ? `（低置信度——值日星宿按出生日期定，但子时（23:00）换日的边界需要出生时间与出生地时区来确认。）`
+    : `(Low confidence — the day-on-duty mansion follows your birth date, but the 子時 (23:00) day-change boundary needs your birth time and birth-place time zone to confirm.)`;
 }
 
 function buildReading(profile, ranked) {
@@ -945,6 +908,7 @@ function applyI18n() {
   document.documentElement.lang = CURRENT_LANG;
   $$('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
   $$('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+  $$('[data-i18n-ph]').forEach(el => { el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph'))); });
   $$('.lang-btn').forEach(b => b.classList.toggle('is-active', b.dataset.lang === CURRENT_LANG));
 }
 
@@ -1179,7 +1143,8 @@ async function onSubmit(e) {
 
     // Save last result
     try {
-      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar }));
+      const birthPlace = (($('#birthPlace') || {}).value || '').trim();
+      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar, birthPlace }));
     } catch (_) {}
 
     // Fire-and-refresh optional polish
@@ -1245,6 +1210,7 @@ function restoreLast() {
     if (!saved) return;
     if (saved.birthDate) $('#birthDate').value = saved.birthDate;
     if (saved.birthTime) $('#birthTime').value = saved.birthTime;
+    if (saved.birthPlace && $('#birthPlace')) $('#birthPlace').value = saved.birthPlace;
     if (saved.gender) { const g = $(`input[name="gender"][value="${saved.gender}"]`); if (g) g.checked = true; }
     if (saved.tz != null && $('#birthTz')) $('#birthTz').value = saved.tz;
     if (saved.approx && $('#approxTime')) $('#approxTime').checked = true;
@@ -1256,6 +1222,140 @@ function restoreLast() {
   } catch (_) {}
 }
 
+/* ---------------------------------------------------------------------
+ * 9b. Submit-a-player contribution flow (static, review-queue based)
+ *
+ * Nothing here ever writes players.json. A submission is: (1) sanitized and
+ * validated, (2) appended to a local pending queue (localStorage), and (3)
+ * routed for review — either by opening a prefilled GitHub Issue (the intake
+ * for the moderation workflow) or copied as JSON for a manual PR into
+ * data/submissions.json. Unverified data never reaches the live database.
+ * ------------------------------------------------------------------- */
+const SUBMIT_REPO = 'yel792922-cloud/esportplayeraitest';
+
+// Strip anything that could break out of text/markdown; collapse whitespace.
+function sanitizeField(v, max) {
+  return String(v == null ? '' : v)
+    .replace(/[<>]/g, '')          // no angle brackets (HTML/markdown safety)
+    .replace(/[\r\n]+/g, ' ')       // single-line
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, max || 300);
+}
+
+function collectSubmission() {
+  const gamePick = ($('#sfGame') || {}).value || '';
+  const gameMeta = (DATA && DATA.games.find(g => g.id === gamePick)) || null;
+  const dateRaw = (($('#sfDate') || {}).value || '').trim();
+  return {
+    name: sanitizeField(($('#sfName') || {}).value, 60),
+    game: gamePick,
+    gameName: gameMeta ? gameMeta.name : gamePick,
+    role: sanitizeField(($('#sfRole') || {}).value, 40),
+    birthDate: dateRaw,
+    birthTime: (($('#sfTime') || {}).value || '').trim(),
+    competition_region: sanitizeField(($('#sfRegion') || {}).value, 40),
+    source: sanitizeField(($('#sfSource') || {}).value, 300),
+    note: sanitizeField(($('#sfNote') || {}).value, 500),
+    submittedAt: new Date().toISOString(),
+    status: 'pending'
+  };
+}
+
+function validateSubmission(s) {
+  if (!s.name) return t('submit.errName');
+  if (!s.game) return t('submit.errGame');
+  if (!s.source) return t('submit.errSource');
+  if (s.birthDate && !/^\d{4}-\d{2}-\d{2}$/.test(s.birthDate)) return t('submit.errDate');
+  if (s.birthDate && Number.isNaN(new Date(s.birthDate + 'T00:00:00').getTime())) return t('submit.errDate');
+  return null;
+}
+
+function githubIssueUrl(s) {
+  const title = `[player-submission] ${s.name} (${s.gameName})`;
+  const body =
+    `### Player submission\n\n` +
+    `- **Name:** ${s.name}\n` +
+    `- **Game:** ${s.gameName} (\`${s.game}\`)\n` +
+    `- **Role:** ${s.role || '—'}\n` +
+    `- **Birth date:** ${s.birthDate || '—'}\n` +
+    `- **Birth time:** ${s.birthTime || '—'}\n` +
+    `- **Competition region:** ${s.competition_region || '—'}\n` +
+    `- **Source:** ${s.source}\n` +
+    `- **Note:** ${s.note || '—'}\n\n` +
+    `\`\`\`json\n${JSON.stringify(s, null, 2)}\n\`\`\`\n\n` +
+    `_Submitted via the in-app "Suggest a player" form. Review before merging into data/players.json._`;
+  return `https://github.com/${SUBMIT_REPO}/issues/new?labels=player-submission&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+}
+
+function saveSubmissionLocally(s) {
+  try {
+    const key = 'edm_submissions';
+    const list = JSON.parse(localStorage.getItem(key) || '[]');
+    list.push(s);
+    localStorage.setItem(key, JSON.stringify(list.slice(-50)));
+  } catch (_) {}
+}
+
+function wireSubmitFeature() {
+  const dlg = $('#submitDialog');
+  if (!dlg || !dlg.showModal) return; // <dialog> unsupported → feature simply absent
+
+  // Populate the game select from the live games list.
+  const sel = $('#sfGame');
+  if (sel) {
+    DATA.games.filter(g => g.enabled).forEach(g => {
+      const o = document.createElement('option');
+      o.value = g.id;
+      o.textContent = g.name;
+      o.setAttribute('data-i18n', `game.${g.id}`);
+      sel.appendChild(o);
+    });
+  }
+
+  const open = () => {
+    $('#submitForm').reset();
+    $('#sfError').textContent = '';
+    $('#sfDone').hidden = true;
+    $('#sfGh').hidden = true;
+    $('#sfCopy').hidden = true;
+    pending = null;
+    applyI18n();
+    dlg.showModal();
+  };
+  const close = () => dlg.close();
+  ['#suggestBtn', '#suggestBtnFoot'].forEach(id => { const b = $(id); if (b) b.addEventListener('click', open); });
+  $('#submitClose').addEventListener('click', close);
+  $('#sfCancel').addEventListener('click', close);
+  dlg.addEventListener('click', e => { if (e.target === dlg) close(); }); // backdrop click
+
+  let pending = null;
+  $('#submitForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const s = collectSubmission();
+    const errMsg = validateSubmission(s);
+    const err = $('#sfError');
+    if (errMsg) { err.textContent = errMsg; return; }
+    err.textContent = '';
+    pending = s;
+    saveSubmissionLocally(s);                 // local pending queue
+    $('#sfGh').setAttribute('href', githubIssueUrl(s));
+    $('#sfGh').hidden = false;
+    $('#sfCopy').hidden = false;
+    const done = $('#sfDone');
+    done.textContent = t('submit.done');
+    done.hidden = false;
+  });
+
+  $('#sfCopy').addEventListener('click', async () => {
+    if (!pending) return;
+    const json = JSON.stringify(pending, null, 2);
+    try { await navigator.clipboard.writeText(json); }
+    catch (_) { /* ignore */ }
+    flash($('#sfCopy'), t('submit.copied'));
+  });
+}
+
 async function init() {
   try {
     // Language first, so the very first paint is localized. Default: Chinese.
@@ -1265,6 +1365,7 @@ async function init() {
     DATA = await loadData();
     initGameCheckboxes(DATA.games);
     wireStaticButtons();
+    wireSubmitFeature();
     $('#matchForm').addEventListener('submit', onSubmit);
     restoreLast();
     if (DATA.validationIssues.length) {
