@@ -100,13 +100,19 @@ info, then ranks players against it across four independent layers
    `ryutabi/shin_astrology`. Externally validated (98/98 reference parity + the
    爱占星 anchor 2000-03-01 → 虚宿 + a dozen documented celebrity 本命宿) — see
    **`VALIDATION.md`** and `tests/mansion.test.mjs`.
-   The star layer is a **relationship (星宿关系)**, not just a label: the two natal
-   mansions map — by their cyclic distance in the 27-宿 wheel — to a category
-   (命之星 / 近·中·远 荣亲·友衰·安坏·危成 / 业胎) from `data/star_relations.json`,
-   the **single source of truth** transcribed verbatim from the 星宿关系自查表. That
-   category is a **supporting resonance modifier**; the visible card shows one
-   concise 星宿关系 line and the full breakdown lives in the result's collapsible
-   **计算说明** section.
+   The star layer is a **structured, directional relationship (星宿关系)**, not just
+   a label. `data/star_relations.json` is the **single source of truth**, transcribed
+   verbatim from the 星宿关系自查表, and models the relation in **three dimensions**:
+   **(1) family** (荣亲 / 友衰 / 安坏 / 危成 / 业胎 / 命之星), **(2) role/position**
+   within the family (荣↔亲, 安↔坏, 危↔成, 业↔胎, 友↔衰, 命↔星), and
+   **(3) distance tier** in the canonical order **远 / 中 / 近**. Because this is a
+   *compatibility test*, it is **directional**: the family + tier come from the two
+   mansions' cyclic distance in the table, and the **role each side occupies** comes
+   from the direction — so `荣→亲` and `亲→荣` are different experiences with
+   different scores. The score weights the **user's side higher** (0.6 / 0.4) and is
+   only a supporting 15% modifier. The visible card shows one concise 星宿关系 line
+   (family · your role / their role); the full breakdown lives in the result's
+   collapsible **计算说明**.
 4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
    hour; otherwise its weight is redistributed across the first three layers
    (never a penalty).

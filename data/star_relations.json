@@ -1,25 +1,58 @@
 {
-  "note": "星宿关系自查表 — SOURCE OF TRUTH for the star-relationship layer. Transcribed verbatim from the user-provided 星宿关系自查表①②③. The relationship between two 本命星宿 is a symmetric function of their cyclic distance in the 27-宿 宿曜 order (角-start, 牛 omitted): relation = byDistance[ k ], where k = min(d, 27-d) and d = |posA - posB|. Do not add a second, competing mapping.",
+  "note": "星宿关系自查表 — SOURCE OF TRUTH for the star-relationship layer. `order` and `byDistance` are transcribed VERBATIM from the user-provided 星宿关系自查表①②③ and are the only relation mapping. The rest of this file structures that mapping into a 3-dimensional, DIRECTIONAL compatibility model (family × role × distance tier); the scores are this app's resonance interpretation, used only as a supporting 15% modifier — they never override the mapping.",
   "system": "宿曜経 27-宿",
+
   "order": ["角","亢","氐","房","心","尾","箕","斗","女","虚","危","室","壁","奎","娄","胃","昴","毕","觜","参","井","鬼","柳","星","张","翼","轸"],
+
   "byDistance": [
     "命之星","近荣亲","近友衰","近安坏","近危成","中危成","中安坏","中友衰","中荣亲","业胎","远荣亲","远友衰","远安坏","远危成"
   ],
-  "relationNote": "score = the star layer's audience-resonance weight (0..1) for each relation category. The category MAPPING is fixed by the table above; the score is this app's resonance interpretation (家族: 荣亲 auspicious/uplifting > 危成 high-stakes/thrilling > 友衰 familiar > 安坏 complicated > 业胎 distant; 近>中>远 = stronger>fainter resonance). It is only a supporting modifier — the core BaZi / zodiac / esports layers dominate.",
-  "relations": {
-    "命之星": { "score": 1.00, "family": "命", "tier": "命" },
-    "近荣亲": { "score": 0.95, "family": "荣亲", "tier": "近" },
-    "中荣亲": { "score": 0.86, "family": "荣亲", "tier": "中" },
-    "远荣亲": { "score": 0.78, "family": "荣亲", "tier": "远" },
-    "近危成": { "score": 0.82, "family": "危成", "tier": "近" },
-    "中危成": { "score": 0.72, "family": "危成", "tier": "中" },
-    "远危成": { "score": 0.64, "family": "危成", "tier": "远" },
-    "近友衰": { "score": 0.74, "family": "友衰", "tier": "近" },
-    "中友衰": { "score": 0.66, "family": "友衰", "tier": "中" },
-    "远友衰": { "score": 0.60, "family": "友衰", "tier": "远" },
-    "近安坏": { "score": 0.68, "family": "安坏", "tier": "近" },
-    "中安坏": { "score": 0.60, "family": "安坏", "tier": "中" },
-    "远安坏": { "score": 0.54, "family": "安坏", "tier": "远" },
-    "业胎": { "score": 0.58, "family": "业胎", "tier": "业胎" }
-  }
+
+  "categoryMeta": {
+    "命之星": { "family": "命之星", "tier": null },
+    "近荣亲": { "family": "荣亲", "tier": "近" },
+    "中荣亲": { "family": "荣亲", "tier": "中" },
+    "远荣亲": { "family": "荣亲", "tier": "远" },
+    "近友衰": { "family": "友衰", "tier": "近" },
+    "中友衰": { "family": "友衰", "tier": "中" },
+    "远友衰": { "family": "友衰", "tier": "远" },
+    "近安坏": { "family": "安坏", "tier": "近" },
+    "中安坏": { "family": "安坏", "tier": "中" },
+    "远安坏": { "family": "安坏", "tier": "远" },
+    "近危成": { "family": "危成", "tier": "近" },
+    "中危成": { "family": "危成", "tier": "中" },
+    "远危成": { "family": "危成", "tier": "远" },
+    "业胎": { "family": "业胎", "tier": null }
+  },
+
+  "families": {
+    "命之星": { "roles": ["命", "星"] },
+    "荣亲":   { "roles": ["荣", "亲"] },
+    "友衰":   { "roles": ["友", "衰"] },
+    "安坏":   { "roles": ["安", "坏"] },
+    "危成":   { "roles": ["危", "成"] },
+    "业胎":   { "roles": ["业", "胎"] }
+  },
+
+  "directionConvention": "DIRECTIONAL, role-sensitive. fwd = (playerPos - userPos) mod 27 over `order`. fwd==0 -> 命之星 (user=命, player=星). Otherwise the family+tier come from the folded distance k=min(fwd,27-fwd) via byDistance/categoryMeta (the table). The ROLE split within a pair is set by direction: if the player sits FORWARD of the user (fwd in 1..13) the user takes the FIRST role of the pair (荣/友/安/危/业) and the player the SECOND (亲/衰/坏/成/胎); if BACKWARD (14..26) the roles swap. Reading it from the player's side is the reciprocal and yields the same global assignment.",
+
+  "roles": {
+    "命": { "score": 0.95, "sense": "fate main-line / central self" },
+    "星": { "score": 0.95, "sense": "the other IS your destined star" },
+    "荣": { "score": 0.72, "sense": "the ACTIVE side that elevates / activates / improves the other" },
+    "亲": { "score": 0.90, "sense": "the APPROACHABLE side — easy to connect with, naturally felt / lifted" },
+    "安": { "score": 0.78, "sense": "the GROUNDING side — steady, sustainable" },
+    "坏": { "score": 0.45, "sense": "the DESTABILIZING side — draining, scattering" },
+    "危": { "score": 0.76, "sense": "the PRESSURING side — high-contrast, stimulating tension" },
+    "成": { "score": 0.84, "sense": "the ENABLING side — completing, making results land" },
+    "业": { "score": 0.66, "sense": "the BINDING side — karmic task, entanglement" },
+    "胎": { "score": 0.62, "sense": "the GESTATING side — latent, slow-forming attachment" },
+    "友": { "score": 0.66, "sense": "the PEER side — friendly, supportive, easy to stay in touch with" },
+    "衰": { "score": 0.50, "sense": "the WEAKENED side — softer, less reinforced, lower force" }
+  },
+
+  "tierScale": { "远": 0.72, "中": 0.85, "近": 1.00 },
+  "specialScale": { "命之星": 1.00, "业胎": 0.90 },
+
+  "weights": { "userSide": 0.6, "playerSide": 0.4, "neutral": 0.5 }
 }

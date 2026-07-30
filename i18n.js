@@ -393,14 +393,27 @@ window.EDM_READING = {
       mansion: { en: 'Star relation', zh: '星宿关系' },
       style:   { en: 'Style',         zh: '风格' }
     },
-    // 星宿关系 family meanings (audience-resonance framing), per source-of-truth table.
-    starFamily: {
-      '命':   { en: 'a mirror star — you see yourself in their play.', zh: '在他们身上照见自己。' },
-      '荣亲': { en: 'uplifting glory and kinship — effortless to root for.', zh: '荣光与亲近，越看越想为他加油。' },
-      '危成': { en: 'high-stakes peril and triumph — thrilling to watch.', zh: '险中求成，高压刺激最上头。' },
-      '友衰': { en: 'friend and ebb — familiar, comfortable to follow.', zh: '亦友亦缓，熟悉而舒服。' },
-      '安坏': { en: 'calm and rupture — a complicated, love-hate pull.', zh: '安定与破坏交织，又爱又恨。' },
-      '业胎': { en: 'karma and gestation — a distant, slow-burning tie.', zh: '遥远而慢热的缘。' }
+    // 星宿关系 role meanings — the practical, user-perspective reading of the role
+    // the USER occupies in the relation (structural, not literal/poetic).
+    starRole: {
+      '命': { en: 'your fate main-line — a central resonance', zh: '宿命主线，核心共鸣' },
+      '星': { en: 'they are your destined star', zh: '他正是你的命定之星' },
+      '荣': { en: 'you elevate and activate them', zh: '你在提升、激活对方' },
+      '亲': { en: 'you connect easily — a natural closeness', zh: '你自然亲近、一拍即合' },
+      '安': { en: 'you steady this pairing', zh: '你为这段关系托底、带来稳定' },
+      '坏': { en: 'you\'re the unsettling, draining side here', zh: '你这端偏消耗、带来扰动' },
+      '危': { en: 'you bring the pressure and stimulation', zh: '你这端施压、带来刺激张力' },
+      '成': { en: 'you help results land', zh: '你帮着把结果做成' },
+      '业': { en: 'entangled — a shared life-task', zh: '彼此牵绊，像一道共同课题' },
+      '胎': { en: 'a latent, slow-forming attachment', zh: '潜伏孕育、慢慢成形的黏着' },
+      '友': { en: 'an easy, peer-like echo', zh: '同侪般的呼应，轻松自在' },
+      '衰': { en: 'you\'re the softer, lower-force side', zh: '你这端力度偏弱、共鸣较缓' }
+    },
+    // Distance tier (canonical order 远 / 中 / 近).
+    starTier: {
+      '远': { en: 'far — slower, still a background pull', zh: '远距——较缓，仍是底层牵引' },
+      '中': { en: 'mid — moderate, steady resonance', zh: '中距——适中而稳定' },
+      '近': { en: 'near — immediate, fast-activating', zh: '近距——即时上手、共鸣快' }
     },
     // A — headline hook, by the core Ten-God relation (player element vs yours).
     summaryHook: {
@@ -460,7 +473,7 @@ window.EDM_READING = {
     ],
     // F — bottom-line templates keyed by the strongest scoring layer.
     finalZodiac: { en: 'Bottom line: the {rel} {a}–{b} tie is the hook.', zh: '一句话：{a}{b} {rel} 的缘分最钩人。' },
-    finalMansion: { en: 'Bottom line: your 星宿关系 reads {rel} — that star resonance seals it.', zh: '一句话：你们的星宿关系为「{rel}」——正是这份星宿共鸣定音。' },
+    finalMansion: { en: 'Bottom line: your 星宿关系 is {rel} — you\'re the 「{role}」 side, and that star resonance seals it.', zh: '一句话：你们的星宿关系为「{rel}」，你在「{role}」一端——正是这份星宿共鸣定音。' },
     finalElement: { en: 'Bottom line: the {a}–{b} {noun} is what pins your eye.', zh: '一句话：{a}{b} 的{noun}最抓你的眼。' },
     stemCombine: { en: ' (your day-stems even form a 天干五合 bond)', zh: '（日干还成天干五合，锁定般的吸引）' }
   }

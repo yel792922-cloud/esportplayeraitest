@@ -72,20 +72,49 @@ MANSIONS.forEach((mm, i) => { MANSION_CHAR_TO_IDX[mm.cn] = i; });
 
 /* 星宿关系 (star-mansion relationship) — loaded from data/star_relations.json,
  * the single source of truth for the relation MAPPING (角-start 27-宿, 牛 omitted).
- * The 本命星宿 is one of the 27 宿曜 mansions; its 28-index maps to a 27-index by
- * dropping 牛 (index 8). The relationship of two 本命宿 is a symmetric function of
- * their cyclic distance. */
+ * It is a 3-dimensional, DIRECTIONAL model: relation FAMILY (荣亲/友衰/安坏/危成/
+ * 业胎/命之星) × ROLE within the family (荣 vs 亲, 危 vs 成, …) × DISTANCE TIER
+ * (远/中/近). Because this is a compatibility test, the role the USER occupies vs
+ * the one the PLAYER occupies are different experiences and are scored asymmetrically
+ * (user side weighted higher). The family+tier come straight from the table; the
+ * role split comes from direction (see directionConvention in the JSON). */
 let STAR_REL = null;
 
 // 28-mansion index → 27-宿 position (drop 牛 at MANSIONS index 8). 本命宿 is never 牛.
 function mansionIdx28to27(idx28) { return idx28 < 8 ? idx28 : idx28 - 1; }
 
-// The 星宿关系 category between two 本命宿 (by 28-index), per the source-of-truth table.
-function starRelation(uIdx28, pIdx28) {
+// Full directional 星宿关系 detail between the user's and the player's 本命宿.
+// Returns { category, family, tier, userRole, playerRole, fwd, score } or null.
+function starRelationDetail(uIdx28, pIdx28) {
   if (!STAR_REL) return null;
-  const d = Math.abs(mansionIdx28to27(uIdx28) - mansionIdx28to27(pIdx28));
-  const k = Math.min(d, 27 - d);
-  return STAR_REL.byDistance[k];
+  const uPos = mansionIdx28to27(uIdx28), pPos = mansionIdx28to27(pIdx28);
+  const fwd = ((pPos - uPos) % 27 + 27) % 27;         // 0..26, player forward of user
+  let category, family, tier, userRole, playerRole;
+  if (fwd === 0) {
+    category = STAR_REL.byDistance[0];                 // 命之星 — same 本命宿
+    family = 'command'; tier = null;
+    const meta = STAR_REL.categoryMeta[category];
+    family = meta.family;
+    userRole = STAR_REL.families[family].roles[0];     // 命
+    playerRole = STAR_REL.families[family].roles[1];   // 星
+  } else {
+    const k = Math.min(fwd, 27 - fwd);                 // folded distance → table category
+    category = STAR_REL.byDistance[k];
+    const meta = STAR_REL.categoryMeta[category] || {};
+    family = meta.family; tier = meta.tier;
+    const roles = (STAR_REL.families[family] || {}).roles || [];
+    const forward = fwd <= 13;                          // player ahead (short way forward)
+    userRole = forward ? roles[0] : roles[1];
+    playerRole = forward ? roles[1] : roles[0];
+  }
+  const rs = (r) => (STAR_REL.roles[r] && typeof STAR_REL.roles[r].score === 'number') ? STAR_REL.roles[r].score : 0.5;
+  const w = STAR_REL.weights || { userSide: 0.6, playerSide: 0.4, neutral: 0.5 };
+  const neutral = w.neutral ?? 0.5;
+  const scale = (tier && STAR_REL.tierScale[tier] != null)
+    ? STAR_REL.tierScale[tier]
+    : ((STAR_REL.specialScale && STAR_REL.specialScale[category]) ?? 0.9);
+  const score = clamp01(neutral + scale * (w.userSide * (rs(userRole) - neutral) + w.playerSide * (rs(playerRole) - neutral)));
+  return { category, family, tier, userRole, playerRole, fwd, score };
 }
 
 // A short flavor line per mansion (kept light and mystical, not academic)
@@ -456,11 +485,9 @@ function zodiacScore(u, p, cfg) {
 // source of truth; its score is a supporting resonance modifier. Falls back to a
 // neutral score if the table hasn't loaded.
 function mansionScore(u, p, cfg) {
-  const rel = starRelation(u.mansionIdx, p.mansionIdx);
-  if (rel && STAR_REL.relations[rel]) {
-    return { score: clamp01(STAR_REL.relations[rel].score), rel, category: rel };
-  }
-  return { score: (cfg && cfg.neutral) || 0.6, rel: 'neutral', category: null };
+  const det = starRelationDetail(u.mansionIdx, p.mansionIdx);
+  if (det) return { score: det.score, rel: det.category, detail: det };
+  return { score: (cfg && cfg.neutral) || 0.6, rel: 'neutral', detail: null };
 }
 
 // ---- Layer 4 · Birth Hour refinement, 10% (only when BOTH have a birth hour) ----
@@ -536,14 +563,14 @@ function explainPlayer(u, p, player, reasons) {
     : `${ZODIAC_EN[u.zodiacIdx]}–${ZODIAC_EN[p.zodiacIdx]}${relCn ? ' ' + relCn : ''} — ${tr(R.branchRel[zr])}.`;
   evidence.push({ label: tr(R.label.branch), text: cText });
 
-  // D — 星宿关系 (natal-mansion relationship), from the source-of-truth table.
-  const starCat = starRelation(u.mansionIdx, p.mansionIdx);
-  if (starCat) {
-    const fam = (STAR_REL.relations[starCat] || {}).family || starCat;
-    const famMeaning = tr((R.starFamily || {})[fam]) || '';
+  // D — 星宿关系: directional (family × role × tier). Concise visible line;
+  // the full breakdown lives in the 计算说明 section.
+  const starDet = starRelationDetail(u.mansionIdx, p.mansionIdx);
+  if (starDet) {
+    const uRole = tr((R.starRole || {})[starDet.userRole]) || starDet.userRole;
     const dText = zh
-      ? `${MANSIONS[u.mansionIdx].cn}宿 × ${MANSIONS[p.mansionIdx].cn}宿 · ${starCat}——${famMeaning}`
-      : `${MANSIONS[u.mansionIdx].cn}宿 × ${MANSIONS[p.mansionIdx].cn}宿 · ${starCat} — ${famMeaning}`;
+      ? `${starDet.category}｜你属「${starDet.userRole}」·他属「${starDet.playerRole}」——${uRole}`
+      : `${starDet.category} · you 「${starDet.userRole}」 / them 「${starDet.playerRole}」 — ${uRole}`;
     evidence.push({ label: tr(R.label.mansion), text: dText });
   }
 
@@ -564,8 +591,8 @@ function explainPlayer(u, p, player, reasons) {
       .replace('{rel}', relCn || (zh ? '生肖' : 'zodiac'))
       .replace('{a}', zh ? ZODIAC[u.zodiacIdx] : ZODIAC_EN[u.zodiacIdx])
       .replace('{b}', zh ? ZODIAC[p.zodiacIdx] : ZODIAC_EN[p.zodiacIdx]);
-  } else if (kind === 'mansion' && starCat) {
-    final = tr(R.finalMansion).replace('{rel}', starCat);
+  } else if (kind === 'mansion' && starDet) {
+    final = tr(R.finalMansion).replace('{rel}', starDet.category).replace('{role}', starDet.userRole);
   } else {
     final = tr(R.finalElement)
       .replace('{a}', zh ? uEl.cn : uEl.en)
@@ -588,7 +615,7 @@ function scorePlayer(u, p, config) {
   // uncertain (birth time unknown, Moon near a boundary), blend its score
   // toward neutral by the combined confidence — never fabricate a strong signal.
   const mConf = Math.min(u.mansionConf ?? 1, p.mansionConf ?? 1);
-  const man = { score: 0.5 + mConf * (manRaw.score - 0.5), rel: manRaw.rel, category: manRaw.category, conf: mConf };
+  const man = { score: 0.5 + mConf * (manRaw.score - 0.5), rel: manRaw.rel, detail: manRaw.detail, conf: mConf };
 
   let wCore = M.layers.coreBazi, wZod = M.layers.zodiac, wMan = M.layers.starMansion, wHour = M.layers.birthHour;
   let hour = null;
@@ -605,7 +632,7 @@ function scorePlayer(u, p, config) {
   const reasons = [
     { pts: wCore * core.score, kind: 'element', god: core.god },
     { pts: wZod * zod.score, kind: 'zodiac', zRel: zod.rel, uZod: u.zodiacIdx, pZod: p.zodiacIdx },
-    { pts: wMan * man.score, kind: 'mansion', starRel: man.category }
+    { pts: wMan * man.score, kind: 'mansion', starRel: man.detail }
   ];
   if (hour) reasons.push({ pts: wHour * hour.score, kind: 'hour' });
 
@@ -733,9 +760,16 @@ function calcMarkup(profile) {
       <h4>星宿层：本命星宿 + 星宿关系</h4>
       <ul>
         <li><b>本命星宿</b>采用<b>宿曜経</b>算法：把公历生日按出生地经度（默认 ${mer}）换算为<b>农历</b>（含闰月），再查月宿傍通暦定宿——并非现代月球黄经，也非自造循环。</li>
-        <li><b>星宿关系</b>取自你提供的<b>星宿关系自查表</b>（唯一来源）：按两人本命宿在 27 宿中的距离，归入 命之星 / 近·中·远 的 荣亲·友衰·安坏·危成 / 业胎 等类别，仅作<b>辅助共鸣修正</b>，不喧宾夺主。</li>
+        <li><b>星宿关系</b>取自你提供的<b>星宿关系自查表</b>（唯一来源），并拆成三个维度：
+          <ul>
+            <li><b>关系家族</b>：荣亲 / 友衰 / 安坏 / 危成 / 业胎 / 命之星。</li>
+            <li><b>关系位／角色</b>：每族分两端，如 荣↔亲、危↔成、业↔胎、友↔衰。这是一场<b>相性测试</b>，<b>方向敏感</b>——你在哪一端、他在哪一端，体验不同、分数不同（<b>你方权重更高</b>）。</li>
+            <li><b>距离档</b>：按 <b>远 / 中 / 近</b> 排列——<b>近</b>即时上手，<b>中</b>适中稳定，<b>远</b>较缓但仍是底层牵引。</li>
+          </ul>
+        </li>
+        <li>角色释义：<b>荣</b>=提升激活对方，<b>亲</b>=易亲近／被抬举；<b>安</b>=稳定，<b>坏</b>=消耗；<b>危</b>=压强刺激，<b>成</b>=促成结果；<b>业胎</b>=牵绊课题、黏性更强；<b>命之星</b>=宿命主线、核心共鸣；<b>友衰</b>=同侪呼应、力度偏软，并非单纯友情。星宿层仅作<b>辅助修正</b>，不喧宾夺主。</li>
       </ul>
-      <p>你的本命星宿：<b>${cn}宿</b>（${lunar}，基准 ${mer}，置信度约 ${confPct}%）。</p>
+      <p>你的本命星宿：<b>${cn}宿</b>（${lunar}，基准 ${mer}，置信度约 ${confPct}%）。每位选手的家族·你的角色·他的角色·距离档，见其卡片上的「星宿关系」一行。</p>
       <p class="calc__priv">🔒 全部计算在本浏览器完成，出生信息不上传、不保存、不记录。</p>`;
   }
   return `
@@ -743,9 +777,16 @@ function calcMarkup(profile) {
       <h4>Star layer: 本命星宿 + 星宿关系</h4>
       <ul>
         <li><b>Natal mansion (本命星宿)</b> uses the <b>宿曜経</b> method: your Gregorian date is converted to the Chinese lunar calendar (leap months included) at your birth-place meridian (default ${mer}), then read from the 月宿傍通暦 table — not modern Moon longitude, not a custom cycle.</li>
-        <li><b>Star relationship (星宿关系)</b> comes straight from the supplied <b>星宿关系自查表</b> (the single source of truth): the cyclic distance between the two natal mansions maps to 命之星 / near·mid·far 荣亲·友衰·安坏·危成 / 业胎. It is only a supporting resonance modifier.</li>
+        <li><b>Star relationship (星宿关系)</b> comes straight from the supplied <b>星宿关系自查表</b> (the single source of truth), split into three dimensions:
+          <ul>
+            <li><b>Family</b>: 荣亲 / 友衰 / 安坏 / 危成 / 业胎 / 命之星.</li>
+            <li><b>Role / position</b>: each family has two sides — 荣↔亲, 危↔成, 业↔胎, 友↔衰. This is a <b>compatibility test</b>, so it is <b>directional</b>: which side <i>you</i> occupy vs the player is a different experience and a different score (<b>your side weighted higher</b>).</li>
+            <li><b>Distance tier</b>, in the canonical order <b>远 / 中 / 近</b> — <b>近</b> is immediate & fast-activating, <b>中</b> is moderate & steady, <b>远</b> is slower but still a background pull.</li>
+          </ul>
+        </li>
+        <li>Roles: <b>荣</b> elevates/activates the other · <b>亲</b> is approachable / lifted; <b>安</b> grounds · <b>坏</b> drains; <b>危</b> pressures/stimulates · <b>成</b> makes results land; <b>业胎</b> = a binding, karmic task (stickier); <b>命之星</b> = a fate main-line, central resonance; <b>友衰</b> = a peer echo, softer force (not plain friendship). The star layer is only a supporting modifier.</li>
       </ul>
-      <p>Your natal mansion: <b>${cn}宿</b> (${lunar}, meridian ${mer}, confidence ≈ ${confPct}%).</p>
+      <p>Your natal mansion: <b>${cn}宿</b> (${lunar}, meridian ${mer}, confidence ≈ ${confPct}%). Each player's family · your role · their role · distance tier is shown on their card's “星宿关系” line.</p>
       <p class="calc__priv">🔒 Everything is computed in your browser; birth details are never uploaded, saved, or logged.</p>`;
 }
 
