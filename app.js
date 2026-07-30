@@ -483,18 +483,105 @@ function hourScore(u, p, cfg) {
   return { score: cfg.neutral };
 }
 
-// Format a single reason contributor into a short, current-language fragment.
-function formatReason(c) {
-  const R = READING;
-  if (c.kind === 'element') return tr((R.tenGodShort || {})[c.god]) || '';
-  if (c.kind === 'zodiac') {
-    const rel = tr((R.zodiacRel || {})[c.zRel] || (R.zodiacRel || {}).neutral);
-    if (CURRENT_LANG === 'zh') return `${ZODIAC[c.uZod]}–${ZODIAC[c.pZod]} ${rel}`;
-    return `a ${rel} ${ZODIAC_EN[c.uZod]}–${ZODIAC_EN[c.pZod]} tie`;
+// Classify the branch/zodiac relationship between two year branches.
+function zodiacRelation(a, b) {
+  if (a === b) return 'same';
+  if (SIX_HARMONY[a] === b) return 'six';
+  if (branchesInSameTrine(a, b)) return 'trine';
+  if (((a + 6) % 12) === b) return 'clash';
+  if (isPunish(a, b)) return 'punish';
+  if (SIX_HARM[a] === b) return 'harm';
+  if (SIX_DESTROY[a] === b) return 'destroy';
+  return 'neutral';
+}
+
+// Classify the 28-mansion palace relationship (same / palace / opposite / adjacent).
+function mansionRelation(uMan, pMan) {
+  if (uMan === pMan) return 'same';
+  const up = Math.floor(uMan / 7), pp = Math.floor(pMan / 7);
+  if (up === pp) return 'palace';
+  if ((up + 2) % 4 === pp) return 'opposite';
+  return 'adjacent';
+}
+
+// Pick a play-style bucket key from a player's tags (fixed priority so it's deterministic).
+function pickBucket(tags) {
+  const order = ['aggressive', 'mechanical', 'clutch', 'creative', 'strategic', 'leader', 'disciplined', 'stable', 'calm', 'veteran', 'rookie'];
+  for (const k of order) if (tags.includes(k)) return k;
+  return 'mechanical';
+}
+
+// Build a compact, multi-layer per-player reading (current language):
+//   { summary (A), evidence [B–E], final (F) }.
+// Layers degrade gracefully — the mansion line is dropped when the user's
+// mansion is unresolved (no birth time/zone) rather than faking a resonance.
+function explainPlayer(u, p, player, reasons) {
+  const R = READING.explain;
+  const uE = u.elementIdx, pE = p.elementIdx;
+  const god = tenGod(uE, pE);
+  const uEl = ELEMENTS[uE], pEl = ELEMENTS[pE];
+  const zh = CURRENT_LANG === 'zh';
+
+  // A — headline hook.
+  const hook = tr(R.summaryHook[god]);
+  const summary = zh
+    ? `${player.name} 以${tr(READING.tenGodShort[god])}牵动你——${hook}。`
+    : `${player.name} pulls you through ${tr(READING.tenGodShort[god])} — ${hook}.`;
+
+  const evidence = [];
+
+  // B — Five Elements / stems.
+  const er = R.elementRel[god];
+  let bText = zh
+    ? `他的${pEl.cn}${tr(er.rel)}你的${uEl.cn}本性——你偏向${tr(er.behavior)}。`
+    : `Their ${pEl.en} ${tr(er.rel)} your ${uEl.en} core — you lean toward ${tr(er.behavior)}.`;
+  if (STEM_COMBINE[u.stemIdx] === p.stemIdx) bText += tr(R.stemCombine);
+  evidence.push({ label: tr(R.label.element), text: bText });
+
+  // C — Zodiac / branch relationship.
+  const zr = zodiacRelation(u.zodiacIdx, p.zodiacIdx);
+  const relCn = R.branchCn[zr];
+  const cText = zh
+    ? `${ZODIAC[u.zodiacIdx]}${ZODIAC[p.zodiacIdx]}${relCn ? ' ' + relCn : ''}——${tr(R.branchRel[zr])}。`
+    : `${ZODIAC_EN[u.zodiacIdx]}–${ZODIAC_EN[p.zodiacIdx]}${relCn ? ' ' + relCn : ''} — ${tr(R.branchRel[zr])}.`;
+  evidence.push({ label: tr(R.label.branch), text: cText });
+
+  // D — Twenty-Eight Mansions (only when the user's mansion is resolved).
+  if (u.mansionResolved) {
+    const mr = mansionRelation(u.mansionIdx, p.mansionIdx);
+    const dText = zh
+      ? `${MANSIONS[u.mansionIdx].cn}宿 与 ${MANSIONS[p.mansionIdx].cn}宿：${tr(R.mansionRel[mr])}。`
+      : `${MANSIONS[u.mansionIdx].cn}宿 & ${MANSIONS[p.mansionIdx].cn}宿: ${tr(R.mansionRel[mr])}.`;
+    evidence.push({ label: tr(R.label.mansion), text: dText });
   }
-  if (c.kind === 'mansion') return tr((R.mansionRel || {})[c.mRel] || (R.mansionRel || {}).other);
-  if (c.kind === 'hour') return CURRENT_LANG === 'zh' ? '时辰相合' : 'a resonant birth-hour tie';
-  return '';
+
+  // E — play-style bucket ↔ viewer taste.
+  const bucket = tr(R.bucket[pickBucket(player.tags || [])]);
+  const taste = tr(R.taste[uE]);
+  evidence.push({
+    label: tr(R.label.style),
+    text: zh ? `打法偏${bucket}——正中你${taste}的口味。` : `Plays as ${bucket} — right in your ${taste} wheelhouse.`
+  });
+
+  // F — bottom line: the single strongest scoring layer.
+  const top = reasons.filter(r => r.pts > 0).sort((a, b) => b.pts - a.pts)[0];
+  const kind = top ? top.kind : 'element';
+  let final;
+  if (kind === 'zodiac') {
+    final = tr(R.finalZodiac)
+      .replace('{rel}', relCn || (zh ? '生肖' : 'zodiac'))
+      .replace('{a}', zh ? ZODIAC[u.zodiacIdx] : ZODIAC_EN[u.zodiacIdx])
+      .replace('{b}', zh ? ZODIAC[p.zodiacIdx] : ZODIAC_EN[p.zodiacIdx]);
+  } else if (kind === 'mansion' && u.mansionResolved) {
+    final = tr(R.finalMansion);
+  } else {
+    final = tr(R.finalElement)
+      .replace('{a}', zh ? uEl.cn : uEl.en)
+      .replace('{b}', zh ? pEl.cn : pEl.en)
+      .replace('{noun}', tr(er.noun));
+  }
+
+  return { summary, evidence, final };
 }
 
 // Weighted four-layer compatibility. Returns a 0..1 score.
@@ -542,20 +629,14 @@ function toPercent(score, config, minRaw, maxRaw) {
   return Math.round(min + t * (max - min));
 }
 
-// Build a one-sentence match reason (current language) from the strongest
-// contributors. Formatted at render time so a language toggle re-flows it.
-function buildReason(player, contributors) {
-  const positives = contributors.filter(c => c.pts > 0).sort((a, b) => b.pts - a.pts);
-  const top = positives.slice(0, 2).map(formatReason).filter(Boolean);
-  if (top.length === 0) {
-    return CURRENT_LANG === 'zh'
-      ? `${player.name} 的气场与你在一条隐约的线上交汇。`
-      : `${player.name}'s aura crosses yours on a subtle, slow-burning line.`;
-  }
-  if (CURRENT_LANG === 'zh') {
-    return top.length === 1 ? `你被他的${top[0]}吸引。` : `你被他的${top[0]}吸引，并由${top[1]}加成。`;
-  }
-  return top.length === 1 ? `You're drawn to their ${top[0]}.` : `You're drawn to their ${top[0]}, amplified by ${top[1]}.`;
+// Render a player's structured explanation into compact, scannable HTML:
+// a summary line, 2–4 labeled evidence lines, and a bottom-line interpretation.
+function explanationMarkup(ex) {
+  const rows = ex.evidence.map(e =>
+    `<li class="ex-row"><span class="ex-key">${e.label}</span><span class="ex-text">${e.text}</span></li>`).join('');
+  return `<p class="ex-summary">${ex.summary}</p>` +
+    `<ul class="ex-evidence">${rows}</ul>` +
+    `<p class="ex-final">${ex.final}</p>`;
 }
 
 /* ---------------------------------------------------------------------
@@ -583,7 +664,7 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data, opts) {
   const scored = pool.map(p => {
     const pProfile = buildProfile(p.birthDate, p.birthTime || null, 'unspecified', { playerBaseline: true, baselineConf });
     const { score, reasons, layers } = scorePlayer(profile, pProfile, config);
-    return { player: p, rawScore: score, reasons, layers };
+    return { player: p, pProfile, rawScore: score, reasons, layers };
   });
 
   if (scored.length === 0) return { profile, ranked: [] };
@@ -966,21 +1047,24 @@ function renderResult(narrative, result) {
   if (featured) {
     if (ranked.length) {
       const r0 = ranked[0], p0 = r0.player;
+      const ex0 = explainPlayer(profile, r0.pProfile, p0, r0.reasons);
       featured.innerHTML = `
         <div class="featured__glow" aria-hidden="true"></div>
-        <div class="featured__avatar">${avatarMarkup(p0)}</div>
-        <div class="featured__body">
-          <div class="featured__top">
-            <span class="featured__name">${p0.name}</span>
-            ${gameBadge(p0.game)}
+        <div class="featured__head">
+          <div class="featured__avatar">${avatarMarkup(p0)}</div>
+          <div class="featured__body">
+            <div class="featured__top">
+              <span class="featured__name">${p0.name}</span>
+              ${gameBadge(p0.game)}
+            </div>
+            <div class="featured__meta"><span class="pl-role">${p0.role}</span> · ${regionLabel(p0)}${formatDate(p0.birthDate)}</div>
           </div>
-          <div class="featured__meta"><span class="pl-role">${p0.role}</span> · ${regionLabel(p0)}${formatDate(p0.birthDate)}</div>
-          <div class="featured__reason">${buildReason(p0, r0.reasons)}</div>
+          <div class="featured__score">
+            <div class="featured__pct">${r0.percent}<span>%</span></div>
+            <div class="featured__label">${t('result.destiny')}</div>
+          </div>
         </div>
-        <div class="featured__score">
-          <div class="featured__pct">${r0.percent}<span>%</span></div>
-          <div class="featured__label">${t('result.destiny')}</div>
-        </div>`;
+        <div class="featured__explain pl-explain">${explanationMarkup(ex0)}</div>`;
     } else {
       featured.innerHTML = '';
     }
@@ -992,25 +1076,28 @@ function renderResult(narrative, result) {
   ranked.slice(1).forEach((r, i) => {
     const rank = i + 2;
     const p = r.player;
+    const ex = explainPlayer(profile, r.pProfile, p, r.reasons);
     const li = document.createElement('li');
     li.className = 'player-row';
     li.style.animationDelay = (i * 50) + 'ms';
     li.innerHTML = `
-      <div class="pl-rank">${rank}</div>
-      <div class="pl-avatar">${avatarMarkup(p)}</div>
-      <div class="pl-main">
-        <div class="pl-top">
-          <span class="pl-name">${p.name}</span>
-          ${gameBadge(p.game)}
-          <span class="pl-role">${p.role}</span>
+      <div class="pl-head">
+        <div class="pl-rank">${rank}</div>
+        <div class="pl-avatar">${avatarMarkup(p)}</div>
+        <div class="pl-main">
+          <div class="pl-top">
+            <span class="pl-name">${p.name}</span>
+            ${gameBadge(p.game)}
+            <span class="pl-role">${p.role}</span>
+          </div>
+          <div class="pl-meta">${regionLabel(p)}${formatDate(p.birthDate)}</div>
         </div>
-        <div class="pl-meta">${regionLabel(p)}${formatDate(p.birthDate)}</div>
-        <div class="pl-reason">${buildReason(p, r.reasons)}</div>
+        <div class="pl-score">
+          <div class="pl-score__num">${r.percent}<span>%</span></div>
+          <div class="pl-score__bar"><span style="width:${r.percent}%"></span></div>
+        </div>
       </div>
-      <div class="pl-score">
-        <div class="pl-score__num">${r.percent}<span>%</span></div>
-        <div class="pl-score__bar"><span style="width:${r.percent}%"></span></div>
-      </div>`;
+      <div class="pl-explain">${explanationMarkup(ex)}</div>`;
     list.appendChild(li);
   });
 

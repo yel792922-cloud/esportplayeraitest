@@ -315,5 +315,76 @@ window.EDM_READING = {
       en: '{names} tops your list — a {lens} resonance that locks your eye onto their {tag} play.',
       zh: '{names} 高居榜首——一份{lens}的共鸣，让你的目光牢牢锁在他们的{tag}上。'
     }
+  },
+
+  /* Per-player layered explanation vocabulary. Composed by explainPlayer(). */
+  explain: {
+    label: {
+      element: { en: 'Five Elements', zh: '五行' },
+      branch:  { en: 'Branch',        zh: '地支' },
+      mansion: { en: 'Mansion',       zh: '星宿' },
+      style:   { en: 'Style',         zh: '风格' }
+    },
+    // A — headline hook, by the core Ten-God relation (player element vs yours).
+    summaryHook: {
+      companion: { en: 'a mirror-match you feel in your gut', zh: '感同身受的镜像对决' },
+      output:    { en: 'mechanics that light you up',          zh: '点燃你的操作' },
+      resource:  { en: 'strategy that steadies your eye',      zh: '让你安定的策略感' },
+      wealth:    { en: 'a lead-hunt you love to chase',        zh: '你爱追的猎杀节奏' },
+      authority: { en: 'clutch pressure that grips you',       zh: '攥住你的关键压力' }
+    },
+    // B — element relation: verb (complement/mirror/challenge) + viewing behavior + noun for the bottom line.
+    elementRel: {
+      companion: { rel: { en: 'mirrors', zh: '映照' }, noun: { en: 'mirror pull', zh: '镜像共振' }, behavior: { en: 'emotional momentum swings and mirror rivalries', zh: '情绪与势头的拉扯、镜像般的对决' } },
+      output:    { rel: { en: 'channels', zh: '引燃' }, noun: { en: 'creative channel', zh: '引燃之势' }, behavior: { en: 'explosive mechanics and highlight plays', zh: '爆发操作与高光时刻' } },
+      resource:  { rel: { en: 'nourishes', zh: '滋养' }, noun: { en: 'nourishing bond', zh: '滋养之合' }, behavior: { en: 'stable system play and strategic control', zh: '稳健的体系运营与战略掌控' } },
+      wealth:    { rel: { en: 'draws out', zh: '牵引' }, noun: { en: 'lead-hunt pull', zh: '牵引之力' }, behavior: { en: 'objective pressure and lead-hunting', zh: '目标压制与滚雪球猎杀' } },
+      authority: { rel: { en: 'tests', zh: '淬炼' }, noun: { en: 'high-pressure test', zh: '淬炼之压' }, behavior: { en: 'high-pressure, clutch moments', zh: '高压与关键处理' } }
+    },
+    // C — branch/zodiac relationship meaning (audience terms).
+    branchCn: { six: '六合', trine: '三合', clash: '六冲', punish: '相刑', harm: '相害', destroy: '相破', same: '同支', neutral: '' },
+    branchRel: {
+      six:     { en: 'instantly easy to lock onto', zh: '一眼就能锁定的顺眼' },
+      trine:   { en: 'strong matchup energy you naturally sync with', zh: '天然合拍的强匹配气场' },
+      clash:   { en: 'tension-driven attraction — the clash is a thrill', zh: '对冲的张力——正面碰撞看着就来劲' },
+      punish:  { en: 'friction that keeps you on edge', zh: '带刺的张力，让你一直提着神' },
+      harm:    { en: 'a prickly, love-to-hate pull', zh: '又爱又气的微妙牵引' },
+      destroy: { en: 'an unsettled edge that holds your gaze', zh: '一丝不安分的锋芒，勾着你的目光' },
+      same:    { en: 'same-sign familiarity — you read them instantly', zh: '同支的熟悉感——你瞬间读懂他' },
+      neutral: { en: 'a low-friction, easy watch', zh: '低摩擦、轻松好看的观感' }
+    },
+    // D — 28-mansion palace resonance as aura texture / pacing.
+    mansionRel: {
+      same:     { en: 'the exact same star-aura — identical pacing and mood', zh: '完全相同的星宿气场——一致的节奏与情绪' },
+      palace:   { en: 'the same star-palace — a shared tempo and emotional register', zh: '同一星宫——共享的节奏与情绪基调' },
+      opposite: { en: 'facing star-palaces — a high-contrast aura that still magnetizes', zh: '相对的星宫——高反差却相互吸引的气场' },
+      adjacent: { en: 'neighboring auras — a complementary texture and pace', zh: '相邻的气场——互补的质感与节奏' }
+    },
+    // E — player play-style bucket (from tags) and the viewer's taste word (from element).
+    bucket: {
+      aggressive:  { en: 'brute-force aggression', zh: '强攻压制' },
+      mechanical:  { en: 'highlight-driven play',  zh: '高光操作' },
+      clutch:      { en: 'comeback & clutch pressure', zh: '翻盘与关键压制' },
+      creative:    { en: 'creative improvisation',  zh: '创意即兴' },
+      strategic:   { en: 'tactical control',        zh: '战术掌控' },
+      leader:      { en: 'shot-calling control',    zh: '指挥调度' },
+      disciplined: { en: 'disciplined execution',   zh: '纪律执行' },
+      stable:      { en: 'steady, low-tilt play',   zh: '稳健不乱' },
+      calm:        { en: 'cool-headed control',     zh: '冷静掌控' },
+      veteran:     { en: 'veteran composure',       zh: '老练沉稳' },
+      rookie:      { en: 'raw rookie upside',       zh: '新锐冲劲' }
+    },
+    taste: [
+      { en: 'macro-patient', zh: '运营耐心' }, // wood
+      { en: 'highlight-hungry', zh: '高光至上' }, // fire
+      { en: 'system-trusting', zh: '体系至上' }, // earth
+      { en: 'precision-loving', zh: '精准至上' }, // metal
+      { en: 'read-loving', zh: '博弈至上' }  // water
+    ],
+    // F — bottom-line templates keyed by the strongest scoring layer.
+    finalZodiac: { en: 'Bottom line: the {rel} {a}–{b} tie is the hook.', zh: '一句话：{a}{b} {rel} 的缘分最钩人。' },
+    finalMansion: { en: 'Bottom line: the shared star-aura sets the pace you love.', zh: '一句话：相通的星宿气场，定下了你爱的节奏。' },
+    finalElement: { en: 'Bottom line: the {a}–{b} {noun} is what pins your eye.', zh: '一句话：{a}{b} 的{noun}最抓你的眼。' },
+    stemCombine: { en: ' (your day-stems even form a 天干五合 bond)', zh: '（日干还成天干五合，锁定般的吸引）' }
   }
 };
