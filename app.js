@@ -70,6 +70,24 @@ MANSIONS.forEach((mm, i) => { MANSION_CHAR_TO_IDX[mm.cn] = i; });
   if (simp in MANSION_CHAR_TO_IDX) MANSION_CHAR_TO_IDX[trad] = MANSION_CHAR_TO_IDX[simp];
 });
 
+/* 星宿关系 (star-mansion relationship) — loaded from data/star_relations.json,
+ * the single source of truth for the relation MAPPING (角-start 27-宿, 牛 omitted).
+ * The 本命星宿 is one of the 27 宿曜 mansions; its 28-index maps to a 27-index by
+ * dropping 牛 (index 8). The relationship of two 本命宿 is a symmetric function of
+ * their cyclic distance. */
+let STAR_REL = null;
+
+// 28-mansion index → 27-宿 position (drop 牛 at MANSIONS index 8). 本命宿 is never 牛.
+function mansionIdx28to27(idx28) { return idx28 < 8 ? idx28 : idx28 - 1; }
+
+// The 星宿关系 category between two 本命宿 (by 28-index), per the source-of-truth table.
+function starRelation(uIdx28, pIdx28) {
+  if (!STAR_REL) return null;
+  const d = Math.abs(mansionIdx28to27(uIdx28) - mansionIdx28to27(pIdx28));
+  const k = Math.min(d, 27 - d);
+  return STAR_REL.byDistance[k];
+}
+
 // A short flavor line per mansion (kept light and mystical, not academic)
 const MANSION_FLAVOR = {
   '角': 'a first-light spark that opens new campaigns',
@@ -432,13 +450,17 @@ function zodiacScore(u, p, cfg) {
   return { score: cfg.neutral, rel: 'neutral' };
 }
 
-// ---- Layer 3 · Star Mansion (28 lunar mansions), 15% ----
+// ---- Layer 3 · Star mansion 星宿 (宿曜経 本命星宿 + 星宿关系), 15% ----
+// The star layer is now a RELATIONSHIP between the two natal mansions, read from
+// the 星宿关系自查表 (data/star_relations.json) — the relation category is the
+// source of truth; its score is a supporting resonance modifier. Falls back to a
+// neutral score if the table hasn't loaded.
 function mansionScore(u, p, cfg) {
-  if (u.mansionIdx === p.mansionIdx) return { score: cfg.same, rel: 'same' };
-  const up = Math.floor(u.mansionIdx / 7), pp = Math.floor(p.mansionIdx / 7);
-  if (up === pp) return { score: cfg.samePalace, rel: 'palace' };
-  if ((up + 2) % 4 === pp) return { score: cfg.opposite, rel: 'opposite' };
-  return { score: cfg.adjacent, rel: 'adjacent' };
+  const rel = starRelation(u.mansionIdx, p.mansionIdx);
+  if (rel && STAR_REL.relations[rel]) {
+    return { score: clamp01(STAR_REL.relations[rel].score), rel, category: rel };
+  }
+  return { score: (cfg && cfg.neutral) || 0.6, rel: 'neutral', category: null };
 }
 
 // ---- Layer 4 · Birth Hour refinement, 10% (only when BOTH have a birth hour) ----
@@ -514,12 +536,14 @@ function explainPlayer(u, p, player, reasons) {
     : `${ZODIAC_EN[u.zodiacIdx]}–${ZODIAC_EN[p.zodiacIdx]}${relCn ? ' ' + relCn : ''} — ${tr(R.branchRel[zr])}.`;
   evidence.push({ label: tr(R.label.branch), text: cText });
 
-  // D — Twenty-Eight Mansions (only when the user's mansion is resolved).
-  if (u.mansionResolved) {
-    const mr = mansionRelation(u.mansionIdx, p.mansionIdx);
+  // D — 星宿关系 (natal-mansion relationship), from the source-of-truth table.
+  const starCat = starRelation(u.mansionIdx, p.mansionIdx);
+  if (starCat) {
+    const fam = (STAR_REL.relations[starCat] || {}).family || starCat;
+    const famMeaning = tr((R.starFamily || {})[fam]) || '';
     const dText = zh
-      ? `${MANSIONS[u.mansionIdx].cn}宿 与 ${MANSIONS[p.mansionIdx].cn}宿：${tr(R.mansionRel[mr])}。`
-      : `${MANSIONS[u.mansionIdx].cn}宿 & ${MANSIONS[p.mansionIdx].cn}宿: ${tr(R.mansionRel[mr])}.`;
+      ? `${MANSIONS[u.mansionIdx].cn}宿 × ${MANSIONS[p.mansionIdx].cn}宿 · ${starCat}——${famMeaning}`
+      : `${MANSIONS[u.mansionIdx].cn}宿 × ${MANSIONS[p.mansionIdx].cn}宿 · ${starCat} — ${famMeaning}`;
     evidence.push({ label: tr(R.label.mansion), text: dText });
   }
 
@@ -540,8 +564,8 @@ function explainPlayer(u, p, player, reasons) {
       .replace('{rel}', relCn || (zh ? '生肖' : 'zodiac'))
       .replace('{a}', zh ? ZODIAC[u.zodiacIdx] : ZODIAC_EN[u.zodiacIdx])
       .replace('{b}', zh ? ZODIAC[p.zodiacIdx] : ZODIAC_EN[p.zodiacIdx]);
-  } else if (kind === 'mansion' && u.mansionResolved) {
-    final = tr(R.finalMansion);
+  } else if (kind === 'mansion' && starCat) {
+    final = tr(R.finalMansion).replace('{rel}', starCat);
   } else {
     final = tr(R.finalElement)
       .replace('{a}', zh ? uEl.cn : uEl.en)
@@ -564,7 +588,7 @@ function scorePlayer(u, p, config) {
   // uncertain (birth time unknown, Moon near a boundary), blend its score
   // toward neutral by the combined confidence — never fabricate a strong signal.
   const mConf = Math.min(u.mansionConf ?? 1, p.mansionConf ?? 1);
-  const man = { score: 0.5 + mConf * (manRaw.score - 0.5), rel: manRaw.rel, conf: mConf };
+  const man = { score: 0.5 + mConf * (manRaw.score - 0.5), rel: manRaw.rel, category: manRaw.category, conf: mConf };
 
   let wCore = M.layers.coreBazi, wZod = M.layers.zodiac, wMan = M.layers.starMansion, wHour = M.layers.birthHour;
   let hour = null;
@@ -578,11 +602,10 @@ function scorePlayer(u, p, config) {
 
   const score = wCore * core.score + wZod * zod.score + wMan * man.score + (hour ? wHour * hour.score : 0);
 
-  const mRel = man.rel === 'same' ? 'same' : (man.rel === 'palace' ? 'palace' : 'other');
   const reasons = [
     { pts: wCore * core.score, kind: 'element', god: core.god },
     { pts: wZod * zod.score, kind: 'zodiac', zRel: zod.rel, uZod: u.zodiacIdx, pZod: p.zodiacIdx },
-    { pts: wMan * man.score, kind: 'mansion', mRel }
+    { pts: wMan * man.score, kind: 'mansion', starRel: man.category }
   ];
   if (hour) reasons.push({ pts: wHour * hour.score, kind: 'hour' });
 
@@ -691,6 +714,39 @@ function mansionClause(profile) {
   return CURRENT_LANG === 'zh'
     ? `（宿曜经本命宿 · ${lunar}；未设出生地时区，按 UTC+8 农历估算，置信度略低。）`
     : `(宿曜経 birth mansion · ${lunar}; birth-place time zone unset, estimated on the UTC+8 lunar calendar, slightly lower confidence.)`;
+}
+
+// Advanced "计算说明" breakdown — bilingual, includes the star system + the
+// user's own 本命星宿 details. Kept out of the main card (collapsed by default).
+function calcMarkup(profile) {
+  const zh = CURRENT_LANG === 'zh';
+  const cn = profile.mansion.cn;
+  const lunar = (typeof profile.lunarMonth === 'number')
+    ? (zh ? `农历${profile.lunarLeap ? '闰' : ''}${profile.lunarMonth}月${profile.lunarDay}日`
+          : `lunar ${profile.lunarLeap ? 'leap ' : ''}month ${profile.lunarMonth} day ${profile.lunarDay}`)
+    : '';
+  const mer = (typeof profile.tzOffset === 'number') ? `UTC${profile.tzOffset >= 0 ? '+' : ''}${profile.tzOffset}` : 'UTC+8';
+  const confPct = Math.round((profile.mansionConf || 0) * 100);
+  if (zh) {
+    return `
+      <p>结果由四个独立层加权得出：<b>核心八字 55%</b> · <b>生肖（立春为界）20%</b> · <b>星宿 15%</b> · <b>时辰 10%</b>（缺时辰时其权重按比例分摊，不作惩罚）。</p>
+      <h4>星宿层：本命星宿 + 星宿关系</h4>
+      <ul>
+        <li><b>本命星宿</b>采用<b>宿曜経</b>算法：把公历生日按出生地经度（默认 ${mer}）换算为<b>农历</b>（含闰月），再查月宿傍通暦定宿——并非现代月球黄经，也非自造循环。</li>
+        <li><b>星宿关系</b>取自你提供的<b>星宿关系自查表</b>（唯一来源）：按两人本命宿在 27 宿中的距离，归入 命之星 / 近·中·远 的 荣亲·友衰·安坏·危成 / 业胎 等类别，仅作<b>辅助共鸣修正</b>，不喧宾夺主。</li>
+      </ul>
+      <p>你的本命星宿：<b>${cn}宿</b>（${lunar}，基准 ${mer}，置信度约 ${confPct}%）。</p>
+      <p class="calc__priv">🔒 全部计算在本浏览器完成，出生信息不上传、不保存、不记录。</p>`;
+  }
+  return `
+      <p>The result is a weighted blend of four independent layers: <b>Core BaZi 55%</b> · <b>Chinese zodiac (Li Chun boundary) 20%</b> · <b>Star mansion 15%</b> · <b>Birth hour 10%</b> (its weight is shared out, never penalised, when the hour is unknown).</p>
+      <h4>Star layer: 本命星宿 + 星宿关系</h4>
+      <ul>
+        <li><b>Natal mansion (本命星宿)</b> uses the <b>宿曜経</b> method: your Gregorian date is converted to the Chinese lunar calendar (leap months included) at your birth-place meridian (default ${mer}), then read from the 月宿傍通暦 table — not modern Moon longitude, not a custom cycle.</li>
+        <li><b>Star relationship (星宿关系)</b> comes straight from the supplied <b>星宿关系自查表</b> (the single source of truth): the cyclic distance between the two natal mansions maps to 命之星 / near·mid·far 荣亲·友衰·安坏·危成 / 业胎. It is only a supporting resonance modifier.</li>
+      </ul>
+      <p>Your natal mansion: <b>${cn}宿</b> (${lunar}, meridian ${mer}, confidence ≈ ${confPct}%).</p>
+      <p class="calc__priv">🔒 Everything is computed in your browser; birth details are never uploaded, saved, or logged.</p>`;
 }
 
 function buildReading(profile, ranked) {
@@ -863,10 +919,11 @@ function validatePlayers(players) {
  * ------------------------------------------------------------------- */
 
 async function loadData() {
-  const [gamesRes, playersRes, configRes] = await Promise.all([
+  const [gamesRes, playersRes, configRes, starRes] = await Promise.all([
     fetch('data/games.json'),
     fetch('data/players.json'),
-    fetch('data/config.json')
+    fetch('data/config.json'),
+    fetch('data/star_relations.json')
   ]);
   if (!gamesRes.ok || !playersRes.ok || !configRes.ok) {
     throw new Error('Failed to load data files. If opening locally, run a static server (see README).');
@@ -874,11 +931,13 @@ async function loadData() {
   const games = (await gamesRes.json()).games;
   const players = (await playersRes.json()).players;
   const config = await configRes.json();
+  // 星宿关系 table — the source of truth for the star-relationship layer.
+  if (starRes.ok) { try { STAR_REL = await starRes.json(); } catch (_) { STAR_REL = null; } }
 
   const issues = validatePlayers(players);
   if (issues.length) console.warn('Player data validation issues:\n' + issues.join('\n'));
 
-  return { games, players, config, validationIssues: issues };
+  return { games, players, config, starRel: STAR_REL, validationIssues: issues };
 }
 
 /* ---------------------------------------------------------------------
@@ -1013,6 +1072,10 @@ function renderResult(narrative, result) {
 
   // Player fit
   $('#playerFitBody').textContent = narrative.playerFit;
+
+  // Advanced calculation breakdown (计算说明)
+  const calc = $('#calcBody');
+  if (calc) calc.innerHTML = calcMarkup(profile);
 
   // Featured #1 — hero treatment for the top destined pro.
   const featured = $('#featuredMatch');
@@ -1150,11 +1213,10 @@ async function onSubmit(e) {
     let narrative = buildReading(result.profile, result.ranked);
     renderResult(narrative, result); // show immediately with local copy
 
-    // Save last result
-    try {
-      const birthPlace = (($('#birthPlace') || {}).value || '').trim();
-      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar, yeziEnabled, birthPlace }));
-    } catch (_) {}
+    // PRIVACY: birth data is computed entirely in-browser and NEVER persisted.
+    // We do not save the birth date/time/place or any other sensitive input to
+    // localStorage, a backend, or analytics. Only the language choice is stored
+    // (see setLang). Nothing here writes birth data anywhere.
 
     // Fire-and-refresh optional polish
     const polished = await polishWithOpenAI(narrative, result.ranked, result.profile);
@@ -1213,23 +1275,11 @@ function flash(btn, msg) {
   setTimeout(() => { btn.textContent = old; btn.classList.remove('is-flash'); }, 1400);
 }
 
+// PRIVACY: birth inputs are intentionally NOT remembered. We removed the old
+// "restore last inputs" feature so no sensitive birth data is written to
+// localStorage. Any legacy key from a previous version is proactively cleared.
 function restoreLast() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('edm_last') || 'null');
-    if (!saved) return;
-    if (saved.birthDate) $('#birthDate').value = saved.birthDate;
-    if (saved.birthTime) $('#birthTime').value = saved.birthTime;
-    if (saved.birthPlace && $('#birthPlace')) $('#birthPlace').value = saved.birthPlace;
-    if (saved.gender) { const g = $(`input[name="gender"][value="${saved.gender}"]`); if (g) g.checked = true; }
-    if (saved.tz != null && $('#birthTz')) $('#birthTz').value = saved.tz;
-    if (saved.approx && $('#approxTime')) $('#approxTime').checked = true;
-    if (saved.trueSolar && $('#trueSolar')) $('#trueSolar').checked = true;
-    if (saved.yeziEnabled && $('#yeziEnable')) $('#yeziEnable').checked = true;
-    (saved.selectedGames || []).forEach(id => {
-      const box = $(`input[name="game"][value="${id}"]`);
-      if (box) { box.checked = true; box.closest('.game-chip').classList.add('is-checked'); }
-    });
-  } catch (_) {}
+  try { localStorage.removeItem('edm_last'); } catch (_) {}
 }
 
 /* ---------------------------------------------------------------------

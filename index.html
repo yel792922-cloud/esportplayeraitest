@@ -46,6 +46,7 @@
         <p class="card__hint" data-i18n="form.hint">Just a few inputs — then your result appears instantly.</p>
 
         <form id="matchForm" novalidate>
+          <!-- ---- Core fields ---- -->
           <div class="field-grid">
             <label class="field">
               <span class="field__label" data-i18n="form.birthDate">Birth date</span>
@@ -53,63 +54,78 @@
             </label>
 
             <label class="field">
-              <span class="field__label" data-i18n-html="form.birthTime">Birth time <em>(strongly recommended)</em></span>
+              <span class="field__label" data-i18n-html="form.birthTime">Birth time <em>(recommended)</em></span>
               <input type="time" id="birthTime" name="birthTime">
             </label>
           </div>
-
-          <label class="field">
-            <span class="field__label" data-i18n-html="form.birthPlace">Birth place <em>(city / region — for time-zone context)</em></span>
-            <input type="text" id="birthPlace" name="birthPlace" autocomplete="off" data-i18n-ph="form.birthPlacePh" placeholder="e.g. Shanghai, Seoul, Berlin">
-          </label>
-
-          <label class="field">
-            <span class="field__label" data-i18n-html="form.tz">Birth-place time zone <em>(for an accurate star mansion)</em></span>
-            <select id="birthTz" name="birthTz">
-              <option value="" data-i18n="tz.sel">— Select your birth-place time zone —</option>
-              <option value="8" data-i18n="tz.8">UTC+8 · Beijing / China Standard Time (default for Mainland China)</option>
-              <option value="9" data-i18n="tz.9">UTC+9 · Seoul / Tokyo</option>
-              <option value="9.5" data-i18n="tz.9_5">UTC+9:30 · Adelaide</option>
-              <option value="10" data-i18n="tz.10">UTC+10 · Sydney</option>
-              <option value="12" data-i18n="tz.12">UTC+12 · Auckland</option>
-              <option value="7" data-i18n="tz.7">UTC+7 · Bangkok / Jakarta / Hanoi</option>
-              <option value="6" data-i18n="tz.6">UTC+6 · Almaty / Dhaka</option>
-              <option value="5.5" data-i18n="tz.5_5">UTC+5:30 · Mumbai / Delhi</option>
-              <option value="5" data-i18n="tz.5">UTC+5 · Tashkent</option>
-              <option value="4" data-i18n="tz.4">UTC+4 · Dubai</option>
-              <option value="3" data-i18n="tz.3">UTC+3 · Moscow / Istanbul</option>
-              <option value="2" data-i18n="tz.2">UTC+2 · Athens / Kyiv</option>
-              <option value="1" data-i18n="tz.1">UTC+1 · Berlin / Paris</option>
-              <option value="0" data-i18n="tz.0">UTC±0 · London / Lisbon</option>
-              <option value="-3" data-i18n="tz.m3">UTC−3 · São Paulo / Buenos Aires</option>
-              <option value="-4" data-i18n="tz.m4">UTC−4 · Santiago / New York (DST)</option>
-              <option value="-5" data-i18n="tz.m5">UTC−5 · New York / Toronto</option>
-              <option value="-6" data-i18n="tz.m6">UTC−6 · Mexico City / Chicago</option>
-              <option value="-7" data-i18n="tz.m7">UTC−7 · Denver</option>
-              <option value="-8" data-i18n="tz.m8">UTC−8 · Los Angeles / Vancouver</option>
-            </select>
-            <span class="field__hint" data-i18n-html="form.tzHint">Your star mansion uses the traditional Chinese <strong>二十八宿 (月宿)</strong> almanac — the mansion the Moon lodges in at your birth moment. It depends on your <strong>birth place's local time</strong>, not your device's time zone, so a precise birth time is strongly recommended. Leave this blank and the mansion is marked low-confidence.</span>
-          </label>
-
-          <fieldset class="field field--checks">
-            <label class="check"><input type="checkbox" id="approxTime"><span data-i18n="form.approx">No birth time? Use an approximate (noon) reading</span></label>
-            <label class="check"><input type="checkbox" id="yeziEnable"><span data-i18n="form.yezi">Advanced: count 夜子時 (23:00–24:00) as the next day</span></label>
-            <label class="check"><input type="checkbox" id="trueSolar"><span data-i18n="form.trueSolar">Advanced: apply true solar time to the birth-hour pillar</span></label>
-          </fieldset>
-
-          <fieldset class="field field--radios">
-            <legend class="field__label" data-i18n="form.gender">Gender</legend>
-            <div class="radio-row">
-              <label class="pill"><input type="radio" name="gender" value="female"><span data-i18n="form.female">Female</span></label>
-              <label class="pill"><input type="radio" name="gender" value="male"><span data-i18n="form.male">Male</span></label>
-              <label class="pill"><input type="radio" name="gender" value="unspecified" checked><span data-i18n="form.unspecified">Prefer not to say</span></label>
-            </div>
-          </fieldset>
+          <p class="field__hint field__hint--tight" data-i18n="form.timeHint">A birth time sharpens your star mansion and birth-hour reading — but you can skip it.</p>
 
           <fieldset class="field">
             <legend class="field__label" data-i18n-html="form.games">Pick your games <em>(1–4)</em></legend>
             <div id="gameOptions" class="game-options"><!-- injected --></div>
           </fieldset>
+
+          <!-- ---- Advanced (collapsible, optional) ---- -->
+          <details class="advanced" id="advancedSettings">
+            <summary class="advanced__summary">
+              <span data-i18n="form.advanced">Advanced settings</span>
+              <span class="advanced__tag" data-i18n="form.optional">optional</span>
+            </summary>
+            <div class="advanced__body">
+              <p class="advanced__hint" data-i18n="form.advancedHint">Timezone, true solar time, night-Zi hour and gender — all optional. Defaults work fine.</p>
+
+              <label class="field">
+                <span class="field__label" data-i18n-html="form.birthPlace">Birth place <em>(city / region)</em></span>
+                <input type="text" id="birthPlace" name="birthPlace" autocomplete="off" data-i18n-ph="form.birthPlacePh" placeholder="e.g. Shanghai, Seoul, Berlin">
+                <span class="field__hint" data-i18n="form.birthPlaceHint">Used only to infer your time zone — never as a scoring factor.</span>
+              </label>
+
+              <label class="field">
+                <span class="field__label" data-i18n-html="form.tz">Birth-place time zone <em>(for an accurate star mansion)</em></span>
+                <select id="birthTz" name="birthTz">
+                  <option value="" data-i18n="tz.sel">— Select your birth-place time zone —</option>
+                  <option value="8" data-i18n="tz.8">UTC+8 · Beijing / China Standard Time (default for Mainland China)</option>
+                  <option value="9" data-i18n="tz.9">UTC+9 · Seoul / Tokyo</option>
+                  <option value="9.5" data-i18n="tz.9_5">UTC+9:30 · Adelaide</option>
+                  <option value="10" data-i18n="tz.10">UTC+10 · Sydney</option>
+                  <option value="12" data-i18n="tz.12">UTC+12 · Auckland</option>
+                  <option value="7" data-i18n="tz.7">UTC+7 · Bangkok / Jakarta / Hanoi</option>
+                  <option value="6" data-i18n="tz.6">UTC+6 · Almaty / Dhaka</option>
+                  <option value="5.5" data-i18n="tz.5_5">UTC+5:30 · Mumbai / Delhi</option>
+                  <option value="5" data-i18n="tz.5">UTC+5 · Tashkent</option>
+                  <option value="4" data-i18n="tz.4">UTC+4 · Dubai</option>
+                  <option value="3" data-i18n="tz.3">UTC+3 · Moscow / Istanbul</option>
+                  <option value="2" data-i18n="tz.2">UTC+2 · Athens / Kyiv</option>
+                  <option value="1" data-i18n="tz.1">UTC+1 · Berlin / Paris</option>
+                  <option value="0" data-i18n="tz.0">UTC±0 · London / Lisbon</option>
+                  <option value="-3" data-i18n="tz.m3">UTC−3 · São Paulo / Buenos Aires</option>
+                  <option value="-4" data-i18n="tz.m4">UTC−4 · Santiago / New York (DST)</option>
+                  <option value="-5" data-i18n="tz.m5">UTC−5 · New York / Toronto</option>
+                  <option value="-6" data-i18n="tz.m6">UTC−6 · Mexico City / Chicago</option>
+                  <option value="-7" data-i18n="tz.m7">UTC−7 · Denver</option>
+                  <option value="-8" data-i18n="tz.m8">UTC−8 · Los Angeles / Vancouver</option>
+                </select>
+                <span class="field__hint" data-i18n-html="form.tzHint">Your star mansion is the 宿曜経 本命星宿, converted from your birth date to the Chinese lunar calendar at your birth-place meridian (default UTC+8). Your device time zone is never used.</span>
+              </label>
+
+              <fieldset class="field field--checks">
+                <label class="check"><input type="checkbox" id="approxTime"><span data-i18n="form.approx">No birth time? Use an approximate (noon) reading</span></label>
+                <label class="check"><input type="checkbox" id="yeziEnable"><span data-i18n="form.yezi">Count 夜子時 (23:00–24:00) as the next day</span></label>
+                <label class="check"><input type="checkbox" id="trueSolar"><span data-i18n="form.trueSolar">Apply true solar time to the birth-hour pillar</span></label>
+              </fieldset>
+
+              <fieldset class="field field--radios">
+                <legend class="field__label" data-i18n="form.gender">Gender</legend>
+                <div class="radio-row">
+                  <label class="pill"><input type="radio" name="gender" value="female"><span data-i18n="form.female">Female</span></label>
+                  <label class="pill"><input type="radio" name="gender" value="male"><span data-i18n="form.male">Male</span></label>
+                  <label class="pill"><input type="radio" name="gender" value="unspecified" checked><span data-i18n="form.unspecified">Prefer not to say</span></label>
+                </div>
+              </fieldset>
+            </div>
+          </details>
+
+          <p class="privacy-note" data-i18n-html="form.privacy">🔒 Your birth details are computed locally in your browser and are never uploaded, saved, or logged.</p>
 
           <p id="formError" class="form-error" role="alert"></p>
 
@@ -196,6 +212,12 @@
         </div>
         <p class="share-hint" data-i18n="share.hint">Tip: screenshot the card above for a clean share image.</p>
       </div>
+
+      <!-- Advanced calculation breakdown (collapsed) -->
+      <details class="calc" id="calcDetails">
+        <summary class="calc__summary" data-i18n="result.calcTitle">计算说明 · How this is calculated</summary>
+        <div class="calc__body" id="calcBody"><!-- injected --></div>
+      </details>
     </section>
   </main>
 

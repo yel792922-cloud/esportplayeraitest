@@ -100,6 +100,13 @@ info, then ranks players against it across four independent layers
    `ryutabi/shin_astrology`. Externally validated (98/98 reference parity + the
    爱占星 anchor 2000-03-01 → 虚宿 + a dozen documented celebrity 本命宿) — see
    **`VALIDATION.md`** and `tests/mansion.test.mjs`.
+   The star layer is a **relationship (星宿关系)**, not just a label: the two natal
+   mansions map — by their cyclic distance in the 27-宿 wheel — to a category
+   (命之星 / 近·中·远 荣亲·友衰·安坏·危成 / 业胎) from `data/star_relations.json`,
+   the **single source of truth** transcribed verbatim from the 星宿关系自查表. That
+   category is a **supporting resonance modifier**; the visible card shows one
+   concise 星宿关系 line and the full breakdown lives in the result's collapsible
+   **计算说明** section.
 4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
    hour; otherwise its weight is redistributed across the first three layers
    (never a penalty).
@@ -224,6 +231,28 @@ archetype name, summary, and "why" copy in a more mystical tone.
 - The model is instructed never to invent names, numbers, or rankings.
 
 ---
+
+## 🔒 Privacy & non-retention
+
+Your birth information is treated as private and is **never retained**.
+
+- **Computed locally.** All matching runs in your browser — the birth date, time,
+  birth place and every derived chart value are processed client-side. There is
+  **no backend**, so nothing is sent to a server for storage.
+- **No persistence of birth data.** The app does **not** save your birth date /
+  time / place to `localStorage`, cookies, a database, or logs. (An earlier
+  "remember my inputs" feature was removed for this reason, and any legacy key is
+  cleared on load.) It stores **only** the non-sensitive **language choice**.
+- **No analytics / no logging** of birth inputs. Nothing about your chart is
+  transmitted anywhere. The optional AI-polish feature only runs if *you* paste
+  your own OpenAI key, and it sends only the already-computed wording — never your
+  raw birth details.
+- **Submissions are separate and opt-in.** The "Suggest a player" form is a
+  distinct flow for contributing *player* data; it never includes your birth
+  inputs, and unverified submissions never enter `data/players.json`.
+- **Birth place is not a scoring factor.** The optional city/region field is used
+  only to infer a time zone (and, if enabled, true solar time). It never affects
+  the ranking, and it lives in the collapsed **Advanced settings**.
 
 ## ⚖️ Disclaimer
 

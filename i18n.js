@@ -23,7 +23,7 @@ window.EDM_I18N = {
     'form.title': 'Your Chart',
     'form.hint': 'Just a few inputs — then your result appears instantly.',
     'form.birthDate': 'Birth date',
-    'form.birthTime': 'Birth time <em>(strongly recommended)</em>',
+    'form.birthTime': 'Birth time <em>(recommended)</em>',
     'form.tz': 'Birth-place time zone <em>(for an accurate star mansion)</em>',
     'form.tzHint': 'Your star mansion is the <strong>宿曜経 本命星宿</strong> — the same lunar-calendar method the app 爱占星 uses. Your Gregorian date is converted to the <strong>Chinese lunar calendar</strong> (农历, with leap months) at your <strong>birth-place meridian</strong> — for Mainland China the default is UTC+8. It is not modern Moon longitude and never uses your device time zone. Missing the birth-place zone lowers confidence slightly.',
     'form.approx': 'No birth time? Use an approximate (noon) reading',
@@ -36,8 +36,15 @@ window.EDM_I18N = {
     'form.games': 'Pick your games <em>(1–4)</em>',
     'form.submit': 'Cast the Match',
     'form.ai': '✨ AI polish',
-    'form.birthPlace': 'Birth place <em>(city / region — for time-zone context)</em>',
+    'form.birthPlace': 'Birth place <em>(city / region)</em>',
     'form.birthPlacePh': 'e.g. Shanghai, Seoul, Berlin',
+    'form.timeHint': 'A birth time sharpens your star mansion and birth-hour reading — but you can skip it.',
+    'form.advanced': 'Advanced settings',
+    'form.optional': 'optional',
+    'form.advancedHint': 'Timezone, true solar time, night-Zi hour and gender — all optional. Defaults work fine.',
+    'form.birthPlaceHint': 'Used only to infer your time zone — never as a scoring factor.',
+    'form.privacy': '🔒 Your birth details are computed locally in your browser and are never uploaded, saved, or logged.',
+    'result.calcTitle': '计算说明 · How this is calculated',
 
     'submit.open': '＋ Suggest a player',
     'submit.title': 'Suggest a missing player',
@@ -130,7 +137,7 @@ window.EDM_I18N = {
     'form.title': '你的命盘',
     'form.hint': '只需几项输入，结果立即呈现。',
     'form.birthDate': '出生日期',
-    'form.birthTime': '出生时间 <em>（强烈建议填写）</em>',
+    'form.birthTime': '出生时间 <em>（建议填写）</em>',
     'form.tz': '出生地时区 <em>（用于精确的星宿）</em>',
     'form.tzHint': '你的星宿采用<strong>宿曜经·本命星宿</strong>——与「爱占星」一致的农历算法。系统会按你的<strong>出生地经度</strong>（中国大陆默认 UTC+8）把公历换算为<strong>农历</strong>（含闰月），再查月宿傍通暦定宿。它并非现代月球黄经，也绝不使用设备时区。未填出生地时区时置信度略低。',
     'form.approx': '没有出生时间？使用近似（正午）推算',
@@ -143,8 +150,15 @@ window.EDM_I18N = {
     'form.games': '选择你的项目 <em>（1–4 个）</em>',
     'form.submit': '开始匹配',
     'form.ai': '✨ AI 润色',
-    'form.birthPlace': '出生地 <em>（城市 / 地区——用于判断时区）</em>',
+    'form.birthPlace': '出生地 <em>（城市 / 地区）</em>',
     'form.birthPlacePh': '例如：上海、首尔、柏林',
+    'form.timeHint': '填写出生时间能让星宿与时辰更准——不填也可以。',
+    'form.advanced': '高级设置',
+    'form.optional': '可选',
+    'form.advancedHint': '时区、真太阳时、夜子时、性别——均为可选，默认即可。',
+    'form.birthPlaceHint': '仅用于推断时区，绝不作为评分因素。',
+    'form.privacy': '🔒 你的出生信息只在本浏览器内计算，绝不上传、保存或记录。',
+    'result.calcTitle': '计算说明 · 结果是如何算出来的',
 
     'submit.open': '＋ 推荐选手',
     'submit.title': '推荐缺失的选手',
@@ -258,7 +272,7 @@ window.EDM_READING = {
   layerTitle: {
     temperament: { en: 'Core elemental temperament', zh: '元素本性' },
     zodiac:      { en: 'Zodiac & branch interaction', zh: '生肖地支互动' },
-    mansion:     { en: 'Star-mansion aura',           zh: '星宿气场' },
+    mansion:     { en: 'Natal star mansion (本命星宿)', zh: '本命星宿' },
     viewing:     { en: 'Viewing lens · Ten Gods',     zh: '观赛视角 · 十神' }
   },
 
@@ -376,8 +390,17 @@ window.EDM_READING = {
     label: {
       element: { en: 'Five Elements', zh: '五行' },
       branch:  { en: 'Branch',        zh: '地支' },
-      mansion: { en: 'Mansion',       zh: '星宿' },
+      mansion: { en: 'Star relation', zh: '星宿关系' },
       style:   { en: 'Style',         zh: '风格' }
+    },
+    // 星宿关系 family meanings (audience-resonance framing), per source-of-truth table.
+    starFamily: {
+      '命':   { en: 'a mirror star — you see yourself in their play.', zh: '在他们身上照见自己。' },
+      '荣亲': { en: 'uplifting glory and kinship — effortless to root for.', zh: '荣光与亲近，越看越想为他加油。' },
+      '危成': { en: 'high-stakes peril and triumph — thrilling to watch.', zh: '险中求成，高压刺激最上头。' },
+      '友衰': { en: 'friend and ebb — familiar, comfortable to follow.', zh: '亦友亦缓，熟悉而舒服。' },
+      '安坏': { en: 'calm and rupture — a complicated, love-hate pull.', zh: '安定与破坏交织，又爱又恨。' },
+      '业胎': { en: 'karma and gestation — a distant, slow-burning tie.', zh: '遥远而慢热的缘。' }
     },
     // A — headline hook, by the core Ten-God relation (player element vs yours).
     summaryHook: {
@@ -437,7 +460,7 @@ window.EDM_READING = {
     ],
     // F — bottom-line templates keyed by the strongest scoring layer.
     finalZodiac: { en: 'Bottom line: the {rel} {a}–{b} tie is the hook.', zh: '一句话：{a}{b} {rel} 的缘分最钩人。' },
-    finalMansion: { en: 'Bottom line: the shared star-aura sets the pace you love.', zh: '一句话：相通的星宿气场，定下了你爱的节奏。' },
+    finalMansion: { en: 'Bottom line: your 星宿关系 reads {rel} — that star resonance seals it.', zh: '一句话：你们的星宿关系为「{rel}」——正是这份星宿共鸣定音。' },
     finalElement: { en: 'Bottom line: the {a}–{b} {noun} is what pins your eye.', zh: '一句话：{a}{b} 的{noun}最抓你的眼。' },
     stemCombine: { en: ' (your day-stems even form a 天干五合 bond)', zh: '（日干还成天干五合，锁定般的吸引）' }
   }

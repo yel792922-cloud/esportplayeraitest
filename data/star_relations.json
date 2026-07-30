@@ -1,0 +1,25 @@
+{
+  "note": "星宿关系自查表 — SOURCE OF TRUTH for the star-relationship layer. Transcribed verbatim from the user-provided 星宿关系自查表①②③. The relationship between two 本命星宿 is a symmetric function of their cyclic distance in the 27-宿 宿曜 order (角-start, 牛 omitted): relation = byDistance[ k ], where k = min(d, 27-d) and d = |posA - posB|. Do not add a second, competing mapping.",
+  "system": "宿曜経 27-宿",
+  "order": ["角","亢","氐","房","心","尾","箕","斗","女","虚","危","室","壁","奎","娄","胃","昴","毕","觜","参","井","鬼","柳","星","张","翼","轸"],
+  "byDistance": [
+    "命之星","近荣亲","近友衰","近安坏","近危成","中危成","中安坏","中友衰","中荣亲","业胎","远荣亲","远友衰","远安坏","远危成"
+  ],
+  "relationNote": "score = the star layer's audience-resonance weight (0..1) for each relation category. The category MAPPING is fixed by the table above; the score is this app's resonance interpretation (家族: 荣亲 auspicious/uplifting > 危成 high-stakes/thrilling > 友衰 familiar > 安坏 complicated > 业胎 distant; 近>中>远 = stronger>fainter resonance). It is only a supporting modifier — the core BaZi / zodiac / esports layers dominate.",
+  "relations": {
+    "命之星": { "score": 1.00, "family": "命", "tier": "命" },
+    "近荣亲": { "score": 0.95, "family": "荣亲", "tier": "近" },
+    "中荣亲": { "score": 0.86, "family": "荣亲", "tier": "中" },
+    "远荣亲": { "score": 0.78, "family": "荣亲", "tier": "远" },
+    "近危成": { "score": 0.82, "family": "危成", "tier": "近" },
+    "中危成": { "score": 0.72, "family": "危成", "tier": "中" },
+    "远危成": { "score": 0.64, "family": "危成", "tier": "远" },
+    "近友衰": { "score": 0.74, "family": "友衰", "tier": "近" },
+    "中友衰": { "score": 0.66, "family": "友衰", "tier": "中" },
+    "远友衰": { "score": 0.60, "family": "友衰", "tier": "远" },
+    "近安坏": { "score": 0.68, "family": "安坏", "tier": "近" },
+    "中安坏": { "score": 0.60, "family": "安坏", "tier": "中" },
+    "远安坏": { "score": 0.54, "family": "安坏", "tier": "远" },
+    "业胎": { "score": 0.58, "family": "业胎", "tier": "业胎" }
+  }
+}
