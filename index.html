@@ -93,7 +93,8 @@
 
           <fieldset class="field field--checks">
             <label class="check"><input type="checkbox" id="approxTime"><span data-i18n="form.approx">No birth time? Use an approximate (noon) reading</span></label>
-            <label class="check"><input type="checkbox" id="trueSolar"><span data-i18n="form.trueSolar">Advanced: apply true solar time correction (equation of time)</span></label>
+            <label class="check"><input type="checkbox" id="yeziEnable"><span data-i18n="form.yezi">Advanced: count 夜子時 (23:00–24:00) as the next day</span></label>
+            <label class="check"><input type="checkbox" id="trueSolar"><span data-i18n="form.trueSolar">Advanced: apply true solar time to the birth-hour pillar</span></label>
           </fieldset>
 
           <fieldset class="field field--radios">
@@ -270,6 +271,7 @@
   </dialog>
 
   <script src="i18n.js"></script>
+  <script src="lunar.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

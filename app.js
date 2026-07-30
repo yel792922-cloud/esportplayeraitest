@@ -62,6 +62,14 @@ const MANSIONS = [
   { cn: '轸', palace: '朱雀', dir: 'South' }
 ];
 
+// Map a mansion character to its MANSIONS index. The 宿曜経 table (lunar.js) uses
+// traditional glyphs for a few mansions; alias them onto the simplified display.
+const MANSION_CHAR_TO_IDX = {};
+MANSIONS.forEach((mm, i) => { MANSION_CHAR_TO_IDX[mm.cn] = i; });
+[['婁', '娄'], ['畢', '毕'], ['張', '张'], ['軫', '轸'], ['氏', '氐']].forEach(([trad, simp]) => {
+  if (simp in MANSION_CHAR_TO_IDX) MANSION_CHAR_TO_IDX[trad] = MANSION_CHAR_TO_IDX[simp];
+});
+
 // A short flavor line per mansion (kept light and mystical, not academic)
 const MANSION_FLAVOR = {
   '角': 'a first-light spark that opens new campaigns',
@@ -143,31 +151,21 @@ const SELF_PUNISH = new Set([4, 6, 9, 11]);
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
 /* ---------------------------------------------------------------------
- * 0b. Twenty-Eight Mansions 二十八宿 — TRADITIONAL 值日 (day-on-duty) almanac
+ * 0b. Star mansion 星宿 — 宿曜経 (Sukuyō) 本命星宿, the 爱占星 lineage
  *
- * ONE traditional Chinese calendrical school only: the 二十八宿值日 (值宿) daily
- * rotation used by the almanac (通書/黃曆). Each civil day is assigned the next of
- * the 28 mansions in the fixed classical order (角亢氐房心尾箕 · 斗牛女虚危室壁 ·
- * 奎娄胃昴毕觜参 · 井鬼柳星张翼轸), cycling every 28 days. It is a pure day count —
- * NOT the Moon's ecliptic longitude, NOT a modern observatory reduction, and NOT a
- * fitted astronomy model. All moon-longitude / 距度-width logic has been removed.
- *
- * The mansion depends only on the birth-PLACE LOCAL civil date. The Chinese day
- * begins at 子時 (23:00), so a birth in 23:00–24:00 (when the time is known) rolls
- * onto the next day's mansion. Time and time zone therefore matter only to pin the
- * correct local day and the 子時 boundary — never the Five Elements, Day Pillar or
- * Zodiac, which are computed entirely separately.
- *
- * Anchor: calibrated to a verified almanac sample — 2000-03-01 → 虚宿 — via
- * mansionIdx = (JDN + MANSION_DAY_OFFSET) mod 28 over the standard MANSIONS order.
+ * The birth mansion follows the 宿曜経 method — a lunar-calendar lookup, the same
+ * one the Chinese app 爱占星 uses — NOT modern Moon longitude and NOT a custom
+ * cycle. The heavy lifting (Chinese-lunar conversion with leap months + the
+ * classical 27-宿 月宿傍通暦 table) lives in lunar.js (window.EDM_LUNAR); this layer
+ * just wraps it, maps the 本命宿 onto the 28-mansion display/scoring index, and
+ * degrades confidence honestly. It stays fully independent of the Five Elements,
+ * Day Pillar and Zodiac. Externally validated against a published 宿曜経
+ * implementation (98/98) plus the 爱占星 anchor 2000-03-01 → 虚宿 and a dozen
+ * documented celebrity 本命宿 — see tests/mansion.test.mjs and VALIDATION.md.
  * ------------------------------------------------------------------- */
 
-// Day-count offset so the 值日 rotation matches the verified sample
-// 2000-03-01 (JDN 2451605) → 虚宿 (index 10 in MANSIONS). See the regression test.
-const MANSION_DAY_OFFSET = 1;
-
-// Default metaphysical time zone when the birth place is not given: UTC+8
-// (Beijing Time), the standard baseline for Mainland-China BaZi practice.
+// Default meridian when the birth place is not given: UTC+8 (China Standard
+// Time), the meridian on which the Chinese 农历 (and 爱占星) is defined.
 const DEFAULT_TZ_OFFSET = 8;
 
 function dayOfYear(y, m, d) {
@@ -181,46 +179,42 @@ function equationOfTimeHours(y, m, d) {
   return (9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B)) / 60;
 }
 
-// Traditional 值日 mansion (二十八宿逐日值宿). The mansion is fixed by the
-// birth-PLACE LOCAL civil DATE; the Chinese day starts at 子時 (23:00), so a known
-// birth time in 23:00–24:00 rolls to the next day's mansion. This is a pure day
-// count — no Moon longitude, no astronomy. Confidence degrades honestly when the
-// birth time / birth-place time zone is missing (the exact day near the 子時
-// boundary then can't be pinned), but it never fabricates a value: the date is
-// real input, so the layer is always at least low-confidence, never a noon guess.
-//   ctx: { localHour (fractional)|null, tzOffset (hours)|null, approx, playerBaseline, baselineConf }
+// 宿曜経 本命星宿. Delegates to lunar.js (Chinese-lunar conversion + 月宿傍通暦
+// table), then maps the 本命宿 character onto the 28-mansion index the rest of the
+// app uses for the palace/scoring/reading layers. The lunar date is taken at the
+// birth-place meridian (default UTC+8, i.e. the Chinese 农历 / 爱占星 basis); true
+// solar time is never applied here, and 夜子時 rolls 23:00–24:00 to the next day
+// only when explicitly enabled.
+//   ctx: { localHour|null, tzOffset (meridian hrs)|null, yeziEnabled, playerBaseline, baselineConf }
 function computeMansion(y, m, d, ctx) {
   const hasTime = typeof ctx.localHour === 'number' && !Number.isNaN(ctx.localHour);
   const tzKnown = typeof ctx.tzOffset === 'number' && !Number.isNaN(ctx.tzOffset);
+  const meridian = tzKnown ? ctx.tzOffset : DEFAULT_TZ_OFFSET;
 
-  // Day-on-duty over the local civil date, with the 子時 (23:00) day boundary.
-  let jdn = julianDayNumber(y, m, d);
-  const rolled = hasTime && ctx.localHour >= 23;      // late 子時 belongs to the next day
-  if (rolled) jdn += 1;
-  const idx = ((jdn + MANSION_DAY_OFFSET) % 28 + 28) % 28;
+  const LUNAR = (typeof window !== 'undefined' && window.EDM_LUNAR) ||
+                (typeof EDM_LUNAR !== 'undefined' ? EDM_LUNAR : null);
+  const r = LUNAR.benmingSuku(y, m, d, {
+    meridianHours: meridian,
+    localHour: hasTime ? ctx.localHour : null,
+    yeziEnabled: !!ctx.yeziEnabled
+  });
+  const idx = MANSION_CHAR_TO_IDX[r.mansion] ?? 0;
 
-  // The date always yields a mansion, so the layer is never "unresolved"; but the
-  // 子時 boundary + the local date itself depend on birth time and birth-place time
-  // zone, so confidence is honest about how firmly the day is pinned.
+  // The 农历 date fixes the mansion, so the layer is never "unresolved". Birth-place
+  // meridian pins the rare new-moon-boundary day; birth time only matters for the
+  // optional 夜子時 roll — hence confidence degrades gently, never fabricated.
   let confidence;
-  if (ctx.playerBaseline) {
-    confidence = clamp01(ctx.baselineConf ?? 0.7);    // date-only reference baseline
-  } else if (hasTime && tzKnown) {
-    confidence = 1.0;                                 // exact local day + 子時 boundary
-  } else if (hasTime && !tzKnown) {
-    confidence = 0.75;                                // boundary applied, local date unconfirmed
-  } else if (tzKnown) {
-    confidence = 0.55;                                // day known, but 子時 boundary can't be checked
-  } else if (ctx.approx) {
-    confidence = 0.4;                                 // explicit approximate mode
-  } else {
-    confidence = 0.45;                                // date only
-  }
+  if (ctx.playerBaseline) confidence = clamp01(ctx.baselineConf ?? 0.7);
+  else if (tzKnown && hasTime) confidence = 1.0;   // meridian + time fully pin the day
+  else if (tzKnown) confidence = 0.85;             // meridian known; only 夜子時 unresolved
+  else if (hasTime) confidence = 0.6;              // meridian assumed UTC+8
+  else confidence = 0.5;                           // date only, meridian assumed
 
   return {
-    idx, confidence,
-    resolved: true, hasTime, tzKnown, approx: !!ctx.approx,
-    exact: hasTime && tzKnown, rolled
+    idx, mansionChar: r.mansion,
+    lunarMonth: r.lunarMonth, lunarDay: r.lunarDay, isLeap: r.isLeap,
+    confidence, resolved: true, hasTime, tzKnown,
+    approx: !!ctx.approx, exact: tzKnown, rolled: r.rolled
   };
 }
 
@@ -306,6 +300,9 @@ function computeChart(y, m, d, ctx) {
     mansionTzKnown: mansion.tzKnown,
     mansionApprox: mansion.approx,
     mansionRolled: mansion.rolled,
+    lunarMonth: mansion.lunarMonth,
+    lunarDay: mansion.lunarDay,
+    lunarLeap: mansion.isLeap,
     hasHour: hourBranchIdx !== null,
     hourBranchIdx,
     hourStemIdx
@@ -331,6 +328,7 @@ function buildProfile(birthDate, birthTime, gender, opts) {
     tzOffset: (typeof opts.tzOffset === 'number' && !Number.isNaN(opts.tzOffset)) ? opts.tzOffset : null,
     approx: !!opts.approx,
     trueSolar: !!opts.trueSolar,
+    yeziEnabled: !!opts.yeziEnabled,
     playerBaseline: !!opts.playerBaseline,
     baselineConf: opts.baselineConf
   };
@@ -362,6 +360,9 @@ function buildProfile(birthDate, birthTime, gender, opts) {
     mansionHasTime: chart.mansionHasTime,
     mansionTzKnown: chart.mansionTzKnown,
     mansionApprox: chart.mansionApprox,
+    lunarMonth: chart.lunarMonth,
+    lunarDay: chart.lunarDay,
+    lunarLeap: chart.lunarLeap,
     hasHour: chart.hasHour,
     hourBranchIdx: chart.hourBranchIdx
   };
@@ -679,10 +680,17 @@ function viewerLensGod(profile) {
 // the local civil date; the caveat is only about pinning that date and the 子時
 // boundary when birth time / time zone are missing — never a fabricated value.
 function mansionClause(profile) {
-  if (profile.mansionExact) return '';
+  const lunar = (typeof profile.lunarMonth === 'number')
+    ? (CURRENT_LANG === 'zh'
+        ? `农历${profile.lunarLeap ? '闰' : ''}${profile.lunarMonth}月${profile.lunarDay}日`
+        : `lunar ${profile.lunarLeap ? 'leap ' : ''}month ${profile.lunarMonth} day ${profile.lunarDay}`)
+    : '';
+  if (profile.mansionExact) {
+    return CURRENT_LANG === 'zh' ? `（宿曜经本命宿 · ${lunar}）` : `(宿曜経 birth mansion · ${lunar})`;
+  }
   return CURRENT_LANG === 'zh'
-    ? `（低置信度——值日星宿按出生日期定，但子时（23:00）换日的边界需要出生时间与出生地时区来确认。）`
-    : `(Low confidence — the day-on-duty mansion follows your birth date, but the 子時 (23:00) day-change boundary needs your birth time and birth-place time zone to confirm.)`;
+    ? `（宿曜经本命宿 · ${lunar}；未设出生地时区，按 UTC+8 农历估算，置信度略低。）`
+    : `(宿曜経 birth mansion · ${lunar}; birth-place time zone unset, estimated on the UTC+8 lunar calendar, slightly lower confidence.)`;
 }
 
 function buildReading(profile, ranked) {
@@ -1120,7 +1128,8 @@ async function onSubmit(e) {
   const tzOffset = (tzRaw === '' || tzRaw == null) ? null : Number(tzRaw);
   const approx = !!($('#approxTime') || {}).checked;
   const trueSolar = !!($('#trueSolar') || {}).checked;
-  const opts = { tzOffset, approx, trueSolar };
+  const yeziEnabled = !!($('#yeziEnable') || {}).checked;
+  const opts = { tzOffset, approx, trueSolar, yeziEnabled };
 
   const err = $('#formError');
   err.textContent = '';
@@ -1144,7 +1153,7 @@ async function onSubmit(e) {
     // Save last result
     try {
       const birthPlace = (($('#birthPlace') || {}).value || '').trim();
-      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar, birthPlace }));
+      localStorage.setItem('edm_last', JSON.stringify({ birthDate, birthTime, gender, selectedGames, tz: tzRaw, approx, trueSolar, yeziEnabled, birthPlace }));
     } catch (_) {}
 
     // Fire-and-refresh optional polish
@@ -1215,6 +1224,7 @@ function restoreLast() {
     if (saved.tz != null && $('#birthTz')) $('#birthTz').value = saved.tz;
     if (saved.approx && $('#approxTime')) $('#approxTime').checked = true;
     if (saved.trueSolar && $('#trueSolar')) $('#trueSolar').checked = true;
+    if (saved.yeziEnabled && $('#yeziEnable')) $('#yeziEnable').checked = true;
     (saved.selectedGames || []).forEach(id => {
       const box = $(`input[name="game"][value="${id}"]`);
       if (box) { box.checked = true; box.closest('.game-chip').classList.add('is-checked'); }

@@ -89,33 +89,35 @@ info, then ranks players against it across four independent layers
    (生克 generation/control), five-element balance, and 天干五合.
 2. **Chinese Zodiac — 20%.** Year branch with **Li Chun** as the year boundary;
    六合 · 三合 · 六冲 · 相刑 · 相害 · 相破.
-3. **Twenty-Eight Mansions — 15%.** The traditional **二十八宿值日 (day-on-duty)**
-   almanac layer — the mansion *on duty* for your **birth-place local date**. It is
-   a single, consistent Chinese calendrical method: the 28 mansions cycle one per
-   day in the classical order (角亢氐房心尾箕 · 斗牛女虚危室壁 · 奎娄胃昴毕觜参 ·
-   井鬼柳星张翼轸), read as `mansionIdx = (JDN + 1) mod 28` and calibrated to a
-   verified sample — **2000-03-01 → 虚宿**. It is a **pure day count**: no Moon
-   longitude, no observatory reduction, no fitted astronomy. The Chinese day turns
-   at **子時 (23:00)**, so a known birth time in 23:00–24:00 rolls onto the next
-   day's mansion. See `tests/mansion.test.mjs` for the regression cases.
+3. **Star mansion (宿曜経 本命星宿) — 15%.** The **宿曜経 (Sukuyō)** birth-mansion
+   method — the same lunar-calendar lineage the Chinese app **爱占星** uses. Your
+   Gregorian birth date is converted to the **Chinese lunar calendar** (农历, leap
+   months included) at your **birth-place meridian** (default UTC+8), then the
+   本命宿 is read from the classical **27-宿 月宿傍通暦** table. It is **not** modern
+   Moon longitude and **not** a custom cycle. The lunar conversion is the standard
+   astronomical *qreki* algorithm (new moons 朔 + major solar terms 中気); the
+   mansion table is ported from the public 宿曜経 implementation
+   `ryutabi/shin_astrology`. Externally validated (98/98 reference parity + the
+   爱占星 anchor 2000-03-01 → 虚宿 + a dozen documented celebrity 本命宿) — see
+   **`VALIDATION.md`** and `tests/mansion.test.mjs`.
 4. **Birth-hour refinement — 10%.** Applied only when both sides have a reliable
    hour; otherwise its weight is redistributed across the first three layers
    (never a penalty).
 
 The layers are computed separately and do not interfere with each other — the
-mansion layer is a pure date→mansion table, independent of the Five Elements,
-Day Pillar and Zodiac.
+mansion layer is a pure lunar-date→mansion lookup, independent of the Five
+Elements, Day Pillar and Zodiac.
 
-**Time handling.** The metaphysical time basis is your **birth place's local
-civil time** — never your device's time zone. Enter your **birth place** (city /
-region) and pick your birth-place **time zone**; for Mainland-China births the
-default is **UTC+8 (Beijing Time)** — a *default*, not a hidden assumption. Birth
-time and time zone pin the exact 值日 day (they resolve the 子時 boundary); if
-either is missing the mansion is marked **low-confidence** rather than pretending
-to be exact — but it is never a fabricated noon guess, since it follows the real
-birth **date**. An optional **true-solar-time** correction refines the birth-hour
-pillar only. Scores map onto the configured band (default **60–99%**); the
-**top 10** are shown.
+**Time handling.** Enter your **birth place** (city / region) and pick your
+birth-place **time zone** — the meridian on which the 农历 is computed. For
+Mainland-China births the default is **UTC+8 (China Standard Time)**, a *default*,
+not a hidden assumption; your device's time zone is never used. Near a new-moon
+midnight the lunar day (hence the mansion) can differ by one between meridians, so
+the time zone matters; if it is missing the mansion is marked **low-confidence**
+(estimated on the UTC+8 农历). The lunar day changes at local midnight; **true
+solar time is never applied** to the mansion (it refines only the birth-hour
+pillar); **夜子時 (23:00–24:00 → next day) applies only when explicitly enabled**.
+Scores map onto the configured band (default **60–99%**); the **top 10** are shown.
 
 > Note: nationality/gender are never scoring factors; the anchors are tuned for a
 > stable, entertainment-first experience, not observatory BaZi.
