@@ -102,12 +102,18 @@ const TEN_GOD_CN = {
   wealth: '财星',
   authority: '官杀'
 };
+// Reframed for spectating: which pros you're *fated to watch*, per Ten-God.
+//   食伤 output    -> aesthetics / mechanics / highlights / creativity
+//   官杀 authority -> pressure / discipline / clutch / structured play
+//   比劫 companion -> confrontation / aggression / head-to-head fire
+//   印星 resource  -> strategy / analysis / stability / the explanatory game
+//   财星 wealth    -> objective-hungry grind you enjoy chasing alongside them
 const TEN_GOD_DESC = {
-  companion: 'kindred spirits who share your rhythm',
-  output: 'expressive talents who channel your creative fire',
-  resource: 'nourishing minds who steady and inspire you',
-  wealth: 'rewarding rivals you love to chase and conquer',
-  authority: 'commanding forces that sharpen your edge'
+  companion: 'head-to-head brawlers whose confrontational, go-for-the-throat fire mirrors yours',
+  output: 'expressive shot-makers whose highlight mechanics and creative flair light up your feed',
+  resource: 'cerebral, explanatory players whose strategy and steady analysis you love to follow',
+  wealth: 'relentless, objective-hungry grinders whose rewarding, hard-earned wins you enjoy chasing',
+  authority: 'high-pressure performers whose disciplined, clutch composure under structure electrifies you'
 };
 
 // Element cycles 五行生克
@@ -544,9 +550,9 @@ function toPercent(score, config, minRaw, maxRaw) {
 function buildReason(player, contributors) {
   const positives = contributors.filter(c => c.pts > 0).sort((a, b) => b.pts - a.pts);
   const top = positives.slice(0, 2).map(c => c.text);
-  if (top.length === 0) return `${player.name}'s chart crosses yours on a subtle, slow-burning line.`;
-  if (top.length === 1) return `You share ${top[0]}.`;
-  return `You share ${top[0]}, reinforced by ${top[1]}.`;
+  if (top.length === 0) return `${player.name}'s aura crosses yours on a subtle, slow-burning line.`;
+  if (top.length === 1) return `You're drawn to ${top[0]}.`;
+  return `You're drawn to ${top[0]}, amplified by ${top[1]}.`;
 }
 
 /* ---------------------------------------------------------------------
@@ -603,15 +609,15 @@ function localNarrative(profile, selectedGames, gamesMeta) {
   const mansion = profile.mansion;
   const flavor = MANSION_FLAVOR[mansion.cn] || 'a rare and singular star-signature';
 
-  // 1) short metaphysical identity + personality style
+  // 1) short metaphysical identity + viewing style
   const summary =
-    `You're a ${profile.stemArchetype} — ${personalityStyle(profile.elementIdx)}. ` +
-    `Year of the ${profile.zodiacChar} ${profile.zodiacEn}, under the ${mansion.cn}宿 mansion.`;
+    `As a viewer you're a ${profile.stemArchetype} — ${personalityStyle(profile.elementIdx)}. ` +
+    `Year of the ${profile.zodiacChar} ${profile.zodiacEn}, under the ${mansion.cn}宿 mansion — the aura that shapes who you're fated to watch.`;
 
-  // 2) concise zodiac compatibility note
+  // 2) concise zodiac viewing-chemistry note
   const zodiacNote =
-    `As a ${profile.zodiacEn}, you click with charts in 六合/三合 harmony and strike sparks with 六冲/刑/害/破 — ` +
-    `that mix decides who rises up your list.`;
+    `Your ${profile.zodiacEn} viewing-chemistry clicks with pros in 六合/三合 harmony and strikes electric sparks with 六冲/刑/害/破 — ` +
+    `that mix decides whose matches pull you in.`;
 
   // 3) concise star-mansion note — traditional 二十八宿 (月宿) almanac, read from
   //    birth-place local time, with an honest confidence tier.
@@ -621,7 +627,7 @@ function localNarrative(profile, selectedGames, gamesMeta) {
       `Star mansion (月宿) unresolved — the traditional almanac reads it from your exact birth moment, so it needs your birth time and birth-place time zone. ` +
       `Shown as ${mansion.cn}宿 from a noon estimate only, and it counts lightly here.`;
   } else if (profile.mansionExact) {
-    mansionNote = `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}), read by the traditional almanac from your birth-place birth time — ${flavor}.`;
+    mansionNote = `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}), read by the traditional almanac from your birth-place birth time — an event-aura of ${flavor}.`;
   } else if (profile.mansionHasTime && !profile.mansionTzKnown) {
     mansionNote =
       `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
@@ -632,11 +638,11 @@ function localNarrative(profile, selectedGames, gamesMeta) {
       `Add your birth time and birth-place time zone for an exact 月宿.`;
   }
 
-  // 4) why the user matches this profile
+  // 4) why these pros land on the user's watch-list
   const why =
-    `Ranking is a light BaZi read: your ${profile.stemChar}${el.cn} day-master & elements (55%), zodiac ties (20%), ` +
-    `star-mansion resonance (15%) and birth-hour (10%, shared out when unknown). ` +
-    `The players below ${relationHint(profile.elementIdx)} your ${el.en} temperament most.`;
+    `Your watch-list is a light BaZi read: your ${profile.stemChar}${el.cn} day-master & elements (55%), zodiac ties (20%), ` +
+    `star-mansion aura (15%) and birth-hour (10%, shared out when unknown). ` +
+    `The pros below ${relationHint(profile.elementIdx)} your ${el.en} viewing temperament most.`;
 
   return {
     archetypeTitle: profile.stemArchetype,
@@ -648,19 +654,19 @@ function localNarrative(profile, selectedGames, gamesMeta) {
 
 function personalityStyle(e) {
   return [
-    'a patient, growth-minded strategist who compounds small edges',  // wood
-    'an explosive, expressive playmaker who lives for the highlight',  // fire
-    'a grounded, unshakeable anchor who wins on discipline',           // earth
-    'a sharp, precise perfectionist who punishes every mistake',       // metal
-    'a fluid, adaptive reader who flows around any problem'            // water
+    'a patient watcher who savors slow, strategic games where small edges compound',   // wood
+    'a highlight-hungry fan who lives for explosive, expressive playmaking',            // fire
+    'a grounded viewer who respects disciplined, win-on-fundamentals play',             // earth
+    'a precision purist who loves sharp, mistake-punishing, mechanically clean play',   // metal
+    'an adaptive spectator who flows with fluid, read-heavy, improvisational games'     // water
   ][e];
 }
 function relationHint(e) {
   return [
-    'feed and generate',       // wood
+    'feed and grow with',      // wood
     'ignite and mirror',       // fire
-    'stabilize and ground',    // earth
-    'sharpen and refine',      // metal
+    'steady and ground',       // earth
+    'sharpen and match',       // metal
     'flow with and deepen'     // water
   ][e];
 }
@@ -673,7 +679,8 @@ async function polishWithOpenAI(narrative, ranked, profile) {
 
   const topReasons = ranked.slice(0, 3).map(r => `${r.player.name} (${r.percent}%): ${r.reasonText}`).join('\n');
   const prompt =
-    `You are a playful, mystical esports fortune writer. Do NOT change any numbers, names, or rankings.\n` +
+    `You are a playful, mystical esports fortune writer. The theme is which pros the reader is FATED TO WATCH — ` +
+    `audience resonance, viewing style, and event aura — never romance or dating. Do NOT change any numbers, names, or rankings.\n` +
     `Rewrite ONLY the wording to be elegant, mystical and shareable. Return strict JSON with keys ` +
     `archetypeTitle, mansionTitle, summary, zodiacNote, mansionNote, why.\n\n` +
     `Archetype: ${narrative.archetypeTitle}\nMansion: ${narrative.mansionTitle}\n` +
@@ -832,16 +839,42 @@ function renderResult(narrative, result) {
   $('#mansionNoteText').textContent = narrative.mansionNote;
   $('#whyText').textContent = narrative.why;
 
-  // Ranked players
+  // Featured #1 — a hero treatment for the top destined pro.
+  const featured = $('#featuredMatch');
+  if (featured) {
+    if (ranked.length) {
+      const r0 = ranked[0], p0 = r0.player;
+      featured.innerHTML = `
+        <div class="featured__glow" aria-hidden="true"></div>
+        <div class="featured__avatar">${avatarMarkup(p0)}</div>
+        <div class="featured__body">
+          <div class="featured__top">
+            <span class="featured__name">${p0.name}</span>
+            ${gameBadge(p0.game)}
+          </div>
+          <div class="featured__meta"><span class="pl-role">${p0.role}</span> · ${regionLabel(p0)}${formatDate(p0.birthDate)}</div>
+          <div class="featured__reason">${r0.reasonText}</div>
+        </div>
+        <div class="featured__score">
+          <div class="featured__pct">${r0.percent}<span>%</span></div>
+          <div class="featured__label">destiny</div>
+        </div>`;
+    } else {
+      featured.innerHTML = '';
+    }
+  }
+
+  // Ranked players (2–10). #1 is featured above.
   const list = $('#playerList');
   list.innerHTML = '';
-  ranked.forEach((r, i) => {
+  ranked.slice(1).forEach((r, i) => {
+    const rank = i + 2;
     const p = r.player;
     const li = document.createElement('li');
     li.className = 'player-row';
-    li.style.animationDelay = (i * 55) + 'ms';
+    li.style.animationDelay = (i * 50) + 'ms';
     li.innerHTML = `
-      <div class="pl-rank">${i + 1}</div>
+      <div class="pl-rank">${rank}</div>
       <div class="pl-avatar">${avatarMarkup(p)}</div>
       <div class="pl-main">
         <div class="pl-top">

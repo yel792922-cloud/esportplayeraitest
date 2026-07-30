@@ -6,7 +6,9 @@
       "id": "lol-faker",
       "name": "Faker",
       "realName": "Lee Sang-hyeok",
-      "aliases": ["이상혁"],
+      "aliases": [
+        "이상혁"
+      ],
       "game": "lol",
       "role": "Mid",
       "competition_region": "LCK",
@@ -14,8 +16,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "Widely regarded as the greatest LoL player of all time — a six-time World Champion (2013, 2015, 2016, 2023, 2024, 2025) and the most decorated player in the game's history.",
-      "tags": ["calm", "clutch", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "clutch",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -32,8 +41,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A metronome of mechanical precision, famous for flawless laning and relentless consistency.",
-      "tags": ["creative", "stable", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -50,8 +66,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A carry-minded top laner and two-time World Champion with T1.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -68,8 +90,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A shape-shifting support genius and three-time World Champion who reads the map moves ahead.",
-      "tags": ["creative", "leader", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -78,7 +107,9 @@
       "id": "lol-ruler",
       "name": "Ruler",
       "realName": "Park Jae-hyuk",
-      "aliases": ["박재혁"],
+      "aliases": [
+        "박재혁"
+      ],
       "game": "lol",
       "role": "ADC",
       "competition_region": "LCK",
@@ -86,8 +117,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A composed marksman and World Champion who thrives when the teamfight is at its most chaotic.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from an earlier 1998-12-25 entry to 1998-12-29 per public references."
@@ -104,8 +142,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion mid with a highlight reel of game-ending outplays.",
-      "tags": ["aggressive", "clutch", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from an earlier 2000-07-16 entry to 2000-07-22 per public references."
@@ -122,8 +167,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran marksman whose patience paid off with a fairy-tale World title in 2022.",
-      "tags": ["calm", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -140,8 +192,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion jungler prized for aggressive, carry-style pathing.",
-      "tags": ["aggressive", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -158,8 +217,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran jungler renowned for an aggressive, tempo-setting style across many top teams.",
-      "tags": ["aggressive", "creative", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -176,8 +242,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A multiple-time World Champion jungler, the steady engine of the early SKT T1 dynasty.",
-      "tags": ["calm", "stable", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -194,8 +267,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The hyper-aggressive AD carry of the Season 3 World Champion SKT T1.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -212,8 +291,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The support of the Season 3 World Champion SKT T1.",
-      "tags": ["leader", "calm", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -230,8 +316,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The top laner of the dominant Samsung White, Season 4 World Champions.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -248,8 +341,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The mastermind jungle captain of Season 4 World Champions Samsung White.",
-      "tags": ["creative", "leader", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -266,8 +366,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mid laner who out-dueled the best on the way to the Season 4 title with Samsung White.",
-      "tags": ["aggressive", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -284,8 +391,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The explosive AD carry of Season 4 World Champions Samsung White.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -302,8 +415,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A legendary support and Worlds MVP, architect of Samsung White's Season 4 title.",
-      "tags": ["leader", "creative", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "creative",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -320,8 +440,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The Season 5 Worlds Finals MVP top laner for SKT T1.",
-      "tags": ["aggressive", "stable", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Sources varied on the year (1990/1991); Liquipedia's 1991-02-12 used."
@@ -338,8 +465,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time World Champion marksman for SKT T1.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -356,8 +490,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time World Champion support for SKT T1.",
-      "tags": ["creative", "leader", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -374,8 +515,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion top laner, winning with SKT T1 in 2016 and later with Invictus Gaming in 2018.",
-      "tags": ["stable", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -392,8 +540,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion jungler for SKT T1 in 2016.",
-      "tags": ["calm", "stable", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -410,8 +565,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The top laner of Season 7 World Champions Samsung Galaxy.",
-      "tags": ["stable", "calm", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -428,8 +590,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran turned World Champion jungle captain with Samsung Galaxy in 2017.",
-      "tags": ["leader", "calm", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -446,8 +615,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The mid laner of Season 7 World Champions Samsung Galaxy.",
-      "tags": ["calm", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -464,8 +640,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The fearless carry top laner of 2020 World Champions DAMWON Gaming.",
-      "tags": ["aggressive", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -482,8 +664,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The marksman of 2020 World Champions DAMWON Gaming.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -500,8 +689,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time World Champion support (2020, 2022) famous for off-script playmaking.",
-      "tags": ["creative", "leader", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -518,8 +714,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 2022 Worlds Finals MVP top laner of DRX's fairy-tale run.",
-      "tags": ["aggressive", "clutch", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -536,8 +739,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The World Champion jungler of DRX's 2022 underdog title.",
-      "tags": ["aggressive", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -554,8 +764,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion mid laner and 2022 Worlds standout for DRX.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -572,8 +788,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A three-time World Champion jungler and the engine of T1's dynasty.",
-      "tags": ["aggressive", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -590,8 +813,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A three-time World Champion marksman and 2025 Worlds Finals MVP.",
-      "tags": ["aggressive", "clutch", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -608,8 +838,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion top laner with T1 in 2025.",
-      "tags": ["stable", "aggressive", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "aggressive",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -626,8 +863,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A top laner and 2018 World Champion (Invictus Gaming), famous for fearless, hyper-carry play.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -636,7 +879,9 @@
       "id": "lol-uzi",
       "name": "Uzi",
       "realName": "Jian Zi-hao",
-      "aliases": ["Jian Zihao"],
+      "aliases": [
+        "Jian Zihao"
+      ],
       "game": "lol",
       "role": "ADC",
       "competition_region": "LPL",
@@ -644,8 +889,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An iconic ADC, a hyper-aggressive prodigy who defined a generation of bot lane play.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from an earlier 1997-04-01 entry to 1997-04-05 per public references."
@@ -662,8 +913,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion AD carry (2018, Invictus Gaming) who broke through as a teenage prodigy.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -680,8 +937,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A high-damage mid laner regarded as one of the LPL's premier carries.",
-      "tags": ["creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -698,8 +961,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion support (2021, EDward Gaming) and LPL longevity record-holder.",
-      "tags": ["stable", "leader", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "leader",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -716,8 +986,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran jungle king who starred across the LMS/PCS and LPL over an 11-year career.",
-      "tags": ["aggressive", "stable", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -734,8 +1011,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The World Champion jungle carry of Invictus Gaming's 2018 title.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -752,8 +1035,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A long-reigning LPL mid laner and 2018 World Champion with Invictus Gaming.",
-      "tags": ["creative", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -770,8 +1060,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The support of 2018 World Champions Invictus Gaming.",
-      "tags": ["leader", "calm", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -788,8 +1085,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The top laner of 2019 World Champions FunPlus Phoenix.",
-      "tags": ["stable", "calm", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Liquipedia gives 1995-12-31; one lower-quality source lists 1994-10-14 — Liquipedia date used."
@@ -806,8 +1110,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 2019 Worlds Finals MVP jungler for FunPlus Phoenix.",
-      "tags": ["aggressive", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -824,8 +1135,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An inventive shot-calling mid laner and 2019 World Champion with FunPlus Phoenix.",
-      "tags": ["creative", "leader", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -842,8 +1160,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The marksman of 2019 World Champions FunPlus Phoenix.",
-      "tags": ["aggressive", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Conflicting sources: Liquipedia/Esports Earnings list 1998-04-30 (identical to Blank's DOB, likely a propagated error); Baidu Baike and other detailed profiles list 1998-10-24. Not reliably resolvable, so left null per policy. Leading candidate: 1998-10-24. Manual review recommended."
@@ -860,8 +1185,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The support of 2019 World Champions FunPlus Phoenix.",
-      "tags": ["creative", "leader", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Liquipedia/Esports Earnings give 1998-08-19 (used); some sources list 1998-08-20. Minor one-day discrepancy, manual review noted."
@@ -878,8 +1210,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion top laner with EDward Gaming in 2021.",
-      "tags": ["stable", "calm", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -896,8 +1235,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The World Champion jungler of EDward Gaming's 2021 title.",
-      "tags": ["aggressive", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -914,8 +1260,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 2021 Worlds MVP mid laner for EDward Gaming.",
-      "tags": ["creative", "clutch", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -932,8 +1285,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion marksman (2021, EDward Gaming) known for a fearless, high-damage style.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -950,8 +1309,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A carry-focused top laner and multi-time LPL and Worlds finalist.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2002-09-28; Liquipedia gives 2003-09-28 (some databases list 2002)."
@@ -968,8 +1333,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A hard-working top laner known for his champion depth with Top Esports.",
-      "tags": ["aggressive", "stable", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -986,8 +1358,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran playmaking support and multi-time MSI/LPL champion with RNG.",
-      "tags": ["leader", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1004,8 +1383,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A hyper-carry marksman and 2024 LPL Spring Finals MVP.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1022,8 +1407,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile long-time RNG star who has excelled at both mid and top.",
-      "tags": ["creative", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1040,8 +1432,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An MSI-winning marksman and Finals MVP known for clutch teamfighting.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1058,8 +1456,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dominant jungler and long-time cornerstone of JD Gaming.",
-      "tags": ["aggressive", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1076,8 +1481,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A proactive jungler famed for base-saving MSI 2022 heroics with RNG.",
-      "tags": ["aggressive", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1094,8 +1506,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically gifted jungler celebrated for map control and carry games.",
-      "tags": ["creative", "clutch", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1112,8 +1531,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A high-ceiling mid laner known for aggressive playmaking in the LPL.",
-      "tags": ["creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1130,8 +1555,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady, team-first mid laner and multi-time LPL champion with JD Gaming.",
-      "tags": ["stable", "calm", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1148,8 +1580,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A hard-hitting marksman and LPL champion known for damage output.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1166,8 +1604,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "One of the LCS's most decorated and outspoken AD carries.",
-      "tags": ["aggressive", "clutch", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1184,8 +1629,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mid-lane icon and long-time face of the LCS.",
-      "tags": ["calm", "stable", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1202,8 +1654,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A Season 3 World Champion top laner and enduring LCS mainstay.",
-      "tags": ["stable", "calm", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1220,8 +1679,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion support (2017) and shot-caller renowned for his leadership.",
-      "tags": ["leader", "calm", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Wikipedia/Liquipedia give 1994-06-22; Wikidata lists 1994-03-07 — majority date used."
@@ -1238,8 +1704,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically gifted mid laner and long-time LCS standout.",
-      "tags": ["calm", "creative", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "creative",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1256,8 +1729,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive, high-tempo jungler and multi-time LCS champion with Cloud9.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1274,8 +1753,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A decorated marksman and champion across both the LEC and LCS.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1292,8 +1778,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A sharp-shooting marksman and LCS champion with Cloud9.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1310,8 +1802,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral, mechanically strong jungler and LCS MVP.",
-      "tags": ["creative", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1328,8 +1827,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A beloved long-time Cloud9 marksman known for consistency and clutch play.",
-      "tags": ["calm", "stable", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1346,8 +1852,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran playmaking support and one of the LCS's iconic shot-callers.",
-      "tags": ["leader", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1364,8 +1877,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive engage support and multi-time LCS champion.",
-      "tags": ["leader", "aggressive", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "aggressive",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1382,8 +1902,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A flexible top laner and LCS champion with Cloud9.",
-      "tags": ["creative", "stable", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1400,8 +1927,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A flashy, carry-oriented top laner who competed across the LCK, LEC and LCS.",
-      "tags": ["aggressive", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1418,8 +1951,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A composed jungle anchor and multi-time LCS finalist.",
-      "tags": ["stable", "calm", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1436,8 +1976,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive jungler and long-time LCS competitor.",
-      "tags": ["aggressive", "creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1454,8 +2001,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A prodigious marksman remembered for a spectacular 2022 LCS title run.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1472,8 +2025,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dependable carry top laner and multi-time LCS champion.",
-      "tags": ["stable", "aggressive", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "aggressive",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1490,8 +2050,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran objective-focused jungler and repeat LCS champion.",
-      "tags": ["calm", "stable", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1508,8 +2075,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady, mechanically clean top laner and LCS champion with Cloud9.",
-      "tags": ["stable", "creative", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "creative",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1526,8 +2100,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral 'Baby Faker' mid laner and multi-time LCS champion.",
-      "tags": ["calm", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1536,7 +2117,9 @@
       "id": "lol-caps",
       "name": "Caps",
       "realName": "Rasmus Winther",
-      "aliases": ["Rasmus Borregaard Winther"],
+      "aliases": [
+        "Rasmus Borregaard Winther"
+      ],
       "game": "lol",
       "role": "Mid",
       "competition_region": "LEC",
@@ -1544,8 +2127,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The flashiest mid laner in the LEC, nicknamed 'Baby Faker' for his fearless, expressive play.",
-      "tags": ["creative", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from an earlier 2000-01-13 entry to 1999-11-17 per public references."
@@ -1562,8 +2151,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile star who won LEC titles at both mid lane and AD carry.",
-      "tags": ["aggressive", "clutch", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1580,8 +2176,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The beloved 'first-blood king', a veteran jungler and one of the LEC's most enduring faces.",
-      "tags": ["leader", "aggressive", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "leader",
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1590,7 +2193,9 @@
       "id": "lol-rekkles",
       "name": "Rekkles",
       "realName": "Carl Martin Erik Larsson",
-      "aliases": ["Martin Larsson"],
+      "aliases": [
+        "Martin Larsson"
+      ],
       "game": "lol",
       "role": "ADC",
       "competition_region": "LEC",
@@ -1598,8 +2203,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral, farm-focused marksman and one of the LEC's most enduring legends.",
-      "tags": ["calm", "stable", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "calm",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from an earlier 1996-11-05 entry to 1996-09-20 per Wikipedia."
@@ -1616,8 +2228,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A vocal, aggressive top laner known for his fighting spirit.",
-      "tags": ["aggressive", "creative", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1626,7 +2245,9 @@
       "id": "lol-hylissang",
       "name": "Hylissang",
       "realName": "Zdravets Iliev Galabov",
-      "aliases": ["Здравец Илиев Гълъбов"],
+      "aliases": [
+        "Здравец Илиев Гълъбов"
+      ],
       "game": "lol",
       "role": "Support",
       "competition_region": "LEC",
@@ -1634,8 +2255,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A playmaking support famous for aggressive, roaming engages.",
-      "tags": ["aggressive", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1652,8 +2279,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically gifted engage support and multi-time LEC champion.",
-      "tags": ["creative", "clutch", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1670,8 +2304,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A clean, consistent marksman and long-time LEC standout.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1688,8 +2329,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A reliable, high-processing mid laner and multi-time LEC champion.",
-      "tags": ["creative", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1706,8 +2354,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steadfast veteran top laner and LEC champion.",
-      "tags": ["stable", "calm", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "calm",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1724,8 +2379,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A weak-side-to-carry top laner and multi-time LEC champion with G2.",
-      "tags": ["stable", "creative", "leader"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "stable",
+        "creative",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1742,8 +2404,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A consistent, mechanically strong marksman and LEC veteran.",
-      "tags": ["aggressive", "stable", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1760,8 +2429,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive, engage-minded jungler and multi-time LEC champion with Fnatic.",
-      "tags": ["aggressive", "clutch", "creative"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1778,8 +2454,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A smart, carry-capable jungler and LEC champion.",
-      "tags": ["creative", "leader", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1796,8 +2479,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A fearless, aggressive marksman and LEC standout.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1814,8 +2503,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically talented mid laner and LEC finalist with Fnatic.",
-      "tags": ["creative", "stable", "calm"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "stable",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1832,8 +2528,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A consistent, roam-happy mid laner and long-time LEC competitor.",
-      "tags": ["creative", "clutch", "stable"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1850,8 +2553,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A high-ceiling mid laner known for expressive, aggressive play.",
-      "tags": ["creative", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1868,8 +2577,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A creative engage support and LEC competitor.",
-      "tags": ["creative", "leader", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "leader",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1886,8 +2602,14 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An explosive, carry-oriented jungler and LEC champion with G2.",
-      "tags": ["aggressive", "clutch"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
@@ -1904,13 +2626,282 @@
       "birthTime": null,
       "avatar": "",
       "bio": "One of the most famous junglers to emerge from the VCS, celebrated for inventive, high-tempo play.",
-      "tags": ["creative", "aggressive"],
-      "source": ["Liquipedia", "Leaguepedia"],
+      "tags": [
+        "creative",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (2026-07)."
     },
-
+    {
+      "id": "lol-xun",
+      "name": "Xun",
+      "realName": "Peng Li-xun",
+      "aliases": [],
+      "game": "lol",
+      "role": "Jungle",
+      "competition_region": "LPL",
+      "birthDate": "2002-02-05",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An aggressive, tempo-setting jungler and multi-time LPL finalist.",
+      "tags": [
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: BLG). Birth date per official registration / LoL Fandom."
+    },
+    {
+      "id": "lol-on",
+      "name": "ON",
+      "realName": "Luo Wen-jun",
+      "aliases": [],
+      "game": "lol",
+      "role": "Support",
+      "competition_region": "LPL",
+      "birthDate": "2000-12-05",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A steady playmaking support known for clean engages.",
+      "tags": [
+        "stable",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: BLG). Birth date per official registration."
+    },
+    {
+      "id": "lol-delight",
+      "name": "Delight",
+      "realName": "Yoo Hwan-joong",
+      "aliases": [],
+      "game": "lol",
+      "role": "Support",
+      "competition_region": "LCK",
+      "birthDate": "2002-09-12",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A vision-focused support with strong shot-calling instincts.",
+      "tags": [
+        "strategic",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: HLE). Birth date per club-official data."
+    },
+    {
+      "id": "lol-peyz",
+      "name": "Peyz",
+      "realName": "Kim Su-hwan",
+      "aliases": [],
+      "game": "lol",
+      "role": "Bot",
+      "competition_region": "LCK",
+      "birthDate": "2005-12-05",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A prodigious bot laner with high mechanical ceiling.",
+      "tags": [
+        "mechanical",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: T1/Gen.G). Birth date per club-official data."
+    },
+    {
+      "id": "lol-kiin",
+      "name": "Kiin",
+      "realName": "Kim Gi-in",
+      "aliases": [],
+      "game": "lol",
+      "role": "Top",
+      "competition_region": "LCK",
+      "birthDate": "1999-05-28",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A consistent, laning-focused top laner and veteran LCK presence.",
+      "tags": [
+        "stable",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Gen.G). Birth date per club-official data."
+    },
+    {
+      "id": "lol-duro",
+      "name": "Duro",
+      "realName": "Joo Min-kyu",
+      "aliases": [],
+      "game": "lol",
+      "role": "Support",
+      "competition_region": "LCK",
+      "birthDate": "2002-02-04",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A composed support who anchors bot-lane trades.",
+      "tags": [
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Gen.G). Birth date per club-official data."
+    },
+    {
+      "id": "lol-brokenblade",
+      "name": "BrokenBlade",
+      "realName": "Sergen Çelik",
+      "aliases": [],
+      "game": "lol",
+      "role": "Top",
+      "competition_region": "LEC",
+      "birthDate": "2000-01-19",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A carry-minded top laner and multi-time LEC champion.",
+      "tags": [
+        "aggressive",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2). Birth date per club-official data."
+    },
+    {
+      "id": "lol-skewmond",
+      "name": "SkewMond",
+      "realName": "Rudy Semaan",
+      "aliases": [],
+      "game": "lol",
+      "role": "Jungle",
+      "competition_region": "LEC",
+      "birthDate": "2004-08-09",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A rising jungler known for proactive pathing.",
+      "tags": [
+        "aggressive",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2). Birth date per club-official data."
+    },
+    {
+      "id": "lol-labrov",
+      "name": "Labrov",
+      "realName": "Labros Papoutsakis",
+      "aliases": [],
+      "game": "lol",
+      "role": "Support",
+      "competition_region": "LEC",
+      "birthDate": "2002-02-12",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A roaming support with an aggressive playmaking style.",
+      "tags": [
+        "aggressive",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2). Birth date per club-official data."
+    },
+    {
+      "id": "lol-creme",
+      "name": "Creme",
+      "realName": "Lin Jian",
+      "aliases": [],
+      "game": "lol",
+      "role": "Mid",
+      "competition_region": "LPL",
+      "birthDate": "2003-12-14",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A young mid laner with a control-oriented style.",
+      "tags": [
+        "strategic",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: TES). Birth date per club-official data."
+    },
+    {
+      "id": "lol-zhuo",
+      "name": "Zhuo",
+      "realName": "",
+      "aliases": [],
+      "game": "lol",
+      "role": "Support",
+      "competition_region": "LPL",
+      "birthDate": "2001-02-13",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A support known for disciplined lane play.",
+      "tags": [
+        "disciplined",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Leaguepedia"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: TES). Birth date per TES-official / Liquipedia. Real name unverified."
+    },
     {
       "id": "val-tenz",
       "name": "TenZ",
@@ -1923,8 +2914,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The face of VALORANT — blistering aim and a fearless entry style, a Masters champion with Sentinels.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -1941,8 +2939,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A World Champion duelist (2022, LOUD) who makes impossible peeks look routine.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2003-06-12 to 2003-06-15 per Liquipedia."
@@ -1959,8 +2964,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A tactical initiator, shot-caller, and 2022 World Champion with LOUD.",
-      "tags": ["leader", "strategic", "stable"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1997-05-24 to 1997-12-02 per Liquipedia."
@@ -1977,8 +2989,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A young duelist prodigy with an aggressive, highlight-hungry style, a Masters champion with Sentinels.",
-      "tags": ["aggressive", "mechanical", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2005-04-25 to 2005-03-19 per Liquipedia."
@@ -1995,8 +3014,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive duelist and 2023 World Champion with Evil Geniuses, named Champions MVP.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2013,8 +3039,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A calm in-game leader who captained Sentinels to a 2024 Masters title.",
-      "tags": ["leader", "strategic", "calm"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2031,8 +3064,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A world-class initiator known for pinpoint utility, a Masters champion with OpTic Gaming.",
-      "tags": ["strategic", "stable", "disciplined"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2049,8 +3089,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A premier controller renowned for smokes and clutch composure, a Masters champion with OpTic Gaming.",
-      "tags": ["strategic", "stable", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2067,8 +3114,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A high-energy flex player and 2024 Masters champion with Sentinels.",
-      "tags": ["aggressive", "clutch", "veteran"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2085,8 +3139,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An ice-cool Operator specialist known for clutch 1vX rounds.",
-      "tags": ["calm", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "calm",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2103,8 +3164,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A bold in-game leader and 2023 World Champion with Evil Geniuses.",
-      "tags": ["leader", "strategic", "aggressive"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2121,8 +3189,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran captain and one of the most respected tactical minds in the game.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2139,8 +3214,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady entry duelist and long-time competitor at the top of the region.",
-      "tags": ["aggressive", "mechanical", "stable"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2157,8 +3239,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A star duelist known for match-defining opening kills, a two-time Masters champion with Fnatic.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2001-11-19 to 2003-02-06 per Liquipedia."
@@ -2175,8 +3264,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 'One Tap King', legendary for surgical headshot accuracy across CS and VALORANT.",
-      "tags": ["mechanical", "calm", "veteran"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2193,8 +3289,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A charismatic in-game leader who choreographs the chaos, a two-time Masters champion with Fnatic.",
-      "tags": ["leader", "strategic", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1997-01-16 to 1995-05-25 per Liquipedia."
@@ -2211,8 +3314,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A quiet sentinel mastermind famous for lurking and impossible 1vX clutches, a Masters Berlin 2021 champion.",
-      "tags": ["calm", "clutch", "disciplined"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "calm",
+        "clutch",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2003-05-01 to 2002-07-01 per Liquipedia."
@@ -2229,8 +3339,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral initiator and Masters champion with Fnatic, praised as one of the smartest support players in the game.",
-      "tags": ["strategic", "stable", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2003-03-20 to 2003-12-15 per Liquipedia."
@@ -2247,8 +3364,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An Operator-wielding duelist who anchored Acend's 2021 World Championship with ice-cold aim.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2002-07-01 to 2002-01-18 per Liquipedia."
@@ -2265,8 +3389,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A prodigious sentinel with duelist-level aim and multiple Masters titles with Fnatic.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2283,8 +3414,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A decorated initiator, among the first to lift three international VALORANT trophies.",
-      "tags": ["strategic", "stable", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2301,8 +3439,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A composed initiator and shot-caller central to NAVI's 2024 Masters Shanghai title.",
-      "tags": ["strategic", "leader", "calm"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "leader",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2319,8 +3464,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile duelist and flex known for aggressive entries and clutch play.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2337,8 +3489,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A sharp rifler and flex who rose from top-tier Counter-Strike to elite VALORANT.",
-      "tags": ["mechanical", "stable", "strategic"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2355,8 +3514,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dependable sentinel anchor and 2024 Masters champion with NAVI.",
-      "tags": ["calm", "disciplined", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "calm",
+        "disciplined",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2373,8 +3539,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady sentinel and site anchor, a long-standing mainstay of the region.",
-      "tags": ["stable", "disciplined", "veteran"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "stable",
+        "disciplined",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2391,8 +3564,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A flamboyant flex player famed for inventive, aggressive plays with Paper Rex.",
-      "tags": ["creative", "aggressive", "mechanical"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "creative",
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2409,8 +3589,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A fearless entry duelist and one of the region's most aggressive players with Paper Rex.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2427,8 +3614,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A meticulous in-game leader who captained DRX for years at the top of the region.",
-      "tags": ["leader", "strategic", "disciplined"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2445,8 +3639,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A brilliant controller and secondary caller, the tactical backbone of DRX.",
-      "tags": ["strategic", "calm", "stable"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2463,8 +3664,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A late-blooming duelist who became a Masters champion with Gen.G.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2481,8 +3689,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A duelist with an unpredictable, aggressive style for Paper Rex.",
-      "tags": ["aggressive", "mechanical", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2499,8 +3714,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A hard-carrying duelist and star of ZETA DIVISION's celebrated 2022 Champions run.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2517,8 +3739,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran captain and enduring figurehead of ZETA DIVISION.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2535,8 +3764,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dynamic duelist known for high-impact fragging with DRX and T1.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2553,8 +3789,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A sharp-shooting duelist and 2024 World Champion with EDward Gaming.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2571,8 +3814,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A reliable initiator and 2024 World Champion with EDward Gaming.",
-      "tags": ["strategic", "stable", "creative"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2589,8 +3839,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An in-game leader who guided EDward Gaming to the 2024 World Championship.",
-      "tags": ["leader", "strategic", "calm"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "leader",
+        "strategic",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
@@ -2607,13 +3864,430 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady controller and smokes specialist, a 2024 World Champion with EDward Gaming.",
-      "tags": ["strategic", "stable", "calm"],
-      "source": ["Liquipedia", "VLR.gg"],
+      "tags": [
+        "strategic",
+        "stable",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/VLR.gg, 2026-07)."
     },
-
+    {
+      "id": "val-chichoo",
+      "name": "CHICHOO",
+      "realName": "Wan Shunzhi",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Controller",
+      "competition_region": "VCT China",
+      "birthDate": "2003-11-27",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A controller and in-game leader who directs map control.",
+      "tags": [
+        "leader",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: EDG). Birth date per club-official announcement."
+    },
+    {
+      "id": "val-cb",
+      "name": "cb",
+      "realName": "Wang Qingchuan",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Flex",
+      "competition_region": "VCT China",
+      "birthDate": "2004-07-11",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A flexible player comfortable across initiator and duelist roles.",
+      "tags": [
+        "creative",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: EDG). Birth date per public references."
+    },
+    {
+      "id": "val-sayaplayer",
+      "name": "sayaplayer",
+      "realName": "Ha Jung-woo",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Duelist",
+      "competition_region": "VCT Pacific",
+      "birthDate": "1998-07-29",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A sharp-aiming duelist and former FPS veteran.",
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Gen.G). Supplement listed 2002-04-12; Liquipedia gives 1998-07-29."
+    },
+    {
+      "id": "val-lakia",
+      "name": "Lakia",
+      "realName": "Kim Jong-min",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Initiator",
+      "competition_region": "VCT Pacific",
+      "birthDate": "2000-12-24",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An initiator and shot-caller with a strategic approach.",
+      "tags": [
+        "leader",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Gen.G). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-tkzin",
+      "name": "tkzin",
+      "realName": "Enzo Zimiani",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Duelist",
+      "competition_region": "VCT Americas",
+      "birthDate": "2003-07-28",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An entry duelist known for aggressive opening plays.",
+      "tags": [
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: LOUD). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-erde",
+      "name": "erde",
+      "realName": "Roberto Lobos",
+      "aliases": [],
+      "game": "valorant",
+      "role": "IGL",
+      "competition_region": "VCT Americas",
+      "birthDate": "2001-05-06",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An in-game leader and flexible support presence.",
+      "tags": [
+        "leader",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: LOUD). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-davih",
+      "name": "DaviH",
+      "realName": "David Cruz",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Initiator",
+      "competition_region": "VCT Americas",
+      "birthDate": "2003-01-28",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An initiator who sets up team executes.",
+      "tags": [
+        "strategic",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: LOUD). Birth date per club-official data."
+    },
+    {
+      "id": "val-darker",
+      "name": "Darker",
+      "realName": "Sebastián Castro",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Controller",
+      "competition_region": "VCT Americas",
+      "birthDate": "2002-09-05",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A controller focused on disciplined map control.",
+      "tags": [
+        "disciplined",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: LOUD). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-lukxo",
+      "name": "lukxo",
+      "realName": "Lucca Travaioli",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Sentinel",
+      "competition_region": "VCT Americas",
+      "birthDate": "2002-02-14",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A sentinel who holds sites with patient defense.",
+      "tags": [
+        "calm",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: LOUD). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-shahzam",
+      "name": "ShahZaM",
+      "realName": "Shahzeb Khan",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Duelist",
+      "competition_region": "VCT Americas",
+      "birthDate": "1993-10-08",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A veteran duelist and championship-winning in-game leader.",
+      "tags": [
+        "leader",
+        "clutch",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Sentinels). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-dapr",
+      "name": "dapr",
+      "realName": "Michael Gulino",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Sentinel",
+      "competition_region": "VCT Americas",
+      "birthDate": "1999-02-11",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A reliable sentinel and Champions-winning veteran.",
+      "tags": [
+        "calm",
+        "disciplined",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Sentinels). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-jerrwin",
+      "name": "Jerrwin",
+      "realName": "Gurjiwan Gill",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Flex",
+      "competition_region": "VCT Americas",
+      "birthDate": "2004-01-08",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A flexible role player and rising talent.",
+      "tags": [
+        "creative",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Sentinels). Birth date per public references."
+    },
+    {
+      "id": "val-cender",
+      "name": "ceNder",
+      "realName": "Jokūbas Labutis",
+      "aliases": [],
+      "game": "valorant",
+      "role": "IGL",
+      "competition_region": "VCT EMEA",
+      "birthDate": "2001-04-29",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An in-game leader who structures methodical rounds.",
+      "tags": [
+        "leader",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia."
+    },
+    {
+      "id": "val-kicks",
+      "name": "Kicks",
+      "realName": "Kimmie Laasner",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Flex",
+      "competition_region": "VCT EMEA",
+      "birthDate": "2005-09-18",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A young flexible player with a versatile agent pool.",
+      "tags": [
+        "creative",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per public references."
+    },
+    {
+      "id": "val-n4rr3t",
+      "name": "n4rr3t",
+      "realName": "",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Flex",
+      "competition_region": "VCT EMEA",
+      "birthDate": "2002-07-04",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A flexible role player across the map.",
+      "tags": [
+        "creative",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia. Real name unverified."
+    },
+    {
+      "id": "val-m1xwell",
+      "name": "m1xwell",
+      "realName": "",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Flex",
+      "competition_region": "VCT EMEA",
+      "birthDate": "2003-01-12",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A versatile player comfortable in multiple roles.",
+      "tags": [
+        "creative",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia. Distinct from CS/VAL veteran Óscar \"mixwell\" Cañellas; real name unverified."
+    },
+    {
+      "id": "val-destrian",
+      "name": "Destrian",
+      "realName": "Tomas Linikas",
+      "aliases": [],
+      "game": "valorant",
+      "role": "Controller",
+      "competition_region": "VCT EMEA",
+      "birthDate": "2001-08-20",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A controller who prioritizes smoke discipline.",
+      "tags": [
+        "disciplined",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "VLR.gg"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia."
+    },
     {
       "id": "cs2-s1mple",
       "name": "s1mple",
@@ -2626,8 +4300,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "Widely regarded as one of the greatest Counter-Strike players of all time — a Major champion and two-time HLTV Player of the Year.",
-      "tags": ["mechanical", "clutch", "aggressive"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "clutch",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2644,8 +4325,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time HLTV Player of the Year and Major champion, famed for ice-cold AWPing with Vitality.",
-      "tags": ["mechanical", "calm", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2662,8 +4350,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A rifle virtuoso widely regarded as one of the most mechanically gifted players in the game.",
-      "tags": ["mechanical", "aggressive", "leader"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "leader"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2680,8 +4375,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A multiple-time Major champion AWPer known for metronomic consistency with Astralis.",
-      "tags": ["mechanical", "calm", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2698,8 +4400,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The most decorated Major champion in Counter-Strike history, a fearless entry fragger.",
-      "tags": ["aggressive", "clutch", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2712,15 +4421,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Europe",
-      "birthDate": "1999-12-27",
+      "birthDate": "1999-12-22",
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral lurker and Major champion with FaZe Clan.",
-      "tags": ["mechanical", "calm", "disciplined"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 1999-12-22 per Liquipedia/HLTV."
     },
     {
       "id": "cs2-m0nesy",
@@ -2734,8 +4450,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A generational AWP prodigy regarded among the very best in the world.",
-      "tags": ["mechanical", "aggressive", "creative"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2005-05-16 to 2005-05-01 per Liquipedia/HLTV."
@@ -2752,8 +4475,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mastermind in-game leader and one of the most respected tactical minds in Counter-Strike.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2770,8 +4500,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A rock-solid rifler and Major champion with NAVI.",
-      "tags": ["stable", "clutch", "calm"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "stable",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2788,8 +4525,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A clinical AWPer known for calm, methodical positioning.",
-      "tags": ["mechanical", "calm", "disciplined"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2806,8 +4550,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A record-breaking young rifler, named the best player of 2024.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2824,8 +4575,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A consistent star rifler and long-time top-tier competitor.",
-      "tags": ["mechanical", "stable", "aggressive"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2842,8 +4600,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A rare high-fragging in-game leader.",
-      "tags": ["leader", "aggressive", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "leader",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2860,8 +4625,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A vocal in-game leader and AWPer who has captained multiple top teams.",
-      "tags": ["leader", "strategic", "aggressive"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "leader",
+        "strategic",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2874,15 +4646,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Europe",
-      "birthDate": "2002-05-06",
+      "birthDate": "2002-07-18",
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically gifted rifler and Major champion with FaZe Clan.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 2002-07-18 per Liquipedia/HLTV (prior value and supplement both differed)."
     },
     {
       "id": "cs2-broky",
@@ -2896,8 +4675,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An AWPer and Major champion with FaZe Clan.",
-      "tags": ["mechanical", "calm", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2914,8 +4700,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile rifler and long-time top-tier competitor.",
-      "tags": ["mechanical", "aggressive", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2932,8 +4725,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dependable support rifler and multiple-time Major champion with Fnatic.",
-      "tags": ["stable", "disciplined", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "stable",
+        "disciplined",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2950,8 +4750,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A clutch-heavy rifler and multiple-time Major champion with Astralis.",
-      "tags": ["clutch", "mechanical", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "clutch",
+        "mechanical",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2968,8 +4775,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A tactical in-game leader and multiple-time Major champion with Astralis.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -2986,8 +4800,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 'Clutch Minister', a support and multiple-time Major champion with Astralis.",
-      "tags": ["clutch", "disciplined", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "clutch",
+        "disciplined",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3004,8 +4825,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran entry fragger and Major champion with FaZe Clan.",
-      "tags": ["aggressive", "veteran", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "aggressive",
+        "veteran",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3018,15 +4846,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Europe",
-      "birthDate": "1996-04-10",
+      "birthDate": "1996-01-03",
       "birthTime": null,
       "avatar": "",
       "bio": "A mechanically strong rifler and long-time top-tier competitor.",
-      "tags": ["mechanical", "aggressive", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 1996-01-03 per Liquipedia (Players_Supplement concurs)."
     },
     {
       "id": "cs2-b1t",
@@ -3036,15 +4871,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Europe",
-      "birthDate": "2002-12-09",
+      "birthDate": "2003-01-05",
       "birthTime": null,
       "avatar": "",
       "bio": "A young rifler and Major champion with NAVI.",
-      "tags": ["mechanical", "clutch", "aggressive"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "clutch",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 2003-01-05 per Liquipedia (Players_Supplement concurs)."
     },
     {
       "id": "cs2-yekindar",
@@ -3058,8 +4900,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive entry fragger known for creating space for his team.",
-      "tags": ["aggressive", "creative", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "aggressive",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3072,15 +4921,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Europe",
-      "birthDate": "2000-08-30",
+      "birthDate": "2000-09-13",
       "birthTime": null,
       "avatar": "",
       "bio": "A high-impact rifler and Major champion with Vitality.",
-      "tags": ["mechanical", "stable", "aggressive"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 2000-09-13 per Liquipedia/HLTV."
     },
     {
       "id": "cs2-twistzz",
@@ -3090,15 +4946,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Americas",
-      "birthDate": "1999-08-05",
+      "birthDate": "1999-11-14",
       "birthTime": null,
       "avatar": "",
       "bio": "A precise rifler and Major champion with FaZe Clan.",
-      "tags": ["mechanical", "calm", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "calm",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 1999-11-14 per Liquipedia/HLTV."
     },
     {
       "id": "cs2-fallen",
@@ -3112,8 +4975,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time Major champion and legendary in-game leader and AWPer.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3130,8 +5000,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time Major champion and two-time HLTV Player of the Year.",
-      "tags": ["mechanical", "clutch", "calm"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "clutch",
+        "calm"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3148,8 +5025,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A consistent top rifler and multiple-time HLTV Top 20 player with FURIA.",
-      "tags": ["mechanical", "stable", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3166,8 +5050,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A steady, high-impact rifler and long-time cornerstone of FURIA.",
-      "tags": ["mechanical", "stable", "disciplined"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3184,8 +5075,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A powerful entry rifler and Intel Grand Slam champion with Team Liquid.",
-      "tags": ["aggressive", "mechanical", "stable"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3202,8 +5100,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A clutch-savvy rifler and Grand Slam champion with Team Liquid.",
-      "tags": ["clutch", "stable", "disciplined"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "clutch",
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3220,8 +5125,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A Major champion rifler and entry known for his aggressive, fast-paced style.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
@@ -3234,15 +5146,22 @@
       "game": "cs2",
       "role": "Rifler",
       "competition_region": "Oceania",
-      "birthDate": "1996-04-26",
+      "birthDate": "1995-12-12",
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran rifler and long-time standout of the Oceanic scene.",
-      "tags": ["mechanical", "stable", "veteran"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
-      "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
+      "notes": "Birth date corrected to 1995-12-12 per Liquipedia/HLTV."
     },
     {
       "id": "cs2-jamyoung",
@@ -3256,13 +5175,459 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A rising rifler and one of the region's brightest talents with TYLOO.",
-      "tags": ["mechanical", "aggressive", "rookie"],
-      "source": ["Liquipedia", "HLTV"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia/HLTV, 2026-07)."
     },
-
+    {
+      "id": "cs2-flamez",
+      "name": "flameZ",
+      "realName": "Shahar Shushan",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2003-06-22",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An entry rifler known for aggressive space-taking.",
+      "tags": [
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-apex",
+      "name": "apEX",
+      "realName": "Dan Madesclaire",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1993-01-22",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A veteran in-game leader and emotional on-server anchor.",
+      "tags": [
+        "leader",
+        "aggressive",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Vitality). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-kyousuke",
+      "name": "kyousuke",
+      "realName": "Maksim Lukin",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2008-01-30",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A young entry rifler and highly-touted prospect.",
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Falcons). Supplement listed 2002-04-07; Liquipedia/Esports Charts give 2008-01-30."
+    },
+    {
+      "id": "cs2-aleksib",
+      "name": "Aleksib",
+      "realName": "Aleksi Virolainen",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1997-07-21",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A strategic in-game leader known for structured setups.",
+      "tags": [
+        "leader",
+        "strategic",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: NAVI). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-w0nderful",
+      "name": "w0nderful",
+      "realName": "Ihor Zhdanov",
+      "aliases": [],
+      "game": "cs2",
+      "role": "AWPer",
+      "competition_region": "Europe",
+      "birthDate": "2004-10-15",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A young AWPer with sharp opening picks.",
+      "tags": [
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: NAVI). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-jl",
+      "name": "jL",
+      "realName": "Justinas Lekavicius",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2002-08-17",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A high-impact rifler and entry presence.",
+      "tags": [
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: NAVI). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-im",
+      "name": "iM",
+      "realName": "Mihai Ivan",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2002-04-11",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A versatile rifler with strong clutch instincts.",
+      "tags": [
+        "clutch",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: NAVI). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-hooxi",
+      "name": "HooXi",
+      "realName": "Rasmus Nielsen",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1995-08-15",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An in-game leader focused on team structure and morale.",
+      "tags": [
+        "leader",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2 Esports). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-nexa",
+      "name": "nexa",
+      "realName": "Nemanja Isaković",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "1997-04-29",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A versatile rifler and experienced secondary caller.",
+      "tags": [
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2 Esports). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-snappi",
+      "name": "Snappi",
+      "realName": "Marco Pfeiffer",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1990-04-11",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A long-tenured in-game leader and veteran presence.",
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: G2 Esports). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-magixx",
+      "name": "magixx",
+      "realName": "Boris Vorobiev",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "1998-03-16",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A disciplined support rifler and Major winner.",
+      "tags": [
+        "disciplined",
+        "stable",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Spirit). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-patsi",
+      "name": "Patsi",
+      "realName": "Robert Isyanov",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2002-05-26",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A rifler with strong mechanical fundamentals.",
+      "tags": [
+        "mechanical",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Spirit). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-s1ren",
+      "name": "s1ren",
+      "realName": "Pavel Ogloblin",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2001-06-12",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A rifler known for aggressive duels.",
+      "tags": [
+        "aggressive",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Spirit). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-chopper",
+      "name": "chopper",
+      "realName": "Leonid Vishnyakov",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1996-08-21",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "An in-game leader and veteran tactician.",
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: Team Spirit). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-torzsi",
+      "name": "torzsi",
+      "realName": "Ádám Torzsás",
+      "aliases": [],
+      "game": "cs2",
+      "role": "AWPer",
+      "competition_region": "Europe",
+      "birthDate": "2002-05-22",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A patient AWPer who anchors defenses.",
+      "tags": [
+        "calm",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: MOUZ). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-dexter",
+      "name": "dexter",
+      "realName": "Christopher Nong",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "1995-06-22",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A methodical in-game leader and veteran caller.",
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: MOUZ). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-siuhy",
+      "name": "siuhy",
+      "realName": "Kamil Szkaradek",
+      "aliases": [],
+      "game": "cs2",
+      "role": "IGL",
+      "competition_region": "Europe",
+      "birthDate": "2002-02-16",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A creative in-game leader with unorthodox setups.",
+      "tags": [
+        "leader",
+        "creative",
+        "strategic"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: MOUZ). Birth date per Liquipedia."
+    },
+    {
+      "id": "cs2-jdc",
+      "name": "JDC",
+      "realName": "Jon de Castro",
+      "aliases": [],
+      "game": "cs2",
+      "role": "Rifler",
+      "competition_region": "Europe",
+      "birthDate": "2000-02-13",
+      "birthTime": null,
+      "avatar": "",
+      "bio": "A rifler with a steady, dependable style.",
+      "tags": [
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "HLTV"
+      ],
+      "source_type": "liquipedia",
+      "verified": true,
+      "notes": "Added from Players_Supplement (team context: MOUZ). Birth date per Liquipedia."
+    },
     {
       "id": "dota-n0tail",
       "name": "N0tail",
@@ -3275,8 +5640,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The 'BIG DADDY' — a two-time The International champion and the most successful captain in the game's history.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1993-08-29 to 1993-10-08 per Liquipedia."
@@ -3293,8 +5665,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A carry widely regarded as one of the greatest players ever, the first to reach 9000 MMR and a The International champion.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1997-08-06 to 1997-06-20 per Liquipedia."
@@ -3311,8 +5690,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A wildcard midlaner whose off-meta genius won back-to-back Internationals.",
-      "tags": ["creative", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1997-08-05 to 1998-04-14 per Liquipedia."
@@ -3329,8 +5715,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time The International champion carry famed for appearing, dominating, then vanishing.",
-      "tags": ["calm", "clutch", "mechanical"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "calm",
+        "clutch",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1999-09-14 to 1999-10-27 per Liquipedia."
@@ -3347,8 +5740,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time The International champion carry with monstrous mechanics.",
-      "tags": ["mechanical", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2002-06-08 to 2003-03-12 per Liquipedia."
@@ -3365,8 +5765,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A The International champion offlaner whose Magnus play became legend.",
-      "tags": ["creative", "clutch", "aggressive"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "clutch",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 2001-11-24 to 2002-02-25 per Liquipedia."
@@ -3383,8 +5790,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The eternal captain — a The International champion and one of the game's greatest drafters.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1989-09-14 to 1990-03-06 per Liquipedia."
@@ -3401,8 +5815,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A passionate offlaner and shot-caller, a two-time The International champion with OG.",
-      "tags": ["leader", "aggressive", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "aggressive",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1991-11-30 to 1992-05-11 per Liquipedia."
@@ -3419,8 +5840,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A rare dual-threat star excelling at both mid and carry, and a multiple-time Major champion.",
-      "tags": ["mechanical", "creative", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3437,8 +5865,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A legendary support-captain and The International champion with one of the longest elite careers in the game.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3455,8 +5890,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A world-class support and The International champion known for game-changing playmaking.",
-      "tags": ["creative", "aggressive", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "aggressive",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3473,8 +5915,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A fearless carry and The International champion known for his aggressive style.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3491,8 +5940,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A cerebral offlaner and multiple-time Major champion who turned pro in his mid-teens.",
-      "tags": ["strategic", "stable", "disciplined"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "strategic",
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3509,8 +5965,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A tenacious offlaner and The International champion famous for his teamfight initiations.",
-      "tags": ["aggressive", "clutch", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "aggressive",
+        "clutch",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3527,8 +5990,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time The International champion support renowned for match-winning hooks.",
-      "tags": ["creative", "clutch", "disciplined"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "clutch",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3545,8 +6015,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A The International champion midlaner and Grand Final MVP.",
-      "tags": ["mechanical", "creative", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3563,8 +6040,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A The International champion midlaner known for his high-ceiling carry play.",
-      "tags": ["mechanical", "aggressive", "creative"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3581,8 +6065,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A two-time The International champion support and reliable playmaker.",
-      "tags": ["creative", "disciplined", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "disciplined",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3599,8 +6090,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "The youngest-ever The International champion, a fearless midlaner.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1999-02-14 to 1999-02-13 per Liquipedia."
@@ -3617,8 +6115,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A farming savant with some of the crispest mechanics in the game.",
-      "tags": ["mechanical", "creative", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Corrected from 1995-03-06 to 1996-07-01 per Liquipedia."
@@ -3635,8 +6140,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "An aggressive, mechanically gifted midlaner and multiple-time Major champion.",
-      "tags": ["aggressive", "mechanical", "creative"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3653,8 +6165,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran support and captain who has led top teams for over a decade.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3671,8 +6190,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A midlane prodigy famed for his signature Meepo and Invoker.",
-      "tags": ["mechanical", "creative", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3689,8 +6215,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A carry and long-time competitor known for his farming and teamfight timing.",
-      "tags": ["mechanical", "stable", "aggressive"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3707,8 +6240,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A hard-carrying young star and one of the region's most feared farmers.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3725,8 +6265,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile carry and long-time regional standout.",
-      "tags": ["mechanical", "stable", "creative"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3743,8 +6290,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A prolific carry and one of the region's most consistent stars.",
-      "tags": ["mechanical", "stable", "disciplined"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "stable",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3761,8 +6315,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A skilled midlaner and long-time regional standout.",
-      "tags": ["mechanical", "creative", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3779,8 +6340,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A revered carry known for calm, high-damage performances on the biggest stages.",
-      "tags": ["calm", "mechanical", "stable"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "calm",
+        "mechanical",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3797,8 +6365,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile midlaner known for his broad hero pool and steady play.",
-      "tags": ["creative", "stable", "mechanical"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "creative",
+        "stable",
+        "mechanical"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3815,8 +6390,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A dependable hard support and Major-winning playmaker.",
-      "tags": ["disciplined", "stable", "creative"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "disciplined",
+        "stable",
+        "creative"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
@@ -3833,18 +6415,26 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran support renowned for his shot-calling and roaming.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Esports Earnings"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Esports Earnings"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Birth date verified via public esports references (Liquipedia, 2026-07)."
     },
-
     {
       "id": "hok-cat",
       "name": "Cat",
       "realName": "Chen Zhengzheng",
-      "aliases": ["猫神"],
+      "aliases": [
+        "猫神"
+      ],
       "game": "hok",
       "role": "Mid",
       "competition_region": "KPL",
@@ -3852,8 +6442,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A celebrated mid laner and 2019 World Champion Cup Finals MVP.",
-      "tags": ["leader", "strategic", "veteran"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "leader",
+        "strategic",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -3862,7 +6459,9 @@
       "id": "hok-jiucheng",
       "name": "JiuCheng",
       "realName": "Cao Zhishun",
-      "aliases": ["久诚"],
+      "aliases": [
+        "久诚"
+      ],
       "game": "hok",
       "role": "Mid",
       "competition_region": "KPL",
@@ -3870,8 +6469,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A star mid laner regarded as one of the KPL's premier burst-damage players.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Verified via Liquipedia Honor of Kings wiki (2026-07); replaces an earlier inaccurate curated entry (real name Wang Zhi, DOB 1999-05-20)."
@@ -3880,7 +6486,9 @@
       "id": "hok-yinuo",
       "name": "YiNuo",
       "realName": "Xu Bicheng",
-      "aliases": ["一诺"],
+      "aliases": [
+        "一诺"
+      ],
       "game": "hok",
       "role": "Marksman",
       "competition_region": "KPL",
@@ -3888,8 +6496,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A marksman known for aggressive positioning and carry performances in the KPL.",
-      "tags": ["aggressive", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Verified via Liquipedia Honor of Kings wiki (2026-07); replaces an earlier inaccurate curated entry (real name Hu Jia, DOB 2001-03-18)."
@@ -3898,7 +6513,9 @@
       "id": "hok-laoshuai",
       "name": "LaoShuai",
       "realName": "Zhang Yuchen",
-      "aliases": ["老帅"],
+      "aliases": [
+        "老帅"
+      ],
       "game": "hok",
       "role": "Mid",
       "competition_region": "KPL",
@@ -3906,8 +6523,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran mid laner and one of the KPL's longest-tenured competitors.",
-      "tags": ["strategic", "stable", "veteran"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "strategic",
+        "stable",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -3916,7 +6540,9 @@
       "id": "hok-qingrong",
       "name": "QingRong",
       "realName": "Huang Yaoqin",
-      "aliases": ["清融"],
+      "aliases": [
+        "清融"
+      ],
       "game": "hok",
       "role": "Jungle",
       "competition_region": "KPL",
@@ -3924,8 +6550,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A flexible mid and jungle player and 2020 Champion Cup Finals MVP.",
-      "tags": ["creative", "mechanical", "clutch"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "creative",
+        "mechanical",
+        "clutch"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Verified via Liquipedia Honor of Kings wiki (2026-07); replaces an earlier inaccurate curated entry (real name Chen Rong, DOB 2002-04-09)."
@@ -3934,7 +6567,9 @@
       "id": "hok-wuhen",
       "name": "Wuhen",
       "realName": "Zhu Haoyun",
-      "aliases": ["无痕"],
+      "aliases": [
+        "无痕"
+      ],
       "game": "hok",
       "role": "Jungle",
       "competition_region": "KPL",
@@ -3942,8 +6577,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A veteran jungler and long-time KPL competitor.",
-      "tags": ["strategic", "veteran", "stable"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "strategic",
+        "veteran",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Verified via Liquipedia Honor of Kings wiki (2026-07); replaces an earlier inaccurate curated entry (real name Ai Wenxie, DOB 2000-09-27)."
@@ -3952,7 +6594,9 @@
       "id": "hok-huahai",
       "name": "HuaHai",
       "realName": "Luo Siyuan",
-      "aliases": ["花海"],
+      "aliases": [
+        "花海"
+      ],
       "game": "hok",
       "role": "Jungle",
       "competition_region": "KPL",
@@ -3960,8 +6604,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A versatile jungle and bottom-lane player and long-time KPL competitor.",
-      "tags": ["creative", "stable", "veteran"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "creative",
+        "stable",
+        "veteran"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Verified via Liquipedia Honor of Kings wiki (2026-07); replaces an earlier inaccurate curated entry (real name Zhang Yuqi, DOB 2000-06-11)."
@@ -3978,8 +6629,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A young top laner competing in the KPL.",
-      "tags": ["mechanical", "aggressive", "rookie"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "mechanical",
+        "aggressive",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -3996,8 +6654,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A young top laner competing in the KPL.",
-      "tags": ["aggressive", "mechanical", "rookie"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4014,8 +6679,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A top laner competing in the KPL.",
-      "tags": ["stable", "mechanical", "aggressive"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "stable",
+        "mechanical",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4032,8 +6704,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A roamer known for playmaking and vision control in the KPL.",
-      "tags": ["creative", "leader", "disciplined"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "creative",
+        "leader",
+        "disciplined"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4050,8 +6729,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A mid laner competing in the KPL.",
-      "tags": ["mechanical", "creative", "aggressive"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "mechanical",
+        "creative",
+        "aggressive"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4068,8 +6754,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A support and roamer and long-time KPL competitor.",
-      "tags": ["leader", "strategic", "stable"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "leader",
+        "strategic",
+        "stable"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4086,8 +6779,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A young jungler competing in the KPL.",
-      "tags": ["aggressive", "mechanical", "rookie"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."
@@ -4104,8 +6804,15 @@
       "birthTime": null,
       "avatar": "",
       "bio": "A young marksman competing in the KPL.",
-      "tags": ["aggressive", "mechanical", "rookie"],
-      "source": ["Liquipedia", "Baidu Baike"],
+      "tags": [
+        "aggressive",
+        "mechanical",
+        "rookie"
+      ],
+      "source": [
+        "Liquipedia",
+        "Baidu Baike"
+      ],
       "source_type": "liquipedia",
       "verified": true,
       "notes": "Real name and birth date verified via Liquipedia Honor of Kings wiki (2026-07)."

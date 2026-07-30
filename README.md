@@ -3,17 +3,19 @@
 A **static, front-end-only** fortune-style matcher. Enter a birth date (plus an
 optional time and gender), pick 1–4 esports titles, and instantly get:
 
-1. A short, direct **archetype** — a Heavenly-Stem / Five-Element type (e.g. `甲木人`, `丁火人`)
+1. A short, direct **viewer archetype** — a Heavenly-Stem / Five-Element type (e.g. `甲木人`, `丁火人`)
 2. A **star-mansion** label (e.g. `毕宿型`, `昴宿型`)
-3. A one-line summary + what kinds of matches you're most suited to watch
-4. A readable "why" explanation
-5. Your **Top 10 destined pro players** with compatibility %, role, nationality, birth date, and a one-line reason
+3. A one-line summary of your **viewing style** + what kind of matches pull you in
+4. A readable "how your watch-list is read" explanation
+5. A **featured #1 destined pro** plus your scannable **Top 10** — each with a match %,
+   role, competition region, birth date, and a one-line reason
 6. A **shareable result card** + copy-to-clipboard text
 
 It's playful entertainment, not real astrology. The symbolic East Asian
 metaphysics (Heavenly Stems, Five Elements, Ten Gods, Earthly-Branch
 relationships, the 28 Lunar Mansions) are used purely as a fun, deterministic
-compatibility layer.
+layer that reframes the match as **audience × player × event aura** — which pros
+you're *fated to watch*, never romance or social compatibility.
 
 ---
 
@@ -129,21 +131,30 @@ Each player in `data/players.json`:
   "id": "lol-faker",
   "name": "Faker",
   "realName": "Lee Sang-hyeok",
+  "aliases": [],
   "game": "lol",
   "role": "Mid",
-  "nationality": "South Korea",
+  "competition_region": "LCK",
   "birthDate": "1996-05-07",
   "birthTime": null,
   "avatar": "",
   "bio": "…",
   "tags": ["calm", "clutch", "leader", "stable"],
-  "source": { "origin": "public-wiki", "verified": true }
+  "source": ["Liquipedia", "Leaguepedia"],
+  "source_type": "liquipedia",
+  "verified": true,
+  "notes": "…"
 }
 ```
 
-- **No `team` field** in the MVP — rosters change too often. If you add teams
-  later, keep the field optional and separate from the matching logic.
-- **Allowed tags:** `calm, aggressive, clutch, leader, creative, stable, explosive`.
+- **No `team` field** in the visible schema — rosters change too often. Team
+  context, when noted at all, lives only in `notes`/source metadata, never in
+  the UI or the matching logic.
+- **Geopolitical neutrality:** the UI renders **no flags, no nationalities, and no
+  demonyms** — only a neutral `competition_region` label (e.g. `LCK`, `LPL`,
+  `VCT Pacific`, `Europe`). Nationality is never a scoring factor.
+- **Allowed tags:** `clutch, leader, aggressive, disciplined, stable, calm, creative, veteran, rookie, mechanical, strategic`.
+- `birthTime` is `null` unless a reliable birth hour is known — hours are never invented.
 - `avatar` is optional — leave it `""` and a colored initials badge is generated.
 
 ### Data ingestion & validation
