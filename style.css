@@ -328,8 +328,80 @@ input[type="date"]:focus, input[type="time"]:focus, select#birthTz:focus {
 
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
 
+/* ---------------- Language switch ---------------- */
+.lang-switch {
+  position: fixed; top: 14px; right: 14px; z-index: 5;
+  display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px;
+  background: rgba(16, 12, 42, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.lang-btn {
+  font-family: inherit; cursor: pointer; border: none; background: transparent; color: var(--muted);
+  font-size: 0.82rem; font-weight: 700; padding: 6px 14px; border-radius: 999px; transition: all .18s ease;
+}
+.lang-btn:hover { color: var(--text); }
+.lang-btn.is-active { color: #fff; background: linear-gradient(100deg, var(--accent), var(--accent-2)); box-shadow: 0 6px 16px rgba(155,140,255,0.4); }
+
+/* ---------------- Main conclusion ---------------- */
+.conclusion {
+  position: relative; overflow: hidden; text-align: center;
+  margin: 4px 0 22px; padding: 24px 20px; border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--border));
+  background:
+    radial-gradient(420px 200px at 50% -30%, rgba(255,214,122,0.18), transparent 70%),
+    linear-gradient(165deg, rgba(155,140,255,0.14), rgba(0,0,0,0.25));
+}
+.conclusion__eyebrow { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2.5px; color: var(--gold); font-weight: 700; }
+.conclusion__title {
+  margin: 8px 0 6px; font-size: clamp(1.6rem, 6vw, 2.2rem); font-weight: 800; letter-spacing: 0.5px; line-height: 1.15;
+  background: linear-gradient(100deg, #fff, var(--accent) 55%, var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.conclusion__sub { margin: 0 auto; max-width: 520px; font-size: 1.02rem; color: #f0edff; line-height: 1.55; }
+.conclusion__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+.ct-chip {
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.4px; padding: 5px 12px; border-radius: 999px;
+  color: #efe9ff; background: rgba(155,140,255,0.16); border: 1px solid var(--border);
+}
+
+/* ---------------- Block titles ---------------- */
+.block-title {
+  margin: 26px 0 14px; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.6px;
+  color: var(--muted); display: flex; align-items: center; gap: 10px;
+}
+.block-title::before { content: ''; width: 16px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+
+/* ---------------- Layered explanation ---------------- */
+.layers { display: grid; gap: 12px; margin-bottom: 8px; }
+.layer {
+  display: grid; grid-template-columns: 32px 1fr; align-items: start; gap: 14px;
+  background: rgba(0,0,0,0.24); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px;
+  animation: rowIn .5s ease both;
+}
+.layer__n {
+  width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: var(--gold);
+  background: rgba(255,214,122,0.12); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+}
+.layer__title { margin: 2px 0 5px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); }
+.layer__body { margin: 0; font-size: 0.96rem; color: #eae7ff; line-height: 1.6; }
+
+/* ---------------- Event aura ---------------- */
+.aura__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.aura-chip {
+  font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 999px; color: #06231a;
+  background: linear-gradient(100deg, var(--good), #7be0ff); box-shadow: 0 6px 16px rgba(79,240,163,0.22);
+}
+.aura__body { margin: 0; font-size: 0.96rem; color: #eae7ff; line-height: 1.6; }
+
+/* ---------------- Player fit ---------------- */
+.pfit__body {
+  margin: 0; font-size: 0.98rem; color: #f0edff; line-height: 1.62;
+  background: rgba(0,0,0,0.2); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 14px 16px;
+}
+
 /* ---------------- Responsive ---------------- */
 @media (max-width: 560px) {
+  .lang-switch { top: 10px; right: 10px; }
   .field-grid { grid-template-columns: 1fr; }
   .identity { grid-template-columns: 1fr; }
   .identity__label { font-size: 1.8rem; }

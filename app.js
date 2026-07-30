@@ -483,23 +483,18 @@ function hourScore(u, p, cfg) {
   return { score: cfg.neutral };
 }
 
-// One-line reason fragments per layer.
-function elementReason(p, core) {
-  const pe = ELEMENTS[p.chart.dayMasterElementIdx];
-  return `${TEN_GOD_DESC[core.god]} — their ${pe.cn}${pe.en} day-master ${TEN_GOD_CN[core.god]} yours`;
-}
-function zodiacReason(u, p, z) {
-  const map = {
-    '六合': 'a 六合 six-harmony', '三合': 'a 三合 trine', '六冲': 'a 六冲 clash-spark',
-    '相刑': 'a 相刑 tension', '相害': 'a 相害 friction', '相破': 'a 相破 edge',
-    same: 'a shared', neutral: 'an easy'
-  };
-  return `${map[z.rel] || 'an easy'} ${ZODIAC_EN[u.zodiacIdx]}–${ZODIAC_EN[p.zodiacIdx]} zodiac tie`;
-}
-function mansionReason(u, p, man) {
-  if (man.rel === 'same') return `the same ${MANSIONS[u.mansionIdx].cn}宿 lunar mansion`;
-  if (man.rel === 'palace') return `a shared ${MANSIONS[u.mansionIdx].palace} star-palace`;
-  return `${MANSIONS[u.mansionIdx].cn}宿 and ${MANSIONS[p.mansionIdx].cn}宿 in dialogue`;
+// Format a single reason contributor into a short, current-language fragment.
+function formatReason(c) {
+  const R = READING;
+  if (c.kind === 'element') return tr((R.tenGodShort || {})[c.god]) || '';
+  if (c.kind === 'zodiac') {
+    const rel = tr((R.zodiacRel || {})[c.zRel] || (R.zodiacRel || {}).neutral);
+    if (CURRENT_LANG === 'zh') return `${ZODIAC[c.uZod]}–${ZODIAC[c.pZod]} ${rel}`;
+    return `a ${rel} ${ZODIAC_EN[c.uZod]}–${ZODIAC_EN[c.pZod]} tie`;
+  }
+  if (c.kind === 'mansion') return tr((R.mansionRel || {})[c.mRel] || (R.mansionRel || {}).other);
+  if (c.kind === 'hour') return CURRENT_LANG === 'zh' ? '时辰相合' : 'a resonant birth-hour tie';
+  return '';
 }
 
 // Weighted four-layer compatibility. Returns a 0..1 score.
@@ -528,12 +523,13 @@ function scorePlayer(u, p, config) {
 
   const score = wCore * core.score + wZod * zod.score + wMan * man.score + (hour ? wHour * hour.score : 0);
 
+  const mRel = man.rel === 'same' ? 'same' : (man.rel === 'palace' ? 'palace' : 'other');
   const reasons = [
-    { pts: wCore * core.score, kind: 'element', god: core.god, text: elementReason(p, core) },
-    { pts: wZod * zod.score, kind: 'zodiac', rel: zod.rel, text: zodiacReason(u, p, zod) },
-    { pts: wMan * man.score, kind: 'mansion', rel: man.rel, text: mansionReason(u, p, man) }
+    { pts: wCore * core.score, kind: 'element', god: core.god },
+    { pts: wZod * zod.score, kind: 'zodiac', zRel: zod.rel, uZod: u.zodiacIdx, pZod: p.zodiacIdx },
+    { pts: wMan * man.score, kind: 'mansion', mRel }
   ];
-  if (hour) reasons.push({ pts: wHour * hour.score, kind: 'hour', text: `a resonant birth-hour (时辰) pairing` });
+  if (hour) reasons.push({ pts: wHour * hour.score, kind: 'hour' });
 
   return { score, reasons, layers: { core: core.score, zodiac: zod.score, mansion: man.score, hour: hour ? hour.score : null } };
 }
@@ -546,13 +542,20 @@ function toPercent(score, config, minRaw, maxRaw) {
   return Math.round(min + t * (max - min));
 }
 
-// Build a one-sentence match reason from the strongest contributors.
+// Build a one-sentence match reason (current language) from the strongest
+// contributors. Formatted at render time so a language toggle re-flows it.
 function buildReason(player, contributors) {
   const positives = contributors.filter(c => c.pts > 0).sort((a, b) => b.pts - a.pts);
-  const top = positives.slice(0, 2).map(c => c.text);
-  if (top.length === 0) return `${player.name}'s aura crosses yours on a subtle, slow-burning line.`;
-  if (top.length === 1) return `You're drawn to ${top[0]}.`;
-  return `You're drawn to ${top[0]}, amplified by ${top[1]}.`;
+  const top = positives.slice(0, 2).map(formatReason).filter(Boolean);
+  if (top.length === 0) {
+    return CURRENT_LANG === 'zh'
+      ? `${player.name} 的气场与你在一条隐约的线上交汇。`
+      : `${player.name}'s aura crosses yours on a subtle, slow-burning line.`;
+  }
+  if (CURRENT_LANG === 'zh') {
+    return top.length === 1 ? `你被他的${top[0]}吸引。` : `你被他的${top[0]}吸引，并由${top[1]}加成。`;
+  }
+  return top.length === 1 ? `You're drawn to their ${top[0]}.` : `You're drawn to their ${top[0]}, amplified by ${top[1]}.`;
 }
 
 /* ---------------------------------------------------------------------
@@ -589,10 +592,9 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data, opts) {
   const minRaw = Math.min(...rawScores);
   const maxRaw = Math.max(...rawScores);
 
-  scored.forEach(s => {
-    s.percent = toPercent(s.rawScore, config, minRaw, maxRaw);
-    s.reasonText = buildReason(s.player, s.reasons);
-  });
+  // Percentages are language-independent; reason text is built at render time
+  // so a language toggle re-flows it without recomputing the ranking.
+  scored.forEach(s => { s.percent = toPercent(s.rawScore, config, minRaw, maxRaw); });
 
   // Deterministic sort: score desc, then id asc for stable tie-breaks.
   scored.sort((a, b) => b.rawScore - a.rawScore || a.player.id.localeCompare(b.player.id));
@@ -601,91 +603,138 @@ function runMatch(birthDate, birthTime, gender, selectedGames, data, opts) {
 }
 
 /* ---------------------------------------------------------------------
- * 5. Narrative copy (local template) + optional OpenAI polish
+ * 5. Reading generator (bilingual, structured) + optional OpenAI polish
+ *
+ * buildReading() turns the deterministic profile + ranking into a rich,
+ * layered "reading" in the CURRENT language: a confident main conclusion,
+ * a four-layer reasoned explanation (elemental temperament, zodiac/branch
+ * interaction, star-mansion aura, Ten-God viewing lens), an event-aura fit,
+ * and a player-fit paragraph. The scoring is untouched — this is pure
+ * interpretation, rebuilt on the fly whenever the language changes.
  * ------------------------------------------------------------------- */
 
-function localNarrative(profile, selectedGames, gamesMeta) {
-  const el = profile.element;
-  const mansion = profile.mansion;
-  const flavor = MANSION_FLAVOR[mansion.cn] || 'a rare and singular star-signature';
-
-  // 1) short metaphysical identity + viewing style
-  const summary =
-    `As a viewer you're a ${profile.stemArchetype} — ${personalityStyle(profile.elementIdx)}. ` +
-    `Year of the ${profile.zodiacChar} ${profile.zodiacEn}, under the ${mansion.cn}宿 mansion — the aura that shapes who you're fated to watch.`;
-
-  // 2) concise zodiac viewing-chemistry note
-  const zodiacNote =
-    `Your ${profile.zodiacEn} viewing-chemistry clicks with pros in 六合/三合 harmony and strikes electric sparks with 六冲/刑/害/破 — ` +
-    `that mix decides whose matches pull you in.`;
-
-  // 3) concise star-mansion note — traditional 二十八宿 (月宿) almanac, read from
-  //    birth-place local time, with an honest confidence tier.
-  let mansionNote;
-  if (!profile.mansionResolved) {
-    mansionNote =
-      `Star mansion (月宿) unresolved — the traditional almanac reads it from your exact birth moment, so it needs your birth time and birth-place time zone. ` +
-      `Shown as ${mansion.cn}宿 from a noon estimate only, and it counts lightly here.`;
-  } else if (profile.mansionExact) {
-    mansionNote = `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}), read by the traditional almanac from your birth-place birth time — an event-aura of ${flavor}.`;
-  } else if (profile.mansionHasTime && !profile.mansionTzKnown) {
-    mansionNote =
-      `Your 月宿 is ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
-      `Birth-place time zone not set, so it's approximate; set it for an exact mansion.`;
-  } else {
-    mansionNote =
-      `Approximate ${mansion.cn}宿 (${mansion.palace}) — ${flavor}. ` +
-      `Add your birth time and birth-place time zone for an exact 月宿.`;
+// The Ten-God "viewing lens" the viewer leans on, derived from the element
+// their own chart most reinforces (relative to their day master).
+function viewerLensGod(profile) {
+  const dist = profile.chart.elementDist;
+  const self = profile.elementIdx;
+  let dom = -1, best = -1;
+  for (let i = 0; i < 5; i++) {
+    if (i === self) continue;
+    if (dist[i] > best) { best = dist[i]; dom = i; }
   }
+  if (dom < 0 || best === 0) dom = generates(self); // fallback: what the self element produces (output)
+  return tenGod(self, dom);
+}
 
-  // 4) why these pros land on the user's watch-list
-  const why =
-    `Your watch-list is a light BaZi read: your ${profile.stemChar}${el.cn} day-master & elements (55%), zodiac ties (20%), ` +
-    `star-mansion aura (15%) and birth-hour (10%, shared out when unknown). ` +
-    `The pros below ${relationHint(profile.elementIdx)} your ${el.en} viewing temperament most.`;
+// Confidence-aware, bilingual star-mansion clause.
+function mansionClause(profile) {
+  const cn = profile.mansion.cn;
+  if (!profile.mansionResolved) {
+    return CURRENT_LANG === 'zh'
+      ? `（月宿未定：传统历法需要你的出生时间与出生地时区。此处的 ${cn}宿 仅按正午估算，权重从轻。）`
+      : `(Mansion unresolved — the almanac needs your birth time and birth-place time zone; ${cn}宿 is a noon estimate here and weighs lightly.)`;
+  }
+  if (profile.mansionExact) return '';
+  return CURRENT_LANG === 'zh'
+    ? `（近似——补全出生时间与时区可得到精确月宿。）`
+    : `(Approximate — add your birth time and time zone for an exact mansion.)`;
+}
+
+function buildReading(profile, ranked) {
+  const R = READING;
+  const e = profile.elementIdx;
+  const palace = Math.floor(profile.mansionIdx / 7);
+  const cn = profile.mansion.cn;
+
+  // ----- Main conclusion -----
+  const conclusion = {
+    title: tr(R.archetype[e]),
+    sub: tr(R.archetypeSub[e])
+  };
+  const chips = [
+    `${READING.elementCN[e]}${CURRENT_LANG === 'zh' ? '' : ' ' + profile.element.en}`,
+    CURRENT_LANG === 'zh' ? profile.zodiacChar : profile.zodiacEn,
+    `${cn}${CURRENT_LANG === 'zh' ? '宿' : '宿'}`,
+    tr(profile.yin ? R.temper.yin : R.temper.yang)
+  ];
+
+  // ----- Bridging identity line -----
+  const summary = CURRENT_LANG === 'zh'
+    ? `命盘：${profile.stemArchetype}（${profile.element.cn}），属${profile.zodiacChar}，主星 ${cn}宿——这正是塑造你观赛口味的底色。`
+    : `Chart: a ${profile.stemArchetype} (${profile.element.en}), a ${profile.zodiacEn}, under the ${cn}宿 mansion — the base note that shapes your viewing taste.`;
+
+  // ----- Four-layer reasoned explanation -----
+  const lens = viewerLensGod(profile);
+  const mClause = mansionClause(profile);
+  const mansionBody = CURRENT_LANG === 'zh'
+    ? `${cn}宿——${tr(R.palace[palace])}${mClause}`
+    : `${cn}宿 (${profile.mansion.palace}) — ${tr(R.palace[palace])} ${mClause}`.trim();
+  const viewingBody = CURRENT_LANG === 'zh'
+    ? `你偏爱${tr(R.tenGod[lens])}`
+    : `You gravitate to ${tr(R.tenGod[lens])}`;
+
+  const layers = [
+    { title: tr(R.layerTitle.temperament), body: tr(R.temperament[e]) },
+    { title: tr(R.layerTitle.zodiac), body: tr(R.zodiac[profile.zodiacIdx]) },
+    { title: tr(R.layerTitle.mansion), body: mansionBody },
+    { title: tr(R.layerTitle.viewing), body: viewingBody }
+  ];
+
+  // ----- Event-aura fit -----
+  const auraKeys = R.aura[e].chips.slice();
+  const pc = R.palaceChip[palace];
+  if (!auraKeys.includes(pc) && auraKeys.length < 3) auraKeys.push(pc);
+  const aura = {
+    chips: auraKeys.map(k => tr(R.auraChip[k])),
+    body: tr(R.aura[e])
+  };
+
+  // ----- Player fit -----
+  const top = (ranked || []).slice(0, 3);
+  let playerFit = '';
+  if (top.length) {
+    const sep = CURRENT_LANG === 'zh' ? '、' : ', ';
+    const names = top.map(r => r.player.name).join(sep);
+    const gods = top.map(r => { const x = r.reasons.find(y => y.kind === 'element'); return x && x.god; }).filter(Boolean);
+    const domGod = mode(gods) || 'resource';
+    const tags = top.flatMap(r => r.player.tags || []);
+    const domTag = mode(tags) || 'mechanical';
+    const lensShort = tr(R.tenGodShort[domGod]);
+    const tagLabel = tr(R.tag[domTag] || { en: domTag, zh: domTag });
+    const tmpl = tr(top.length > 1 ? R.playerFit.body : R.playerFit.bodyOne);
+    playerFit = tmpl.replace('{names}', names).replace('{lens}', lensShort).replace('{tag}', tagLabel);
+  }
 
   return {
     archetypeTitle: profile.stemArchetype,
-    mansionTitle: `${mansion.cn}宿型`,
-    zodiacTitle: `${profile.zodiacChar}${profile.zodiacEn}`,
-    summary, zodiacNote, mansionNote, why
+    mansionTitle: `${cn}宿型`,
+    conclusion, chips, summary, layers, aura, playerFit
   };
-}
-
-function personalityStyle(e) {
-  return [
-    'a patient watcher who savors slow, strategic games where small edges compound',   // wood
-    'a highlight-hungry fan who lives for explosive, expressive playmaking',            // fire
-    'a grounded viewer who respects disciplined, win-on-fundamentals play',             // earth
-    'a precision purist who loves sharp, mistake-punishing, mechanically clean play',   // metal
-    'an adaptive spectator who flows with fluid, read-heavy, improvisational games'     // water
-  ][e];
-}
-function relationHint(e) {
-  return [
-    'feed and grow with',      // wood
-    'ignite and mirror',       // fire
-    'steady and ground',       // earth
-    'sharpen and match',       // metal
-    'flow with and deepen'     // water
-  ][e];
 }
 
 // Optional OpenAI polish. NEVER changes the ranking or numbers — text only.
 // Requires a user-provided key stored in localStorage. Fails safe to local copy.
+// Polishes the current-language reading (conclusion + layer bodies + aura +
+// player-fit), keeping metaphysical labels and structure intact.
 async function polishWithOpenAI(narrative, ranked, profile) {
   const key = (localStorage.getItem('edm_openai_key') || '').trim();
-  if (!key) return narrative; // no key -> local template, app still fully works
+  if (!key) return narrative; // no key -> local reading, app still fully works
 
-  const topReasons = ranked.slice(0, 3).map(r => `${r.player.name} (${r.percent}%): ${r.reasonText}`).join('\n');
+  const langName = CURRENT_LANG === 'zh' ? 'Simplified Chinese' : 'English';
+  const payload = {
+    conclusionSub: narrative.conclusion.sub,
+    summary: narrative.summary,
+    layers: narrative.layers.map(l => l.body),
+    aura: narrative.aura.body,
+    playerFit: narrative.playerFit
+  };
   const prompt =
-    `You are a playful, mystical esports fortune writer. The theme is which pros the reader is FATED TO WATCH — ` +
-    `audience resonance, viewing style, and event aura — never romance or dating. Do NOT change any numbers, names, or rankings.\n` +
-    `Rewrite ONLY the wording to be elegant, mystical and shareable. Return strict JSON with keys ` +
-    `archetypeTitle, mansionTitle, summary, zodiacNote, mansionNote, why.\n\n` +
-    `Archetype: ${narrative.archetypeTitle}\nMansion: ${narrative.mansionTitle}\n` +
-    `summary: ${narrative.summary}\nzodiacNote: ${narrative.zodiacNote}\nmansionNote: ${narrative.mansionNote}\nwhy: ${narrative.why}\n\n` +
-    `Top matches for tone reference (do not alter):\n${topReasons}`;
+    `You are a playful yet precise esports metaphysics writer. The theme is which pros the reader is FATED TO WATCH — ` +
+    `audience resonance, viewing style, and event aura — never romance or dating. Write in ${langName}. ` +
+    `Do NOT change any numbers, names, rankings, or the metaphysical terms (Five Elements, zodiac, 宿, Ten Gods). ` +
+    `Rewrite ONLY the wording to be elegant, grounded and vivid — keep each field roughly the same length. ` +
+    `Return strict JSON with the SAME keys and array lengths as this input:\n${JSON.stringify(payload)}`;
 
   try {
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -693,29 +742,31 @@ async function polishWithOpenAI(narrative, ranked, profile) {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        temperature: 0.8,
+        temperature: 0.7,
         response_format: { type: 'json_object' },
         messages: [
-          { role: 'system', content: 'You polish copy. You never invent rankings, names, or numbers.' },
+          { role: 'system', content: 'You polish copy. You never invent rankings, names, or numbers, and you preserve JSON shape.' },
           { role: 'user', content: prompt }
         ]
       })
     });
     if (!res.ok) throw new Error('OpenAI ' + res.status);
     const json = await res.json();
-    const content = json.choices?.[0]?.message?.content;
-    const parsed = JSON.parse(content);
-    // Merge but keep our titles authoritative if the model drops them.
+    const parsed = JSON.parse(json.choices?.[0]?.message?.content || '{}');
+    const layers = narrative.layers.map((l, i) => ({
+      title: l.title,
+      body: (Array.isArray(parsed.layers) && parsed.layers[i]) || l.body
+    }));
     return {
-      archetypeTitle: parsed.archetypeTitle || narrative.archetypeTitle,
-      mansionTitle: parsed.mansionTitle || narrative.mansionTitle,
+      ...narrative,
+      conclusion: { title: narrative.conclusion.title, sub: parsed.conclusionSub || narrative.conclusion.sub },
       summary: parsed.summary || narrative.summary,
-      zodiacNote: parsed.zodiacNote || narrative.zodiacNote,
-      mansionNote: parsed.mansionNote || narrative.mansionNote,
-      why: parsed.why || narrative.why
+      layers,
+      aura: { chips: narrative.aura.chips, body: parsed.aura || narrative.aura.body },
+      playerFit: parsed.playerFit || narrative.playerFit
     };
   } catch (err) {
-    console.warn('OpenAI polish failed, using local narrative:', err);
+    console.warn('OpenAI polish failed, using local reading:', err);
     return narrative; // graceful fallback
   }
 }
@@ -788,6 +839,55 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 let DATA = null;
 let LAST_RESULT = null;
 
+/* ---- i18n runtime ---- */
+const I18N = (typeof window !== 'undefined' && window.EDM_I18N) || { en: {}, zh: {} };
+const READING = (typeof window !== 'undefined' && window.EDM_READING) || {};
+let CURRENT_LANG = 'zh';
+
+function getLang() {
+  try { const s = localStorage.getItem('edm_lang'); if (s === 'en' || s === 'zh') return s; } catch (_) {}
+  return 'zh';
+}
+// Translate a static UI key.
+function t(key) {
+  const table = I18N[CURRENT_LANG] || {};
+  return (key in table) ? table[key] : ((I18N.en && I18N.en[key]) || key);
+}
+// Pick a language field from a bilingual reading object {en, zh}.
+function tr(obj) {
+  if (!obj) return '';
+  return obj[CURRENT_LANG] != null ? obj[CURRENT_LANG] : (obj.en || '');
+}
+
+// Apply all static translations to the DOM for the current language.
+function applyI18n() {
+  document.documentElement.lang = CURRENT_LANG;
+  $$('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+  $$('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+  $$('.lang-btn').forEach(b => b.classList.toggle('is-active', b.dataset.lang === CURRENT_LANG));
+}
+
+function setLang(lang) {
+  if (lang !== 'en' && lang !== 'zh') return;
+  CURRENT_LANG = lang;
+  try { localStorage.setItem('edm_lang', lang); } catch (_) {}
+  applyI18n();
+  // Re-render a shown result in the new language (deterministic, no recompute).
+  if (LAST_RESULT && !$('#resultSection').hidden) {
+    const narrative = buildReading(LAST_RESULT.result.profile, LAST_RESULT.result.ranked);
+    renderResult(narrative, LAST_RESULT.result);
+  }
+}
+
+// Most-frequent value in an array (stable: first-seen wins ties).
+function mode(arr) {
+  const c = new Map();
+  arr.forEach(v => c.set(v, (c.get(v) || 0) + 1));
+  let best = null, bestN = -1;
+  for (const [k, n] of c) if (n > bestN) { best = k; bestN = n; }
+  return best;
+}
+
 function initGameCheckboxes(games) {
   const wrap = $('#gameOptions');
   wrap.innerHTML = '';
@@ -798,9 +898,10 @@ function initGameCheckboxes(games) {
     label.innerHTML =
       `<input type="checkbox" name="game" value="${g.id}">` +
       `<span class="game-chip__icon">${g.icon}</span>` +
-      `<span class="game-chip__name">${g.name}</span>`;
+      `<span class="game-chip__name" data-i18n="game.${g.id}">${g.name}</span>`;
     wrap.appendChild(label);
   });
+  applyI18n();
   // enforce max 4 selection
   wrap.addEventListener('change', () => {
     const checked = $$('input[name="game"]:checked', wrap);
@@ -827,19 +928,40 @@ function gameBadge(gameId) {
 function renderResult(narrative, result) {
   const { profile, ranked } = result;
 
-  // Identity cards (only two labels, as required)
+  // Identity cards
   $('#archetypeLabel').textContent = narrative.archetypeTitle;
   $('#archetypeEmoji').textContent = profile.element.emoji;
   $('#archetypeCard').style.setProperty('--accent', profile.element.color);
   $('#mansionLabel').textContent = narrative.mansionTitle;
-  $('#mansionSub').textContent = `${profile.mansion.palace} · ${profile.mansion.dir}`;
+  // #mansionSub label ("Star Mansion"/"星宿") is handled by applyI18n.
+
+  // Main conclusion
+  $('#conclusionTitle').textContent = narrative.conclusion.title;
+  $('#conclusionSub').textContent = narrative.conclusion.sub;
+  $('#conclusionChips').innerHTML = (narrative.chips || [])
+    .map(c => `<span class="ct-chip">${c}</span>`).join('');
 
   $('#summaryText').textContent = narrative.summary;
-  $('#zodiacText').textContent = narrative.zodiacNote;
-  $('#mansionNoteText').textContent = narrative.mansionNote;
-  $('#whyText').textContent = narrative.why;
 
-  // Featured #1 — a hero treatment for the top destined pro.
+  // Layered, reasoned explanation
+  $('#layerBlocks').innerHTML = narrative.layers.map((l, i) => `
+    <div class="layer" style="animation-delay:${i * 60}ms">
+      <span class="layer__n">${i + 1}</span>
+      <div class="layer__main">
+        <h4 class="layer__title">${l.title}</h4>
+        <p class="layer__body">${l.body}</p>
+      </div>
+    </div>`).join('');
+
+  // Event-aura fit
+  $('#auraChips').innerHTML = (narrative.aura.chips || [])
+    .map(c => `<span class="aura-chip">${c}</span>`).join('');
+  $('#auraBody').textContent = narrative.aura.body;
+
+  // Player fit
+  $('#playerFitBody').textContent = narrative.playerFit;
+
+  // Featured #1 — hero treatment for the top destined pro.
   const featured = $('#featuredMatch');
   if (featured) {
     if (ranked.length) {
@@ -853,11 +975,11 @@ function renderResult(narrative, result) {
             ${gameBadge(p0.game)}
           </div>
           <div class="featured__meta"><span class="pl-role">${p0.role}</span> · ${regionLabel(p0)}${formatDate(p0.birthDate)}</div>
-          <div class="featured__reason">${r0.reasonText}</div>
+          <div class="featured__reason">${buildReason(p0, r0.reasons)}</div>
         </div>
         <div class="featured__score">
           <div class="featured__pct">${r0.percent}<span>%</span></div>
-          <div class="featured__label">destiny</div>
+          <div class="featured__label">${t('result.destiny')}</div>
         </div>`;
     } else {
       featured.innerHTML = '';
@@ -883,7 +1005,7 @@ function renderResult(narrative, result) {
           <span class="pl-role">${p.role}</span>
         </div>
         <div class="pl-meta">${regionLabel(p)}${formatDate(p.birthDate)}</div>
-        <div class="pl-reason">${r.reasonText}</div>
+        <div class="pl-reason">${buildReason(p, r.reasons)}</div>
       </div>
       <div class="pl-score">
         <div class="pl-score__num">${r.percent}<span>%</span></div>
@@ -904,9 +1026,14 @@ function renderResult(narrative, result) {
 
 function buildShareText(narrative, ranked) {
   const top3 = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.player.name} — ${r.percent}%`).join('\n');
+  if (CURRENT_LANG === 'zh') {
+    return `🔮 电竞命盘\n` +
+      `我是「${narrative.conclusion.title}」· ${narrative.archetypeTitle} · ${narrative.mansionTitle}\n` +
+      `${narrative.conclusion.sub}\n\n我的头号命定选手：\n${top3}\n\n#电竞命盘 #EsportsDestinyMatch`;
+  }
   return `🔮 Esports Destiny Match\n` +
-    `I'm a ${narrative.archetypeTitle} · ${narrative.mansionTitle}\n` +
-    `${narrative.summary}\n\nMy top pro matches:\n${top3}\n\n#EsportsDestinyMatch`;
+    `I'm a ${narrative.conclusion.title} · ${narrative.archetypeTitle} · ${narrative.mansionTitle}\n` +
+    `${narrative.conclusion.sub}\n\nMy top destined pros:\n${top3}\n\n#EsportsDestinyMatch`;
 }
 
 function formatDate(iso) {
@@ -946,8 +1073,8 @@ async function onSubmit(e) {
 
   const err = $('#formError');
   err.textContent = '';
-  if (!birthDate) { err.textContent = 'Please enter your birth date.'; return; }
-  if (selectedGames.length < 1) { err.textContent = 'Pick at least one game (up to 4).'; return; }
+  if (!birthDate) { err.textContent = t('err.date'); return; }
+  if (selectedGames.length < 1) { err.textContent = t('err.games'); return; }
 
   const btn = $('#submitBtn');
   btn.disabled = true;
@@ -956,11 +1083,11 @@ async function onSubmit(e) {
   try {
     const result = runMatch(birthDate, birthTime, gender, selectedGames, DATA, opts);
     if (result.ranked.length === 0) {
-      err.textContent = 'No players found for the selected games.';
+      err.textContent = t('err.none');
       return;
     }
-    // Local narrative first (guaranteed), then optional OpenAI polish.
-    let narrative = localNarrative(result.profile, selectedGames, DATA.games);
+    // Local reading first (guaranteed, current language), then optional polish.
+    let narrative = buildReading(result.profile, result.ranked);
     renderResult(narrative, result); // show immediately with local copy
 
     // Save last result
@@ -973,7 +1100,7 @@ async function onSubmit(e) {
     if (polished !== narrative) renderResult(polished, result);
   } catch (ex) {
     console.error(ex);
-    err.textContent = 'Something went wrong computing your destiny. Please try again.';
+    err.textContent = t('err.fail');
   } finally {
     btn.disabled = false;
     btn.classList.remove('is-loading');
@@ -990,13 +1117,16 @@ function wireStaticButtons() {
     const text = $('#shareText').value;
     try {
       await navigator.clipboard.writeText(text);
-      flash($('#copyBtn'), 'Copied!');
+      flash($('#copyBtn'), t('share.copied'));
     } catch {
       $('#shareText').select();
       document.execCommand && document.execCommand('copy');
-      flash($('#copyBtn'), 'Copied!');
+      flash($('#copyBtn'), t('share.copied'));
     }
   });
+
+  // Language switch
+  $$('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
   $('#againBtn').addEventListener('click', () => {
     $('#inputSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1010,8 +1140,8 @@ function wireStaticButtons() {
       'It is stored only in this browser (localStorage) and never leaves your device except to call OpenAI directly.\n' +
       'Leave blank and press OK to remove it.', current);
     if (val === null) return;
-    if (val.trim()) { localStorage.setItem('edm_openai_key', val.trim()); flash($('#aiKeyBtn'), 'AI polish on'); }
-    else { localStorage.removeItem('edm_openai_key'); flash($('#aiKeyBtn'), 'AI polish off'); }
+    if (val.trim()) { localStorage.setItem('edm_openai_key', val.trim()); flash($('#aiKeyBtn'), t('share.aiOn')); }
+    else { localStorage.removeItem('edm_openai_key'); flash($('#aiKeyBtn'), t('share.aiOff')); }
   });
 }
 
@@ -1041,13 +1171,19 @@ function restoreLast() {
 
 async function init() {
   try {
+    // Language first, so the very first paint is localized. Default: Chinese.
+    CURRENT_LANG = getLang();
+    applyI18n();
+
     DATA = await loadData();
     initGameCheckboxes(DATA.games);
     wireStaticButtons();
     $('#matchForm').addEventListener('submit', onSubmit);
     restoreLast();
     if (DATA.validationIssues.length) {
-      $('#dataNote').textContent = `Note: ${DATA.validationIssues.length} data validation warning(s) — see console.`;
+      $('#dataNote').textContent = CURRENT_LANG === 'zh'
+        ? `提示：${DATA.validationIssues.length} 条数据校验警告——详见控制台。`
+        : `Note: ${DATA.validationIssues.length} data validation warning(s) — see console.`;
     }
   } catch (ex) {
     console.error(ex);
