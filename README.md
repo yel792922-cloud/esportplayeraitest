@@ -81,12 +81,20 @@ No configuration or build step is required — it's plain static files.
 
 ## 🧠 How the matching works
 
-The engine builds a lightweight **six-character BaZi chart** from your birth
-info, then ranks players against it across four independent layers
-(all weights in `data/config.json`):
+The engine builds a lightweight **Four Pillars chart** (year, month, day, and —
+when a birth time is given — hour) from your birth info, reads your **day master**
+and its **favorable elements (喜用神)**, then ranks players against it across four
+independent layers (all weights in `data/config.json`):
 
-1. **Core BaZi (Year + Month + Day) — 55%.** Day-master Ten-God relationship
-   (生克 generation/control), five-element balance, and 天干五合.
+1. **Core Four Pillars (Year + Month + Day + optional Hour) — 55%.** Built around a
+   full **Four Pillars** chart, not a single elemental tag. From the pillars the
+   engine derives the **day master**, its **strength** (a simplified, documented
+   **扶抑** model — the 月令 month branch dominant, the day branch and remaining
+   stems/branches supporting), and the resulting **喜用神 (favorable elements)** vs
+   **忌神 (unfavorable)**. The layer's **largest single component is favorable-element
+   alignment** — how much a player's chart carries the *user's* favorable elements —
+   making the Four Pillars the true core of the score. It also folds in the
+   day-master Ten-God relationship (生克), whole-chart five-element balance, and 天干五合.
 2. **Chinese Zodiac — 20%.** Year branch with **Li Chun** as the year boundary;
    六合 · 三合 · 六冲 · 相刑 · 相害 · 相破.
 3. **Star mansion (宿曜経 本命星宿) — 15%.** The **宿曜経 (Sukuyō)** birth-mansion

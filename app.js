@@ -356,6 +356,97 @@ function computeChart(y, m, d, ctx) {
   };
 }
 
+/* ---------------------------------------------------------------------
+ * 1b. Four Pillars analysis — day-master strength + 喜用神 (favorable elements)
+ *
+ * A simplified but fully documented 扶抑 (support-or-restrain) model — NOT a
+ * black box. Every character in the chart is classified relative to the day
+ * master as SELF-party (strengthens it: 比劫 same element + 印 the element that
+ * generates it) or OTHER-party (drains/controls it: 食伤 output + 财 wealth +
+ * 官杀 authority). Positions are weighted by classical importance — the 月令
+ * (month branch) dominates, the 日支 (day branch, "seat" of the day master) is
+ * next, the remaining stems/branches add supporting "势". The self-party share
+ * gives a strength ratio → strong / balanced / weak, which then fixes 喜用神:
+ *   • weak   → favor what supports it (印 resource + 比劫 companion)
+ *   • strong → favor what drains/controls it (食伤 + 财 + 官杀)
+ *   • balanced → favor gentle flow (食伤 output + 财 wealth)
+ * These favorable elements are the app's central interpretive bridge.
+ * ------------------------------------------------------------------- */
+
+// Element "party" of element `e` relative to a day-master element `dm`. Same
+// five-way classification as tenGod(), named here for the strength model.
+const isSelfParty = (dm, e) => {
+  const g = tenGod(dm, e);
+  return g === 'companion' || g === 'resource';
+};
+
+// Day-master strength via the weighted 扶抑 model above. Returns
+// { dm, ratio (0..1 self-party share), label, seasonalSupport (得令) }.
+function analyzeStrength(chart) {
+  const dm = chart.dayMasterElementIdx;
+  const parts = [
+    { el: STEM_ELEMENT[chart.year.stem],      w: 0.8 },
+    { el: BRANCH_ELEMENT[chart.year.branch],  w: 0.8 },
+    { el: STEM_ELEMENT[chart.month.stem],     w: 1.0 },
+    { el: BRANCH_ELEMENT[chart.month.branch], w: 3.0 },   // 月令 — dominant
+    { el: BRANCH_ELEMENT[chart.day.branch],   w: 1.6 }    // 日支 — the day master's seat
+  ];
+  if (chart.hasHour) {
+    parts.push({ el: STEM_ELEMENT[chart.hourStemIdx],     w: 0.8 });
+    parts.push({ el: BRANCH_ELEMENT[chart.hourBranchIdx], w: 0.8 });
+  }
+  let self = 1.0, total = 1.0;                    // the day-master stem itself = base self-support
+  parts.forEach(p => { total += p.w; if (isSelfParty(dm, p.el)) self += p.w; });
+  const ratio = self / total;
+  const seasonalSupport = isSelfParty(dm, BRANCH_ELEMENT[chart.month.branch]);
+  const label = ratio < 0.42 ? 'weak' : (ratio > 0.58 ? 'strong' : 'balanced');
+  return { dm, ratio, label, seasonalSupport };
+}
+
+// 喜用神 (favorable) / 忌神 (unfavorable) from the strength label — the simplified
+// 扶抑用神 rule. Element indices, PRIMARY first. Pure function of the analysis.
+function favorableElements(analysis) {
+  const dm = analysis.dm;
+  const resource  = (dm + 4) % 5;   // generates the day master (印)
+  const output    = (dm + 1) % 5;   // day master generates (食伤)
+  const wealth     = (dm + 2) % 5;  // day master controls (财)
+  const authority = (dm + 3) % 5;   // controls the day master (官杀)
+  const companion = dm;             // same element (比劫)
+  if (analysis.label === 'weak') {
+    return { favorable: [resource, companion], unfavorable: [authority, output, wealth] };
+  }
+  if (analysis.label === 'strong') {
+    return { favorable: [output, wealth, authority], unfavorable: [companion, resource] };
+  }
+  return { favorable: [output, wealth], unfavorable: [resource] }; // balanced → gentle flow
+}
+
+// The central Four-Pillars compatibility bridge: how strongly a PLAYER's chart
+// embodies the USER's 喜用神. Player element-mass in the user's favorable set
+// lifts the score; mass in the 忌神 lowers it. Returns { align (0..1), favFrac,
+// unfavFrac } — align feeds the core score as its largest component.
+function favorableAlignment(user, player) {
+  const dist = player.chart.elementDist;
+  const total = dist.reduce((a, b) => a + b, 0) || 1;
+  const fav = user.favorable || [];
+  const unfav = user.unfavorable || [];
+  const favFrac = fav.reduce((s, e) => s + dist[e], 0) / total;
+  const unfavFrac = unfav.reduce((s, e) => s + dist[e], 0) / total;
+  return { align: clamp01(0.5 + 0.8 * (favFrac - unfavFrac)), favFrac, unfavFrac };
+}
+
+// Compact per-pillar display object (characters + component indices).
+function pillarsOf(chart) {
+  const P = (s, b) => ({ stem: STEMS[s], branch: BRANCHES[b], chars: STEMS[s] + BRANCHES[b] });
+  const out = {
+    year: P(chart.year.stem, chart.year.branch),
+    month: P(chart.month.stem, chart.month.branch),
+    day: P(chart.day.stem, chart.day.branch),
+    hour: chart.hasHour ? P(chart.hourStemIdx, chart.hourBranchIdx) : null
+  };
+  return out;
+}
+
 // Parse "HH:MM" into a fractional local hour, or null.
 function parseLocalHour(birthTime) {
   if (birthTime && /^\d{1,2}:\d{2}$/.test(birthTime)) {
@@ -381,6 +472,8 @@ function buildProfile(birthDate, birthTime, gender, opts) {
   };
   const chart = computeChart(y, m, d, ctx);
   const elementIdx = chart.dayMasterElementIdx;
+  const strength = analyzeStrength(chart);
+  const fav = favorableElements(strength);
   return {
     birthDate,
     birthTime: birthTime || null,
@@ -388,6 +481,11 @@ function buildProfile(birthDate, birthTime, gender, opts) {
     tzOffset: ctx.tzOffset,
     trueSolar: ctx.trueSolar,
     chart,
+    fourPillars: pillarsOf(chart),
+    strength,
+    favorable: fav.favorable,
+    unfavorable: fav.unfavorable,
+    seasonalSupport: strength.seasonalSupport,
     stemIdx: chart.dayMasterIdx,
     stemChar: STEMS[chart.dayMasterIdx],
     stemArchetype: STEM_ARCHETYPE[chart.dayMasterIdx],
@@ -439,12 +537,19 @@ function branchClash(a, b) {
  * 3. The deterministic scoring engine
  * ------------------------------------------------------------------- */
 
-// ---- Layer 1 · Core BaZi (Year + Month + Day), 55% ----
-// Day-master Ten-God relation + five-element distribution balance + 天干五合.
+// ---- Layer 1 · Core BaZi / Four Pillars (Year + Month + Day + Hour), 55% ----
+// The heart of the model. Its largest component is FAVORABLE-ELEMENT ALIGNMENT
+// (喜用神): how much the player's chart carries the user's favorable elements.
+// It also folds in the day-master Ten-God relation, whole-chart element balance,
+// and a 天干五合 day-stem bond. Favorable-element alignment is the single biggest
+// contributor to the entire score, so the Four Pillars are the core, not a note.
 function coreBaziScore(u, p, cfg) {
   const uE = u.chart.dayMasterElementIdx, pE = p.chart.dayMasterElementIdx;
   const god = tenGod(uE, pE);
   const relScore = cfg.dayMaster[god];
+
+  // Favorable-element alignment — the central Four-Pillars bridge.
+  const fa = favorableAlignment(u, p);
 
   const comb = u.chart.elementDist.map((v, i) => v + p.chart.elementDist[i]);
   const total = comb.reduce((a, b) => a + b, 0);            // 12 visible chars
@@ -456,8 +561,13 @@ function coreBaziScore(u, p, cfg) {
   const combine = STEM_COMBINE[u.chart.dayMasterIdx] === p.chart.dayMasterIdx ? 1 : 0;
 
   const s = cfg.sub;
-  const score = clamp01(s.dayMaster * relScore + s.balance * balance + s.combine * combine);
-  return { score, god, balance, combine: !!combine };
+  const score = clamp01(
+    (s.favorable || 0) * fa.align +
+    s.dayMaster * relScore +
+    s.balance * balance +
+    s.combine * combine
+  );
+  return { score, god, balance, combine: !!combine, favAlign: fa.align, favFrac: fa.favFrac };
 }
 
 function isPunish(a, b) {
@@ -547,11 +657,15 @@ function explainPlayer(u, p, player, reasons) {
 
   const evidence = [];
 
-  // B — Five Elements / stems.
+  // B — Four Pillars: Ten-God element relation + the 喜用神 (favorable-element)
+  // alignment that is the core of the score.
   const er = R.elementRel[god];
   let bText = zh
-    ? `他的${pEl.cn}${tr(er.rel)}你的${uEl.cn}本性——你偏向${tr(er.behavior)}。`
-    : `Their ${pEl.en} ${tr(er.rel)} your ${uEl.en} core — you lean toward ${tr(er.behavior)}.`;
+    ? `他的${pEl.cn}${tr(er.rel)}你的${uEl.cn}日主——你偏向${tr(er.behavior)}。`
+    : `Their ${pEl.en} ${tr(er.rel)} your ${uEl.en} day master — you lean toward ${tr(er.behavior)}.`;
+  const fa = favorableAlignment(u, p);
+  const favNote = fa.align >= 0.58 ? 'support' : (fa.align <= 0.42 ? 'drain' : 'mixed');
+  bText += (zh ? '' : ' ') + tr(R.favorableNote[favNote]) + (zh ? '。' : '.');
   if (STEM_COMBINE[u.stemIdx] === p.stemIdx) bText += tr(R.stemCombine);
   evidence.push({ label: tr(R.label.element), text: bText });
 
@@ -630,7 +744,7 @@ function scorePlayer(u, p, config) {
   const score = wCore * core.score + wZod * zod.score + wMan * man.score + (hour ? wHour * hour.score : 0);
 
   const reasons = [
-    { pts: wCore * core.score, kind: 'element', god: core.god },
+    { pts: wCore * core.score, kind: 'element', god: core.god, favAlign: core.favAlign, favFrac: core.favFrac },
     { pts: wZod * zod.score, kind: 'zodiac', zRel: zod.rel, uZod: u.zodiacIdx, pZod: p.zodiacIdx },
     { pts: wMan * man.score, kind: 'mansion', starRel: man.detail }
   ];
@@ -639,13 +753,17 @@ function scorePlayer(u, p, config) {
   return { score, reasons, layers: { core: core.score, zodiac: zod.score, mansion: man.score, hour: hour ? hour.score : null } };
 }
 
-// Map a raw score onto the configured display percentage band.
+// Map a raw score onto the configured display percentage band. Full precision is
+// kept internally; the UI formats it to exactly two decimals via fmtPct().
 function toPercent(score, config, minRaw, maxRaw) {
   const { min, max } = config.scoreRange;
-  if (maxRaw === minRaw) return Math.round((min + max) / 2);
+  if (maxRaw === minRaw) return (min + max) / 2;
   const t = (score - minRaw) / (maxRaw - minRaw);
-  return Math.round(min + t * (max - min));
+  return min + t * (max - min);
 }
+
+// Format any compatibility percentage for display: exactly two decimal places.
+const fmtPct = (v) => Number(v).toFixed(2);
 
 // Render a player's structured explanation into compact, scannable HTML:
 // a summary line, 2–4 labeled evidence lines, and a bottom-line interpretation.
@@ -754,9 +872,24 @@ function calcMarkup(profile) {
     : '';
   const mer = (typeof profile.tzOffset === 'number') ? `UTC${profile.tzOffset >= 0 ? '+' : ''}${profile.tzOffset}` : 'UTC+8';
   const confPct = Math.round((profile.mansionConf || 0) * 100);
+  const fp = profile.fourPillars;
+  const pillarLine = zh
+    ? `年 <b>${fp.year.chars}</b> · 月 <b>${fp.month.chars}</b> · 日 <b>${fp.day.chars}</b> · 时 <b>${fp.hour ? fp.hour.chars : '—（未填）'}</b>`
+    : `Year <b>${fp.year.chars}</b> · Month <b>${fp.month.chars}</b> · Day <b>${fp.day.chars}</b> · Hour <b>${fp.hour ? fp.hour.chars : '— (unset)'}</b>`;
+  const strengthLabel = tr(READING.strengthLabel[profile.strength.label]);
+  const strengthNeed = tr(READING.strengthNeed[profile.strength.label]);
+  const ratioPct = Math.round((profile.strength.ratio || 0) * 100);
+  const { fav, unfav } = favorableNames(profile);
   if (zh) {
     return `
-      <p>结果由四个独立层加权得出：<b>核心八字 55%</b> · <b>生肖（立春为界）20%</b> · <b>星宿 15%</b> · <b>时辰 10%</b>（缺时辰时其权重按比例分摊，不作惩罚）。</p>
+      <p>结果由四个独立层加权得出：<b>核心四柱八字 55%</b> · <b>生肖（立春为界）20%</b> · <b>星宿 15%</b> · <b>时辰 10%</b>（缺时辰时其权重按比例分摊，不作惩罚）。核心层以<b>喜用神匹配</b>为最大权重，是全局分数的主心骨。</p>
+      <h4>核心层：四柱八字 · 日主 · 喜用神</h4>
+      <ul>
+        <li><b>四柱</b>：${pillarLine}。日主为 <b>${profile.stemChar}${profile.element.cn}</b>（${profile.stemArchetype}）。</li>
+        <li><b>旺衰（扶抑法）</b>：以<b>月令</b>为主、<b>日支</b>与其余干支为辅衡量身强身弱——你的日主偏 <b>${strengthLabel}</b>（自党占比约 ${ratioPct}%${profile.seasonalSupport ? '，且得令' : ''}）。</li>
+        <li><b>喜用神</b>：${strengthNeed}，故取 <b>${fav}</b> 为喜用、<b>${unfav}</b> 为忌神。喜用即“哪种气场的选手最能托举你”——选手命盘越偏你的喜用元素，核心分越高。这是本模型的<b>主桥梁</b>，占比最大。</li>
+        <li>这套喜用还映射为观赛倾向：契合你喜用的选手，其<b>气场／节奏／人设</b>更容易与你共鸣，也更可能抢占你的注意力。</li>
+      </ul>
       <h4>星宿层：本命星宿 + 星宿关系</h4>
       <ul>
         <li><b>本命星宿</b>采用<b>宿曜経</b>算法：把公历生日按出生地经度（默认 ${mer}）换算为<b>农历</b>（含闰月），再查月宿傍通暦定宿——并非现代月球黄经，也非自造循环。</li>
@@ -773,7 +906,14 @@ function calcMarkup(profile) {
       <p class="calc__priv">🔒 全部计算在本浏览器完成，出生信息不上传、不保存、不记录。</p>`;
   }
   return `
-      <p>The result is a weighted blend of four independent layers: <b>Core BaZi 55%</b> · <b>Chinese zodiac (Li Chun boundary) 20%</b> · <b>Star mansion 15%</b> · <b>Birth hour 10%</b> (its weight is shared out, never penalised, when the hour is unknown).</p>
+      <p>The result is a weighted blend of four independent layers: <b>Core Four Pillars 55%</b> · <b>Chinese zodiac (Li Chun boundary) 20%</b> · <b>Star mansion 15%</b> · <b>Birth hour 10%</b> (its weight is shared out, never penalised, when the hour is unknown). Inside the core layer, <b>favorable-element (喜用神) alignment</b> carries the largest weight and is the backbone of the whole score.</p>
+      <h4>Core layer: Four Pillars · day master · favorable elements</h4>
+      <ul>
+        <li><b>Four Pillars</b>: ${pillarLine}. Day master: <b>${profile.stemChar} (${profile.element.en})</b> — a ${profile.stemArchetype}.</li>
+        <li><b>Strength (扶抑 support-or-restrain)</b>: weighed with the <b>month branch (月令)</b> dominant and the <b>day branch</b> plus the other stems/branches supporting — your day master reads <b>${strengthLabel}</b> (self-party share ≈ ${ratioPct}%${profile.seasonalSupport ? ', with seasonal support' : ''}).</li>
+        <li><b>Favorable elements (喜用神)</b>: ${strengthNeed}, so your favorable set is <b>${fav}</b> and your unfavorable set is <b>${unfav}</b>. Favorable elements answer “which aura of pro lifts you” — the richer a player's chart runs in them, the higher the core score. This is the model's <b>primary bridge</b> and its largest weight.</li>
+        <li>Those favorable elements also map to viewing tendencies: pros aligned with them tend to match your preferred <b>aura, tempo and on-stage personality</b>, and are the ones most likely to pull your attention.</li>
+      </ul>
       <h4>Star layer: 本命星宿 + 星宿关系</h4>
       <ul>
         <li><b>Natal mansion (本命星宿)</b> uses the <b>宿曜経</b> method: your Gregorian date is converted to the Chinese lunar calendar (leap months included) at your birth-place meridian (default ${mer}), then read from the 月宿傍通暦 table — not modern Moon longitude, not a custom cycle.</li>
@@ -790,11 +930,24 @@ function calcMarkup(profile) {
       <p class="calc__priv">🔒 Everything is computed in your browser; birth details are never uploaded, saved, or logged.</p>`;
 }
 
+// Joined favorable / unfavorable element names in the current language.
+function favorableNames(profile) {
+  const sep = CURRENT_LANG === 'zh' ? '·' : ' · ';
+  const nm = (arr) => (arr || []).map(i => tr(READING.elementName[i])).join(sep);
+  return { fav: nm(profile.favorable), unfav: nm(profile.unfavorable) };
+}
+
 function buildReading(profile, ranked) {
   const R = READING;
   const e = profile.elementIdx;
   const palace = Math.floor(profile.mansionIdx / 7);
   const cn = profile.mansion.cn;
+  const zh = CURRENT_LANG === 'zh';
+  const fp = profile.fourPillars;
+  const pillarStr = [fp.year.chars, fp.month.chars, fp.day.chars, fp.hour ? fp.hour.chars : null]
+    .filter(Boolean).join(' ');
+  const strengthLabel = tr(R.strengthLabel[profile.strength.label]);
+  const { fav } = favorableNames(profile);
 
   // ----- Main conclusion -----
   const conclusion = {
@@ -802,29 +955,37 @@ function buildReading(profile, ranked) {
     sub: tr(R.archetypeSub[e])
   };
   const chips = [
-    `${READING.elementCN[e]}${CURRENT_LANG === 'zh' ? '' : ' ' + profile.element.en}`,
-    CURRENT_LANG === 'zh' ? profile.zodiacChar : profile.zodiacEn,
-    `${cn}${CURRENT_LANG === 'zh' ? '宿' : '宿'}`,
-    tr(profile.yin ? R.temper.yin : R.temper.yang)
+    `${READING.elementCN[e]}${zh ? '' : ' ' + profile.element.en}`,
+    zh ? `${strengthLabel}` : strengthLabel,
+    zh ? `喜 ${fav}` : `Favors ${fav}`,
+    zh ? profile.zodiacChar : profile.zodiacEn,
+    `${cn}宿`
   ];
 
-  // ----- Bridging identity line -----
-  const summary = CURRENT_LANG === 'zh'
-    ? `命盘：${profile.stemArchetype}（${profile.element.cn}），属${profile.zodiacChar}，主星 ${cn}宿——这正是塑造你观赛口味的底色。`
-    : `Chart: a ${profile.stemArchetype} (${profile.element.en}), a ${profile.zodiacEn}, under the ${cn}宿 mansion — the base note that shapes your viewing taste.`;
+  // ----- Bridging identity line — Four Pillars + day master + favorable -----
+  const summary = zh
+    ? `四柱：${pillarStr}；日主 ${profile.stemChar}${profile.element.cn}·${strengthLabel}，喜用 ${fav}，属${profile.zodiacChar}，主星 ${cn}宿——这套喜用最能决定哪些选手托举你，也是你观赛口味的底色。`
+    : `Four Pillars: ${pillarStr}; day master ${profile.stemChar} (${profile.element.en}), ${strengthLabel}, favorable elements ${fav}; a ${profile.zodiacEn} under the ${cn}宿 mansion — those favorable elements decide which pros lift you and set the base note of your viewing taste.`;
 
   // ----- Four-layer reasoned explanation -----
   const lens = viewerLensGod(profile);
   const mClause = mansionClause(profile);
-  const mansionBody = CURRENT_LANG === 'zh'
+  const mansionBody = zh
     ? `${cn}宿——${tr(R.palace[palace])}${mClause}`
     : `${cn}宿 (${profile.mansion.palace}) — ${tr(R.palace[palace])} ${mClause}`.trim();
-  const viewingBody = CURRENT_LANG === 'zh'
+  const viewingBody = zh
     ? `你偏爱${tr(R.tenGod[lens])}`
     : `You gravitate to ${tr(R.tenGod[lens])}`;
 
+  // Layer 1 now leads with the Four Pillars: elemental temperament + day-master
+  // strength + the 喜用神 that bridge the whole reading.
+  const need = tr(R.strengthNeed[profile.strength.label]);
+  const pillarBody = zh
+    ? `${tr(R.temperament[e])} 你的日主为 ${profile.stemChar}（${profile.element.cn}），四柱${strengthLabel}${profile.seasonalSupport ? '·得令' : ''}（${need}），故取 ${fav} 为喜用——命盘越偏这些元素旺盛的选手，越能托举你。`
+    : `${tr(R.temperament[e])} Your day master is ${profile.stemChar} (${profile.element.en}); the Four Pillars read ${strengthLabel}${profile.seasonalSupport ? ', with seasonal support' : ''} — ${need} — so your favorable elements are ${fav}. The more a pro's chart runs rich in them, the more they lift you.`;
+
   const layers = [
-    { title: tr(R.layerTitle.temperament), body: tr(R.temperament[e]) },
+    { title: tr(R.layerTitle.temperament), body: pillarBody },
     { title: tr(R.layerTitle.zodiac), body: tr(R.zodiac[profile.zodiacIdx]) },
     { title: tr(R.layerTitle.mansion), body: mansionBody },
     { title: tr(R.layerTitle.viewing), body: viewingBody }
@@ -853,6 +1014,10 @@ function buildReading(profile, ranked) {
     const tagLabel = tr(R.tag[domTag] || { en: domTag, zh: domTag });
     const tmpl = tr(top.length > 1 ? R.playerFit.body : R.playerFit.bodyOne);
     playerFit = tmpl.replace('{names}', names).replace('{lens}', lensShort).replace('{tag}', tagLabel);
+    // Fold in the Four-Pillars favorable-element bridge — the metaphysical core.
+    playerFit += CURRENT_LANG === 'zh'
+      ? `他们的命盘大多契合你的喜用（${fav}），这正是四柱层最核心的牵引。`
+      : ` Their charts mostly resonate with your favorable elements (${fav}) — the Four-Pillars pull at the very core of the match.`;
   }
 
   return {
@@ -1136,7 +1301,7 @@ function renderResult(narrative, result) {
             <div class="featured__meta"><span class="pl-role">${p0.role}</span> · ${regionLabel(p0)}${formatDate(p0.birthDate)}</div>
           </div>
           <div class="featured__score">
-            <div class="featured__pct">${r0.percent}<span>%</span></div>
+            <div class="featured__pct">${fmtPct(r0.percent)}<span>%</span></div>
             <div class="featured__label">${t('result.destiny')}</div>
           </div>
         </div>
@@ -1169,7 +1334,7 @@ function renderResult(narrative, result) {
           <div class="pl-meta">${regionLabel(p)}${formatDate(p.birthDate)}</div>
         </div>
         <div class="pl-score">
-          <div class="pl-score__num">${r.percent}<span>%</span></div>
+          <div class="pl-score__num">${fmtPct(r.percent)}<span>%</span></div>
           <div class="pl-score__bar"><span style="width:${r.percent}%"></span></div>
         </div>
       </div>
@@ -1188,7 +1353,7 @@ function renderResult(narrative, result) {
 }
 
 function buildShareText(narrative, ranked) {
-  const top3 = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.player.name} — ${r.percent}%`).join('\n');
+  const top3 = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.player.name} — ${fmtPct(r.percent)}%`).join('\n');
   if (CURRENT_LANG === 'zh') {
     return `🔮 电竞命盘\n` +
       `我是「${narrative.conclusion.title}」· ${narrative.archetypeTitle} · ${narrative.mansionTitle}\n` +

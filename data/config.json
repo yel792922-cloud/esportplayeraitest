@@ -3,7 +3,7 @@
   "meta": {
     "name": "Esports Destiny Match scoring configuration",
     "note": "Transparent, editable weights for the layered BaZi compatibility model. The local engine computes the ranking and percentages from these values. Nothing here is random.",
-    "calibration": "Day/month/year pillars, Li Chun zodiac boundary and lunar-mansion anchors are calibrated for a lightweight, entertainment-first experience — not for ephemeris-accurate BaZi.",
+    "calibration": "Four Pillars (year/month/day + optional hour), day-master strength (simplified 扶抑), 喜用神 favorable elements, the Li Chun zodiac boundary and lunar-mansion anchors are calibrated for a lightweight, entertainment-first experience — not for ephemeris-accurate BaZi.",
     "model_note": "Each layer returns a 0..1 score; layer weights below sum to 1.0. If either side lacks a reliable birth hour, the birthHour weight is redistributed proportionally across the first three layers (never deducted)."
   },
   "scoreRange": {
@@ -19,10 +19,12 @@
     },
     "coreBazi": {
       "sub": {
-        "dayMaster": 0.55,
-        "balance": 0.30,
-        "combine": 0.15
+        "favorable": 0.45,
+        "dayMaster": 0.25,
+        "balance": 0.18,
+        "combine": 0.12
       },
+      "sub_note": "Four Pillars core. `favorable` = 喜用神 alignment (how much the player's chart carries the user's favorable elements) and is the largest single component of the whole score. `dayMaster` = day-master Ten-God relation, `balance` = combined five-element evenness, `combine` = 天干五合 day-stem bond. These four sum to 1.0 within the 55% core layer.",
       "dayMaster": {
         "resource": 1.0,
         "output": 0.9,

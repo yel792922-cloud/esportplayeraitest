@@ -99,7 +99,7 @@ window.EDM_I18N = {
     'game.hok': 'Honor of Kings',
 
     'result.eyebrow': 'The pros you\'re fated to watch —',
-    'result.kindArch': 'Viewer archetype · 天干五行',
+    'result.kindArch': 'Viewer archetype · Four Pillars day master',
     'result.kindMansion': 'Star Mansion',
     'result.conclusion': 'Your reading',
     'result.readingTitle': 'Why this is your reading',
@@ -213,7 +213,7 @@ window.EDM_I18N = {
     'game.hok': '王者荣耀',
 
     'result.eyebrow': '你注定观看的选手 —',
-    'result.kindArch': '观赛原型 · 天干五行',
+    'result.kindArch': '观赛原型 · 四柱日主',
     'result.kindMansion': '星宿',
     'result.conclusion': '你的命读',
     'result.readingTitle': '为什么这是你的命读',
@@ -270,11 +270,30 @@ window.EDM_READING = {
 
   // Layer titles.
   layerTitle: {
-    temperament: { en: 'Core elemental temperament', zh: '元素本性' },
+    temperament: { en: 'Four Pillars, day master & favorable elements', zh: '四柱 · 日主 · 喜用神' },
     zodiac:      { en: 'Zodiac & branch interaction', zh: '生肖地支互动' },
     mansion:     { en: 'Natal star mansion (本命星宿)', zh: '本命星宿' },
     viewing:     { en: 'Viewing lens · Ten Gods',     zh: '观赛视角 · 十神' }
   },
+
+  // Day-master strength label (from the 扶抑 analysis).
+  strengthLabel: {
+    strong:   { en: 'strong', zh: '身强' },
+    balanced: { en: 'balanced', zh: '中和' },
+    weak:     { en: 'weak', zh: '身弱' }
+  },
+  // How the favorable elements are framed for the reader, by strength.
+  strengthNeed: {
+    strong:   { en: 'your chart runs full, so it wants elements that channel and temper it', zh: '命盘偏旺，宜以克泄流通' },
+    balanced: { en: 'your chart is well-poised, so it favors a gentle, flowing outlet', zh: '命盘中和，宜顺势轻泄流通' },
+    weak:     { en: 'your chart runs light, so it wants elements that feed and reinforce it', zh: '命盘偏弱，宜以生扶为用' }
+  },
+  favIntro: { en: 'Favorable elements', zh: '喜用神' },
+  // Element names for favorable/unfavorable chips & prose (index 0..4).
+  elementName: [
+    { en: 'Wood', zh: '木' }, { en: 'Fire', zh: '火' }, { en: 'Earth', zh: '土' },
+    { en: 'Metal', zh: '金' }, { en: 'Water', zh: '水' }
+  ],
 
   // Layer 1 — elemental temperament, translated to viewing behavior.
   temperament: [
@@ -388,10 +407,16 @@ window.EDM_READING = {
   /* Per-player layered explanation vocabulary. Composed by explainPlayer(). */
   explain: {
     label: {
-      element: { en: 'Five Elements', zh: '五行' },
+      element: { en: 'Four Pillars', zh: '四柱' },
       branch:  { en: 'Branch',        zh: '地支' },
       mansion: { en: 'Star relation', zh: '星宿关系' },
       style:   { en: 'Style',         zh: '风格' }
+    },
+    // Favorable-element (喜用神) alignment note appended to the Four Pillars line.
+    favorableNote: {
+      support: { en: 'their chart is rich in your favorable elements — a genuine lift', zh: '他命盘喜用之气偏旺——对你是实打实的托举' },
+      drain:   { en: 'their chart leans on your unfavorable elements — a subtler, pricklier pull', zh: '他命盘偏你的忌神——牵引更微妙、略带张力' },
+      mixed:   { en: 'a fairly even elemental exchange', zh: '元素往来大致均衡' }
     },
     // 星宿关系 role meanings — the practical, user-perspective reading of the role
     // the USER occupies in the relation (structural, not literal/poetic).
